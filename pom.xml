@@ -33,6 +33,12 @@
 			<classifier>win</classifier>
 		</dependency>
 
+		<dependency>
+			<groupId>fr.brouillard.oss</groupId>
+			<artifactId>cssfx</artifactId>
+			<version>11.5.1</version>
+		</dependency>
+
 		<!-- Otros módulos de JavaFX si son necesarios (e.g. javafx-web,
 		javafx-media) -->
 		<!-- <dependency>
