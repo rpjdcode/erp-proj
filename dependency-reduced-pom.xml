@@ -36,8 +36,10 @@
     </plugins>
   </build>
   <properties>
-    <maven.compiler.target>21</maven.compiler.target>
+    <hibernate.version>6.2.0.Final</hibernate.version>
     <maven.compiler.source>21</maven.compiler.source>
+    <spring.version>6.1.0</spring.version>
+    <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javafx.version>21</javafx.version>
   </properties>

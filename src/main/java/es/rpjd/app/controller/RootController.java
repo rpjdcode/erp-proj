@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import es.rpjd.app.hibernate.entity.User;
 import es.rpjd.app.service.UserService;
 import es.rpjd.app.spring.SpringConstants;
 import javafx.fxml.FXML;
@@ -49,6 +50,10 @@ public class RootController implements Initializable {
 			alerta.setContentText("contenido");
 			alerta.showAndWait();
 			System.out.println("USUARIOS: " + userService.getUsers());
+			
+			User u1 = new User();
+			u1.setUsername("usernaem1");
+			userService.insert(u1);
 		});
 		
 	}

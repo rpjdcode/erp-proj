@@ -7,4 +7,5 @@ import es.rpjd.app.hibernate.entity.User;
 public interface UserService {
 
 	List<User> getUsers();
+	User insert(User object);
 }
