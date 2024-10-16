@@ -1,16 +1,20 @@
-package es.rpjd.app.controllers;
+package es.rpjd.app.controller;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.springframework.stereotype.Controller;
+
+import es.rpjd.app.spring.SpringConstants;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 
+@Controller(value = SpringConstants.BEAN_CONTROLLER_ROOT)
 public class RootController implements Initializable {
 
     @FXML
@@ -27,21 +31,16 @@ public class RootController implements Initializable {
 
     @FXML
     private GridPane view;
-    
-    public RootController() throws IOException {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/root.fxml"));
-    	loader.setController(this);
-    	loader.load();
-    }
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		editMenu.setOnAction(e -> {
+			Alert alerta = new Alert(AlertType.CONFIRMATION);
+			alerta.setTitle("pruieba");
+			alerta.setContentText("contenido");
+			alerta.showAndWait();
+		});
 		
-	}
-	
-	public GridPane getView() {
-		return view;
 	}
 
 }
