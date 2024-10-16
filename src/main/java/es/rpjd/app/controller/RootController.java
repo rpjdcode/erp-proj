@@ -3,8 +3,10 @@ package es.rpjd.app.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import es.rpjd.app.service.UserService;
 import es.rpjd.app.spring.SpringConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +33,14 @@ public class RootController implements Initializable {
 
     @FXML
     private GridPane view;
+    
+    private UserService userService;
 
+    @Autowired
+    public RootController(UserService userService) {
+    	this.userService = userService;
+    }
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		editMenu.setOnAction(e -> {
@@ -39,6 +48,7 @@ public class RootController implements Initializable {
 			alerta.setTitle("pruieba");
 			alerta.setContentText("contenido");
 			alerta.showAndWait();
+			System.out.println("USUARIOS: " + userService.getUsers());
 		});
 		
 	}
