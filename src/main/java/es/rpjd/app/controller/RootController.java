@@ -49,11 +49,11 @@ public class RootController implements Initializable {
 			alerta.setTitle("pruieba");
 			alerta.setContentText("contenido");
 			alerta.showAndWait();
-			System.out.println("USUARIOS: " + userService.getUsers());
+			System.out.println("USUARIOS: " + userService.getUsers().getData());
 			
 			User u1 = new User();
 			u1.setUsername("usernaem1");
-			userService.insert(u1);
+			//userService.insert(u1);
 		});
 		
 	}
