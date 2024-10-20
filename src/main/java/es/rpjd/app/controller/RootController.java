@@ -25,61 +25,64 @@ import javafx.scene.layout.GridPane;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_ROOT)
 public class RootController implements Initializable {
-	
+
 	private static final Logger LOG = LoggerFactory.getLogger(RootController.class);
 
-    @FXML
-    private Menu editMenu;
+	@FXML
+	private Menu editMenu;
 
-    @FXML
-    private Menu fileMenu;
+	@FXML
+	private Menu fileMenu;
 
-    @FXML
-    private Menu helpMenu;
-    
-    @FXML
-    private Menu databaseMenu;
+	@FXML
+	private Menu helpMenu;
 
-    @FXML
-    private MenuBar menuBar;
-    
-    @FXML
-    private ToolBar footToolBar;
-    
-    @FXML
-    private Button aboutAppButton;
+	@FXML
+	private Menu databaseMenu;
 
-    @FXML
-    private GridPane view;
-    
-    private UserService userService;
+	@FXML
+	private MenuBar menuBar;
 
-    @Autowired
-    public RootController(UserService userService) {
-    	this.userService = userService;
-    }
-    
+	@FXML
+	private ToolBar footToolBar;
+
+	@FXML
+	private Button aboutAppButton;
+
+	@FXML
+	private GridPane view;
+
+	private UserService userService;
+
+	@Autowired
+	public RootController(UserService userService) {
+		this.userService = userService;
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 	}
-	
+
 	public GridPane getView() {
 		return view;
 	}
-	
-    @FXML
-    void onAboutAppAction(ActionEvent event) {
-    	String appInfoTitle = I18N.getString("app.tool.button.about");
-    	String appInfoHeader = I18N.getString("app.alert.appinfo.header");
+
+	@FXML
+	void onAboutAppAction(ActionEvent event) {
+		String appInfoTitle = I18N.getString("app.tool.button.about");
+		String appInfoHeader = I18N.getString("app.alert.appinfo.header");
 		String buildVersion = I18N.getString("app.build.version");
 		String buildDate = I18N.getString("app.build.date");
 		String content = String.format("BUILD VERSION: %s%nBUILD DATE: %s", buildVersion, buildDate);
 
-    	Alert alert = AlertUtils.generateAppAlert(AlertType.INFORMATION, appInfoTitle, appInfoHeader, content);
-    	
-    	alert.showAndWait();
+		this.getView().getScene().getWindow();
+
+		Alert alert = AlertUtils.generateAppModalAlert(AlertType.INFORMATION, appInfoTitle, appInfoHeader, content,
+				getView().getScene().getWindow());
+
+		alert.showAndWait();
 		LOG.info("USUARIOS: {}", userService.getUsers().getData());
-    }
+	}
 
 }
