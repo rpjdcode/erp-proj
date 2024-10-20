@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.Environment;
 
-import es.rpjd.app.i18n.SupportedLocale;
+import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.spring.SpringConfig;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
@@ -29,6 +29,11 @@ public class JavaFXApp extends Application {
 		LOG.info("Inicializando contexto de aplicación");
 		context = new AnnotationConfigApplicationContext(SpringConfig.class);
 		env = context.getEnvironment();
+		
+		Locale systemLocale = Locale.getDefault();
+		
+		LOG.info("Se intentará establecer el idioma de aplicación a {}", systemLocale.getLanguage());
+		I18N.load(Locale.getDefault());
 	}
 
 	@Override
@@ -36,11 +41,6 @@ public class JavaFXApp extends Application {
 
 		
 		LOG.info("Comenzando con ejecución de aplicación");
-		Locale systemLocale = Locale.getDefault();
-		String lang = systemLocale.getCountry();
-		SupportedLocale supported = SupportedLocale.valueOf(lang);
-		
-		LOG.info("Locale soportado: " + supported);
 		
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 		Parent root = loader.load("/fxml/root.fxml", SpringConstants.BEAN_CONTROLLER_ROOT);
