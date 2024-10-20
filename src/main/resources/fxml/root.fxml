@@ -10,15 +10,15 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="ALWAYS" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="ALWAYS" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" />
+    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" vgrow="ALWAYS" />
+    <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" />
   </rowConstraints>
    <children>
       <MenuBar fx:id="menuBar" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP">
@@ -43,9 +43,14 @@
                 <MenuItem mnemonicParsing="false" text="Action 1" />
               </items>
             </Menu>
+            <Menu fx:id="testingMenu" mnemonicParsing="false" text="Testing">
+               <items>
+                  <MenuItem fx:id="testingMenuItem" mnemonicParsing="false" onAction="#onTestingAction" text="Zona 1" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
-      <VBox GridPane.rowIndex="1" />
+      <VBox fx:id="contentBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="80.0" minWidth="60.0" style="-fx-background-color: blue;" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
       <ToolBar fx:id="footToolBar" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
         <items>
           <Button fx:id="aboutAppButton" mnemonicParsing="false" onAction="#onAboutAppAction" text="%app.tool.button.about" />

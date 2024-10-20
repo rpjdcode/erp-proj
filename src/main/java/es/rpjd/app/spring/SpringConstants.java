@@ -6,6 +6,8 @@ public class SpringConstants {
 	 * Nombres de Beans relacionados a controladores de JavaFX
 	 */
 	public static final String BEAN_CONTROLLER_ROOT = "rootController";
+	public static final String BEAN_CONTROLLER_TESTING = "testingController";
+
 	
 	
 	/*

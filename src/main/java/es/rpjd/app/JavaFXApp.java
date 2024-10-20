@@ -50,6 +50,9 @@ public class JavaFXApp extends Application {
 		Parent root = loader.load("/fxml/root.fxml", SpringConstants.BEAN_CONTROLLER_ROOT);
 
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add("/css/test.css");
+		primaryStage.setWidth(600);
+		primaryStage.setHeight(600);
 		primaryStage.setTitle(env.getProperty("app.name"));
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/imgs/logo.png")));
 		primaryStage.setScene(scene);
