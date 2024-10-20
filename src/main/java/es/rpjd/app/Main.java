@@ -4,6 +4,13 @@ import java.io.File;
 
 import es.rpjd.app.utils.AppUtils;
 
+/**
+ * Clase empleada para la ejecución de la aplicación.
+ * Actualmente, sólo esperar recibir un argumento como parámetro de ejecución.
+ * Si se indica el parámetro dev, se prepará la ejecución de la aplicación para un entorno de desarrollo,
+ * que afecta a las siguientes características:
+ * - Ubicación de logs
+ */
 public class Main {
 	
 	private static final String LOG_PROPERTY = "LOG_PATH";
