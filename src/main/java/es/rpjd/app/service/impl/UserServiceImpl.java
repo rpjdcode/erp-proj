@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,8 @@ import es.rpjd.app.service.UserService;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserService{
+	
+	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	private SessionFactory sessionFactory;
 	
@@ -51,10 +55,10 @@ public class UserServiceImpl implements UserService{
 			response = new DBResponseModel<User>(DBResponseStatus.ERROR, e.getMessage(), null);
 			if (e.getCause() instanceof SQLIntegrityConstraintViolationException) {
 				// Ya se ha comprobado que se detecta la subcausa
-				System.err.println("Se ha producido una excepción de restricciones.");
+				LOG.error("Se ha producido una excepción de restricciones.");
 				e.printStackTrace();
 			} else {
-				System.err.println("Excepción general lanzada: ");
+				LOG.error("Excepción general lanzada: ");
 				e.printStackTrace();
 			}
 		}
