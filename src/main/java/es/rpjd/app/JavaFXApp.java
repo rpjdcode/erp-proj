@@ -14,8 +14,14 @@ import es.rpjd.app.spring.SpringFXMLLoader;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * Clase principal de aplicación JavaFX.
+ * 
+ * En esta clase se definen los métodos de inicialización de contexto, arranque y detención de la aplicación
+ */
 public class JavaFXApp extends Application {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JavaFXApp.class);
@@ -38,8 +44,6 @@ public class JavaFXApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
-		
 		LOG.info("Comenzando con ejecución de aplicación");
 		
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
@@ -47,6 +51,7 @@ public class JavaFXApp extends Application {
 
 		Scene scene = new Scene(root);
 		primaryStage.setTitle(env.getProperty("app.name"));
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/imgs/logo.png")));
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
