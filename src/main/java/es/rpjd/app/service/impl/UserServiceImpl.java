@@ -49,10 +49,10 @@ public class UserServiceImpl implements UserService{
 			
 			session.flush();
 			
-			response = new DBResponseModel<User>(DBResponseStatus.OK, "Usuario insertado", object);
+			response = new DBResponseModel<>(DBResponseStatus.OK, "Usuario insertado", object);
 			
 		} catch (Exception e) {
-			response = new DBResponseModel<User>(DBResponseStatus.ERROR, e.getMessage(), null);
+			response = new DBResponseModel<>(DBResponseStatus.ERROR, e.getMessage(), null);
 			if (e.getCause() instanceof SQLIntegrityConstraintViolationException) {
 				// Ya se ha comprobado que se detecta la subcausa
 				LOG.error("Se ha producido una excepción de restricciones.");
