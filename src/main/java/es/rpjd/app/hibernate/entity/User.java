@@ -16,8 +16,8 @@ public class User {
 	@Column(name = "ID", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Long id;
 	
-	@Column(name = "USERNAME", columnDefinition = "VARCHAR(20)", length = 20, unique = true, nullable = false)
-	private String username;
+	@Column(name = "USER_NAME", columnDefinition = "VARCHAR(20)", length = 20, unique = true, nullable = false)
+	private String userName;
 	
 	public Long getId() {
 		return id;
@@ -27,12 +27,12 @@ public class User {
 		this.id = id;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 	
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 	

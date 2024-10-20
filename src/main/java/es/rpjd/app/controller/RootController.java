@@ -52,7 +52,7 @@ public class RootController implements Initializable {
 			System.out.println("USUARIOS: " + userService.getUsers().getData());
 			
 			User u1 = new User();
-			u1.setUsername("usernaem1");
+			u1.setUserName("usernaem1");
 			//userService.insert(u1);
 		});
 		

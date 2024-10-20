@@ -1,7 +1,5 @@
 package es.rpjd.app.spring;
 
-import java.util.Properties;
-
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
@@ -9,11 +7,14 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariDataSource;
+
+import es.rpjd.app.hibernate.entity.Product;
 
 @Configuration
 @ComponentScan(basePackages = "es.rpjd.app")
@@ -46,17 +47,10 @@ public class SpringConfig {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setAnnotatedClasses(Product.class);
 		sessionFactory.setPackagesToScan("es.rpjd.app.hibernate.entity");
-		sessionFactory.setHibernateProperties(hibernateProperties());
+		sessionFactory.setConfigLocation(new ClassPathResource("/hibernate/hibernate.cfg.xml"));
 		return sessionFactory;
-	}
-
-	private Properties hibernateProperties() {
-		Properties properties = new Properties();
-		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-		properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-		return properties;
 	}
 
 	@Bean

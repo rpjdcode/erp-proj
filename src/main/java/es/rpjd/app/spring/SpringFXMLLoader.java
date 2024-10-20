@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javafx.fxml.FXMLLoader;
 
+/**
+ * Clase encargada de cargar los controladores
+ */
 @Component
 public class SpringFXMLLoader {
 

@@ -32,6 +32,8 @@ public class Product {
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)")
 	private ProductType productType;
+	
+	public Product() {}
 
 	public Long getId() {
 		return id;
@@ -64,14 +66,16 @@ public class Product {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-	
+
 	public ProductType getProductType() {
 		return productType;
 	}
-	
+
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
+	
+	
 	
 	
 }
