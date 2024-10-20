@@ -82,6 +82,7 @@ Section "Uninstall"
   ; Elimina archivos y directorios
   Delete "$INSTDIR\${AppExeName}"
   RMDir /r "$INSTDIR\${AppJarDir}\${AppLibDir}"
+  RMDir /r "$INSTDIR\${AppJarDir}"
   RMDir /r "$INSTDIR\${AppLogDir}"
   
   RMDir "$INSTDIR"
@@ -100,4 +101,6 @@ Section "Uninstall"
   EnVar::Delete "${AppEnvVar}"
   Pop $0
   DetailPrint "EnVar::Delete returned=|$0|"
+  
+  ; Implementar una solución para que el desinstalador desaparezca al finalizar
 SectionEnd
