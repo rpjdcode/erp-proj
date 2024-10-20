@@ -1,6 +1,7 @@
 ; Ejemplo de Script NSI para una aplicación Java
 
 !define AppName "HostManager"
+!define AppJarName "HostManager-0.0.1-SNAPSHOT"
 !define AppVersion "0.0.1.0"
 !define AppPublisher "RPJD"
 !define AppURL "http://www.miwebsite.com"
@@ -60,7 +61,7 @@ Section "Install"
   
   ; Copiar JAR de aplicación a $INSTDIR\jar
   SetOutPath "$INSTDIR\${AppJarDir}"
-  File /r "A:\Evi\Workspace-Eclipse2024\HostManager\target\jar\*.*"
+  File /r "A:\Evi\Workspace-Eclipse2024\HostManager\target\${AppJarName}.jar"
   
   ; Copiar todas las dependencias a $INSTDIR\jar\lib
   SetOutPath "$INSTDIR\${AppJarDir}\${AppLibDir}"
