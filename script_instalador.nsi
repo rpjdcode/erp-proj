@@ -1,8 +1,8 @@
 ; Ejemplo de Script NSI para una aplicación Java
 
 !define AppName "HostManager"
-!define AppJarName "HostManager-0.0.1-SNAPSHOT"
-!define AppVersion "0.0.1.0"
+!define AppJarName "HostManager-0.0.2-SNAPSHOT"
+!define AppVersion "0.0.2.0"
 !define AppPublisher "RPJD"
 !define AppURL "http://www.miwebsite.com"
 !define AppExeName "HostManager.exe"
