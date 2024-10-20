@@ -8,6 +8,7 @@
 !define AppIcon "A:\Evi\Workspace-Eclipse2024\HostManager\src\main\resources\icon.ico"
 !define AppLibDir "lib"
 !define AppLogDir "log"
+!define AppJarDir "jar"
 !define AppEnvVar "HMRP"
 !define MUI_ICON "A:\Evi\Workspace-Eclipse2024\HostManager\src\main\resources\icon.ico"
 ; Icono del desinstalador aún por decidir
@@ -57,9 +58,14 @@ Section "Install"
   ; Copia el archivo ejecutable de tu aplicación
   File "A:\Evi\Workspace-Eclipse2024\HostManager\target\${AppExeName}"
   
-  ; Copiar todas las dependencias a $INSTDIR\lib
-  SetOutPath "$INSTDIR\${AppLibDir}"
+  ; Copiar JAR de aplicación a $INSTDIR\jar
+  SetOutPath "$INSTDIR\${AppJarDir}"
+  File /r "A:\Evi\Workspace-Eclipse2024\HostManager\target\jar\*.*"
+  
+  ; Copiar todas las dependencias a $INSTDIR\jar\lib
+  SetOutPath "$INSTDIR\${AppJarDir}\${AppLibDir}"
   File /r "A:\Evi\Workspace-Eclipse2024\HostManager\target\lib\*.*"
+  
   ; Crea un acceso directo en el menú de inicio
   CreateDirectory "$SMPROGRAMS\${AppName}"
   CreateShortCut "$SMPROGRAMS\${AppName}\${AppName}.lnk" "$INSTDIR\${AppExeName}"
@@ -75,7 +81,7 @@ SectionEnd
 Section "Uninstall"
   ; Elimina archivos y directorios
   Delete "$INSTDIR\${AppExeName}"
-  RMDir /r "$INSTDIR\${AppLibDir}"
+  RMDir /r "$INSTDIR\${AppJarDir}\${AppLibDir}"
   RMDir /r "$INSTDIR\${AppLogDir}"
   
   RMDir "$INSTDIR"

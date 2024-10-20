@@ -139,15 +139,52 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.4.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>es.rpjd.app.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<executions>
+					<execution>
+						<id>default-jar</id>
+						<phase>package</phase> <!-- Cambiamos la fase -->
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+									<mainClass>es.rpjd.app.Main</mainClass>
+								</manifest>
+							</archive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Copiar el .jar generado a un directorio /jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version>
+				<executions>
+					<execution>
+						<id>copy-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/jar</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>
+											${project.build.finalName}.jar</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 			<!-- Plugin para almacenar las dependencias en un directorio /lib -->
@@ -183,6 +220,8 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
 								<!-- Añadir la clase principal al manifiesto -->
 								<transformer
@@ -194,7 +233,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 
 			<!-- Plugin para generación de ejecutable de aplicación -->
 			<plugin>
@@ -209,10 +247,17 @@
 							<goal>launch4j</goal>
 						</goals>
 						<configuration>
+							<!-- No envuelve el JAR dentro del ejecutable como
+							un archivo comprimido -->
+							<dontWrapJar>true</dontWrapJar>
+
 							<!-- Configuración básica del ejecutable -->
 							<headerType>gui</headerType>
 							<outfile>target/${project.artifactId}.exe</outfile>
-							<jar>target/original-${project.build.finalName}.jar</jar>
+							<!-- Al establecer que no se envuelve el JAR como un
+							archivo comprimido, esta será la ruta
+							a la que apuntará el .exe para ejecutar el JAR de la app -->
+							<jar>jar/${project.build.finalName}.jar</jar>
 							<errTitle>Error de la aplicación</errTitle>
 							<downloadUrl>http://java.com/download</downloadUrl>
 							<stayAlive>false</stayAlive>
@@ -241,7 +286,7 @@
 				<executions>
 					<execution>
 						<id>build-installer</id>
-						<phase>package</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
