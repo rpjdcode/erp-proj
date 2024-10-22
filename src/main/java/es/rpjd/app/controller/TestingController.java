@@ -11,7 +11,6 @@ import es.rpjd.app.spring.SpringConstants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_TESTING)
@@ -36,9 +35,6 @@ public class TestingController implements Initializable {
 		for (int i = 0; i < 100; i++) {
 			listView.getItems().add(String.format("ejemplo%d", i));
 		}
-
-		// Indicamos a la vista que siempre intente abarcar el máximo espacio posible
-		VBox.setVgrow(view, Priority.ALWAYS);
 
 	}
 

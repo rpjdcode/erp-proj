@@ -18,7 +18,6 @@ import es.rpjd.app.utils.AlertUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -27,6 +26,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_ROOT)
@@ -79,7 +79,7 @@ public class RootController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		LOG.info("Inicializando controlador raíz");
 	}
 
 	public GridPane getView() {
@@ -113,8 +113,11 @@ public class RootController implements Initializable {
 		LOG.info("Testing");
 		try {
 			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-			Parent testingView = loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
-			contentBox.getChildren().add(testingView);
+			loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
+			TestingController testingController = context.getBean(TestingController.class);
+			
+			contentBox.getChildren().add(testingController.getView());
+			VBox.setVgrow(testingController.getView(), Priority.ALWAYS);
 			
 		} catch (IOException e) {
 			LOG.error("Error lanzado", e);
