@@ -10,6 +10,7 @@ public class SpringConstants {
 	 */
 	public static final String BEAN_CONTROLLER_ROOT = "rootController";
 	public static final String BEAN_CONTROLLER_TESTING = "testingController";
+	public static final String BEAN_CONTROLLER_DB_TABLES = "databaseTablesController";
 
 	/*
 	 * Nombres de Beans relacionados con servicios

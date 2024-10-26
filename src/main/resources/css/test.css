@@ -57,14 +57,31 @@
     -fx-cursor: hand; /* Cambia el cursor a mano */
 }
 
+/* Estado normal, sin interacción */
 .menu .menu-item {
-    -fx-background-color: transparent; /* Fondo transparente de los ítems del menú */
-    -fx-text-fill: #1f4f80; /* Texto azul oscuro */
-    -fx-font-size: 14px;
-    -fx-padding: 5px 10px;
+    -fx-background-color: transparent; /* Fondo transparente cuando no hay hover */
+    -fx-text-fill: black; /* Texto negro por defecto */
+    -fx-border-color: transparent; /* Sin borde */
+    -fx-padding: 5px; /* Relleno para que el ítem se vea bien */
 }
 
+/* Estado hover, cuando el ratón está encima */
 .menu .menu-item:hover {
-    -fx-background-color: linear-gradient(to bottom, #00c6ff, #0072ff); /* Color de fondo en degradado para el ítem cuando se selecciona */
-    -fx-text-fill: white; /* Texto blanco cuando se selecciona */
+    -fx-background-color: linear-gradient(to bottom, #00c6ff, #0072ff); /* Fondo al hacer hover */
+    -fx-text-fill: white; /* Cambia el color del texto al hacer hover */
 }
+
+/* Estado cuando el item ha sido presionado */
+.menu .menu-item:pressed {
+    -fx-background-color: linear-gradient(to bottom, #005bb5, #004090); /* Fondo al hacer clic */
+    -fx-text-fill: white; /* Cambia el texto al hacer clic */
+}
+
+/* Estado cuando el item está enfocado (ej. usando tab para navegar) */
+.menu .menu-item:focused {
+    -fx-background-color: transparent; /* Fondo transparente cuando está enfocado */
+    -fx-text-fill: black; /* Mantiene el texto negro en foco */
+}
+
+
+

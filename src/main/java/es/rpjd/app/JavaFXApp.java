@@ -11,6 +11,7 @@ import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.spring.SpringConfig;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
+import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -57,6 +58,7 @@ public class JavaFXApp extends Application {
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/imgs/logo.png")));
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		CSSFX.start();
 
 	}
 

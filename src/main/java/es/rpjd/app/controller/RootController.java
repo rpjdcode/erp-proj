@@ -18,6 +18,7 @@ import es.rpjd.app.utils.AlertUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -35,6 +36,12 @@ public class RootController implements Initializable {
 	private static final Logger LOG = LoggerFactory.getLogger(RootController.class);
 
 	@FXML
+	private Menu appMenu;
+	
+	@FXML
+	private MenuItem homeMenuItem;
+	
+	@FXML
 	private Menu editMenu;
 
 	@FXML
@@ -42,9 +49,6 @@ public class RootController implements Initializable {
 
 	@FXML
 	private Menu helpMenu;
-
-	@FXML
-	private Menu databaseMenu;
 	
 	@FXML
 	private Menu testingMenu;
@@ -116,8 +120,9 @@ public class RootController implements Initializable {
 			loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
 			TestingController testingController = context.getBean(TestingController.class);
 			
-			contentBox.getChildren().add(testingController.getView());
-			VBox.setVgrow(testingController.getView(), Priority.ALWAYS);
+//			contentBox.getChildren().add(testingController.getView());
+//			VBox.setVgrow(testingController.getView(), Priority.ALWAYS);
+			addRootContent(testingController.getView());
 			
 		} catch (IOException e) {
 			LOG.error("Error lanzado", e);
@@ -125,5 +130,27 @@ public class RootController implements Initializable {
 		
 		
 	}
-
+	
+	@FXML
+	void onHomeMenuAction(ActionEvent event) {
+		LOG.info("Click en menú inicio");
+	}
+	
+	/**
+	 * Método encargado de cargar en el nodo de contenido principal de aplicación y hacerlo responsivo.
+	 * Elimina el nodo cargado, en caso de existir uno
+	 * @param view
+	 */
+	private void addRootContent(Node view) {
+		if (!contentBox.getChildren().isEmpty()) {
+			LOG.info("Eliminando contenido");
+			contentBox.getChildren().clear();
+		}
+		
+		contentBox.getChildren().add(view);
+		VBox.setVgrow(view, Priority.ALWAYS);
+		
+		
+		
+	}
 }
