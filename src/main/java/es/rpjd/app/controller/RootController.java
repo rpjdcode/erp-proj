@@ -104,25 +104,6 @@ public class RootController implements Initializable {
 		LOG.info("USUARIOS: {}", userService.getUsers().getData());
 	}
 
-	void onTestingAction() {
-		LOG.info("Testing");
-		try {
-			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-			loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
-			TestingController testingController = context.getBean(TestingController.class);
-
-			addRootContent(testingController.getView());
-
-		} catch (IOException e) {
-			LOG.error("Error lanzado", e);
-		}
-
-	}
-
-	void onHomeMenuAction() {
-		LOG.info("Click en menú inicio");
-	}
-
 	/**
 	 * Método encargado de cargar en el nodo de contenido principal de aplicación y
 	 * hacerlo responsivo. Elimina el nodo cargado, en caso de existir uno
