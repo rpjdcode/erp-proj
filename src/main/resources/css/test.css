@@ -1,87 +1,26 @@
-.tool-bar {
-    -fx-background-color: linear-gradient(to bottom, #3a7bd5, #00d2ff); /* Gradiente de azul */
-    -fx-padding: 10px; /* Espacio interno */
-    -fx-spacing: 8px; /* Espacio entre elementos */
-    -fx-border-color: #1f4f80; /* Borde azul oscuro */
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px; /* Bordes redondeados */
-    -fx-background-radius: 8px; /* Redondeado del fondo */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); /* Sombra para darle profundidad */
+
+/* @font-face {
+    font-family: Montserrat-Regular;
+    src: url('/fonts/montserrat/Montserrat-Regular.ttf');
 }
 
-.tool-bar .button {
-    -fx-background-color: linear-gradient(to bottom, #00c6ff, #0072ff); /* Fondo azul degradado para los botones */
-    -fx-text-fill: white; /* Texto blanco */
-    -fx-font-size: 14px; /* Tamaño de la fuente */
-    -fx-padding: 5px 15px; /* Espaciado dentro del botón */
-    -fx-border-radius: 6px; /* Bordes redondeados */
-    -fx-background-radius: 6px;
-    -fx-border-color: #0066cc; /* Borde azul */
-    -fx-border-width: 2px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Sombra ligera para los botones */
+@font-face {
+    font-family: Montserrat-Bold;
+    src: url('/fonts/montserrat/Montserrat-Bold.ttf');
+
 }
 
-.tool-bar .button:hover {
-    -fx-background-color: linear-gradient(to bottom, #0072ff, #00c6ff); /* Cambio de color al pasar el ratón */
-    -fx-cursor: hand; /* Cambia el cursor a mano */
+@font-face {
+    font-family: Montserrat-Italic;
+    src: url('/fonts/montserrat/Montserrat-Italic.ttf');
 }
+* 
+* */
 
-.tool-bar .separator {
-    -fx-background-color: #1f4f80; /* Color del separador */
-    -fx-padding: 0 10px; /* Espacio lateral del separador */
-    -fx-opacity: 0.7; /* Transparencia ligera */
+.root {
+    -fx-font-family: 'Montserrat';
+    -fx-snap-to-pixel: true;
+    /*-fx-font-smoothing-type: lcd; /* O prueba lcd si está disponible en tu configuración */ 
+    -fx-font-size: 16;
 }
-
-.menu-bar {
-    -fx-background-color: linear-gradient(to bottom, #3a7bd5, #00d2ff); /* Gradiente de azul */
-    -fx-padding: 10px; /* Espacio interno */
-    -fx-border-color: #1f4f80; /* Borde azul oscuro */
-    -fx-border-width: 2px;
-    -fx-border-radius: 8px; /* Bordes redondeados */
-    -fx-background-radius: 8px; /* Redondeado del fondo */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5); /* Sombra para dar profundidad */
-}
-
-.menu-button {
-    -fx-background-color: transparent; /* Fondo transparente para botones de menú */
-    -fx-text-fill: white; /* Texto blanco */
-    -fx-font-size: 14px; /* Tamaño de la fuente */
-    -fx-padding: 5px 15px; /* Espaciado dentro del botón */
-    -fx-border-radius: 6px; /* Bordes redondeados */
-    -fx-background-radius: 6px;
-    -fx-effect: none; /* Sin sombra para los botones de menú */
-}
-
-.menu-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.2); /* Color translúcido al pasar el ratón */
-    -fx-cursor: hand; /* Cambia el cursor a mano */
-}
-
-/* Estado normal, sin interacción */
-.menu .menu-item {
-    -fx-background-color: transparent; /* Fondo transparente cuando no hay hover */
-    -fx-text-fill: black; /* Texto negro por defecto */
-    -fx-border-color: transparent; /* Sin borde */
-    -fx-padding: 5px; /* Relleno para que el ítem se vea bien */
-}
-
-/* Estado hover, cuando el ratón está encima */
-.menu .menu-item:hover {
-    -fx-background-color: linear-gradient(to bottom, #00c6ff, #0072ff); /* Fondo al hacer hover */
-    -fx-text-fill: white; /* Cambia el color del texto al hacer hover */
-}
-
-/* Estado cuando el item ha sido presionado */
-.menu .menu-item:pressed {
-    -fx-background-color: linear-gradient(to bottom, #005bb5, #004090); /* Fondo al hacer clic */
-    -fx-text-fill: white; /* Cambia el texto al hacer clic */
-}
-
-/* Estado cuando el item está enfocado (ej. usando tab para navegar) */
-.menu .menu-item:focused {
-    -fx-background-color: transparent; /* Fondo transparente cuando está enfocado */
-    -fx-text-fill: black; /* Mantiene el texto negro en foco */
-}
-
-
 

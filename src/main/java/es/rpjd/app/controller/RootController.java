@@ -18,13 +18,11 @@ import es.rpjd.app.utils.AlertUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -36,35 +34,11 @@ public class RootController implements Initializable {
 	private static final Logger LOG = LoggerFactory.getLogger(RootController.class);
 
 	@FXML
-	private Menu appMenu;
-	
-	@FXML
-	private MenuItem homeMenuItem;
-	
-	@FXML
-	private Menu editMenu;
-
-	@FXML
-	private Menu fileMenu;
-
-	@FXML
-	private Menu helpMenu;
-	
-	@FXML
-	private Menu testingMenu;
-	
-	@FXML
-	private MenuItem testingMenuItem;
-
-	@FXML
-	private MenuBar menuBar;
-
-	@FXML
 	private ToolBar footToolBar;
 
 	@FXML
 	private Button aboutAppButton;
-	
+
 	@FXML
 	private VBox contentBox;
 
@@ -73,7 +47,8 @@ public class RootController implements Initializable {
 
 	private ApplicationContext context;
 	private UserService userService;
-	
+
+	private ApplicationController contentController;
 
 	@Autowired
 	public RootController(UserService userService, ApplicationContext context) {
@@ -84,6 +59,24 @@ public class RootController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		LOG.info("Inicializando controlador raíz");
+
+		try {
+			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
+			loader.load("/fxml/menu/menu.fxml", SpringConstants.BEAN_CONTROLLER_MENU);
+			MenuController menu = context.getBean(MenuController.class);
+
+			// Se añade en la primera posición fila del gridpane el menu de la aplicación y
+			// se le indica el columnspan y rowspan que abarca
+			this.getView().add(menu.getView(), 0, 0, 2, 1);
+
+			// Centrado
+			GridPane.setHalignment(menu.getView(), HPos.CENTER);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public GridPane getView() {
@@ -92,6 +85,7 @@ public class RootController implements Initializable {
 
 	/**
 	 * Método que se llama al hacer click en el botón "Acerca de " de la toolbar
+	 * 
 	 * @param event
 	 */
 	@FXML
@@ -110,47 +104,68 @@ public class RootController implements Initializable {
 		alert.showAndWait();
 		LOG.info("USUARIOS: {}", userService.getUsers().getData());
 	}
-	
-	@FXML
-	void onTestingAction(ActionEvent event) {
+
+	void onTestingAction() {
 		//
 		LOG.info("Testing");
 		try {
 			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 			loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
 			TestingController testingController = context.getBean(TestingController.class);
-			
+
 //			contentBox.getChildren().add(testingController.getView());
 //			VBox.setVgrow(testingController.getView(), Priority.ALWAYS);
 			addRootContent(testingController.getView());
-			
+
 		} catch (IOException e) {
 			LOG.error("Error lanzado", e);
 		}
-		
-		
+
 	}
-	
-	@FXML
-	void onHomeMenuAction(ActionEvent event) {
+
+	void onHomeMenuAction() {
 		LOG.info("Click en menú inicio");
 	}
-	
+
 	/**
-	 * Método encargado de cargar en el nodo de contenido principal de aplicación y hacerlo responsivo.
-	 * Elimina el nodo cargado, en caso de existir uno
+	 * Método encargado de cargar en el nodo de contenido principal de aplicación y
+	 * hacerlo responsivo. Elimina el nodo cargado, en caso de existir uno
+	 * 
 	 * @param view
 	 */
 	private void addRootContent(Node view) {
+		removeRootContent();
+
+		contentBox.getChildren().add(view);
+		VBox.setVgrow(view, Priority.ALWAYS);
+
+	}
+
+	/**
+	 * Método que es llamado de forma externa (otro controlador) para cargar el
+	 * contenido en el nodo de contenido del RootController. Recibe por parámetro un
+	 * ApplicationController que referencia al controlador de la aplicación
+	 * 
+	 * @param controller Controlador cuya vista será mostrada en el content
+	 */
+	public void loadControllerContent(ApplicationController controller) {
+		if (contentController != null) {
+			LOG.info("Llamando a liberación de recursos");
+			contentController.clearResources();
+		}
+		addRootContent(controller.getView());
+		contentController = controller;
+	}
+	
+	public void unloadControllerContent() {
+		removeRootContent();
+		
+	}
+
+	private void removeRootContent() {
 		if (!contentBox.getChildren().isEmpty()) {
 			LOG.info("Eliminando contenido");
 			contentBox.getChildren().clear();
 		}
-		
-		contentBox.getChildren().add(view);
-		VBox.setVgrow(view, Priority.ALWAYS);
-		
-		
-		
 	}
 }

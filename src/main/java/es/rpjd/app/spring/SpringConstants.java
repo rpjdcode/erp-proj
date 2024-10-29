@@ -1,5 +1,9 @@
 package es.rpjd.app.spring;
 
+/**
+ * Clase que contiene las constantes relacionadas con Spring, como por ejemplo
+ * los nombres de las beans de controladores, servicios, etc.
+ */
 public class SpringConstants {
 
 	private SpringConstants() {
@@ -10,7 +14,9 @@ public class SpringConstants {
 	 */
 	public static final String BEAN_CONTROLLER_ROOT = "rootController";
 	public static final String BEAN_CONTROLLER_TESTING = "testingController";
-	public static final String BEAN_CONTROLLER_DB_TABLES = "databaseTablesController";
+	public static final String BEAN_CONTROLLER_MENU = "menuController";
+	public static final String BEAN_CONTROLLER_HOME = "homeController";
+	
 
 	/*
 	 * Nombres de Beans relacionados con servicios

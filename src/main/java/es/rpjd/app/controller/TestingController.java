@@ -14,7 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_TESTING)
-public class TestingController implements Initializable {
+public class TestingController implements Initializable, ApplicationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TestingController.class);
 
@@ -23,23 +23,34 @@ public class TestingController implements Initializable {
 
 	@FXML
 	private VBox view;
+	
+//	private ChangeListener<String> changeListenerStrings;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		LOG.info("Inicializando controlador de Testing");
-
-		listView.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
-			LOG.info("OV: {}, NV: {}", ov, nv);
-		});
-
-		for (int i = 0; i < 100; i++) {
-			listView.getItems().add(String.format("ejemplo%d", i));
-		}
+		
+//		this.changeListenerStrings = (o, ov, nv) -> {
+//			LOG.info("OV: {}, NV: {}", ov, nv);
+//		};
+//
+//		listView.getSelectionModel().selectedItemProperty().addListener(this.changeListenerStrings);
+//
+//		for (int i = 0; i < 100; i++) {
+//			listView.getItems().add(String.format("ejemplo%d", i));
+//		}
 
 	}
 
+	@Override
 	public VBox getView() {
 		return view;
+	}
+	
+	@Override
+	public void clearResources() {
+		LOG.info("Limpiando recursos en TestingController");
+//		listView.getSelectionModel().selectedItemProperty().removeListener(this.changeListenerStrings);
 	}
 
 }
