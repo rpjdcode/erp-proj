@@ -23,22 +23,10 @@ public class TestingController implements Initializable, ApplicationController {
 
 	@FXML
 	private VBox view;
-	
-//	private ChangeListener<String> changeListenerStrings;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		LOG.info("Inicializando controlador de Testing");
-		
-//		this.changeListenerStrings = (o, ov, nv) -> {
-//			LOG.info("OV: {}, NV: {}", ov, nv);
-//		};
-//
-//		listView.getSelectionModel().selectedItemProperty().addListener(this.changeListenerStrings);
-//
-//		for (int i = 0; i < 100; i++) {
-//			listView.getItems().add(String.format("ejemplo%d", i));
-//		}
 
 	}
 
@@ -50,7 +38,6 @@ public class TestingController implements Initializable, ApplicationController {
 	@Override
 	public void clearResources() {
 		LOG.info("Limpiando recursos en TestingController");
-//		listView.getSelectionModel().selectedItemProperty().removeListener(this.changeListenerStrings);
 	}
 
 }

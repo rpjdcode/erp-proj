@@ -73,8 +73,7 @@ public class RootController implements Initializable {
 			GridPane.setHalignment(menu.getView(), HPos.CENTER);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Se ha lanzado una IOException al inicializar controlador raíz: {0}", e);
 		}
 
 	}
@@ -106,15 +105,12 @@ public class RootController implements Initializable {
 	}
 
 	void onTestingAction() {
-		//
 		LOG.info("Testing");
 		try {
 			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 			loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
 			TestingController testingController = context.getBean(TestingController.class);
 
-//			contentBox.getChildren().add(testingController.getView());
-//			VBox.setVgrow(testingController.getView(), Priority.ALWAYS);
 			addRootContent(testingController.getView());
 
 		} catch (IOException e) {

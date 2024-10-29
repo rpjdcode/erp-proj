@@ -1,6 +1,5 @@
 package es.rpjd.app.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,7 +52,7 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		// TODO Pendiente de establecer un modelo y vincular properties si es necesario
 
 	}
 
@@ -61,15 +60,11 @@ public class MenuController implements Initializable {
 	void onTestingAction(ActionEvent event) {
 		loadApplicationContent(SpringConstants.BEAN_CONTROLLER_TESTING);
 
-//		try {
-//			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-//			loader.load("/fxml/testing/testing.fxml", SpringConstants.BEAN_CONTROLLER_TESTING);
-//			TestingController testingController = context.getBean(TestingController.class);
-//			this.root.addRootContent(testingController.getView());
-//			
-//		} catch (IOException e) {
-//			LOG.error("Error lanzado", e);
-//		}
+	}
+	
+	@FXML
+	void onConfigAction(ActionEvent event) {
+		LOG.info("Se hizo click en config");
 	}
 
 	@FXML

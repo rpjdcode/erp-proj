@@ -27,7 +27,7 @@
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="configButton" mnemonicParsing="false" text="%app.menu.config" HBox.hgrow="ALWAYS">
+      <Button fx:id="configButton" mnemonicParsing="false" onAction="#onConfigAction" text="%app.menu.config" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
