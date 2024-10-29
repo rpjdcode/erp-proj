@@ -28,6 +28,7 @@ public class SpringFXMLLoader {
 
 	public <T> T load(String fxmlPath, String controllerName) throws IOException {
 		LOG.info("Se está llamando al load del controlador {}", controllerName);
+		LOG.info("FXMLPath: {}", fxmlPath);
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
 		loader.setControllerFactory(context::getBean);
 		loader.setController(context.getBean(controllerName));

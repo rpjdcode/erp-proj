@@ -83,8 +83,9 @@ public class MenuController implements Initializable {
 	}
 
 	/**
-	 * Método encargado de cargar el contenido principal de la aplicación
-	 * en el RootController
+	 * Método encargado de cargar el contenido principal de la aplicación en el
+	 * RootController
+	 * 
 	 * @param beanController Nombre del Bean del Controlador a cargar
 	 * @see {@link ApplicationController}
 	 * @see {@link SpringConstants}
@@ -93,14 +94,14 @@ public class MenuController implements Initializable {
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 		String fxmlPath;
 		ApplicationController controller;
-		
+
 		try {
 			switch (beanController) {
 			case SpringConstants.BEAN_CONTROLLER_TESTING:
-				fxmlPath = String.format("%s%s%s%s%s", env.getProperty("path.fxml"), File.separator, "testing", File.separator, "testing.fxml");
+				fxmlPath = String.format("%s%s", env.getProperty("path.fxml"), "testing/testing.fxml");
 				controller = context.getBean(TestingController.class);
 				break;
-			
+
 			case SpringConstants.BEAN_CONTROLLER_HOME:
 				fxmlPath = null;
 				this.root.unloadControllerContent();
@@ -112,14 +113,15 @@ public class MenuController implements Initializable {
 				controller = null;
 				break;
 			}
-			
+
 			if (fxmlPath != null && controller != null) {
 				loader.load(fxmlPath, beanController);
 				this.root.loadControllerContent(controller);
 			}
-			
+
 		} catch (IOException e) {
-			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación: {0}", e.getCause());
+			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación: {0}",
+					e.getCause());
 		}
 	}
 
