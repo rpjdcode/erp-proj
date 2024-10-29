@@ -11,13 +11,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
+import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
+import es.rpjd.app.utils.ModalUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_MENU)
 public class MenuController implements Initializable {
@@ -52,7 +56,7 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Pendiente de establecer un modelo y vincular properties si es necesario
+		LOG.info("Initialize de MenuController");
 
 	}
 
@@ -61,10 +65,26 @@ public class MenuController implements Initializable {
 		loadApplicationContent(SpringConstants.BEAN_CONTROLLER_TESTING);
 
 	}
-	
+
 	@FXML
 	void onConfigAction(ActionEvent event) {
 		LOG.info("Se hizo click en config");
+		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
+		Parent configLoad;
+		try {
+			configLoad = loader.load("/fxml/config/config.fxml", SpringConstants.BEAN_CONTROLLER_CONFIG);
+
+			Stage primary = (Stage) root.getView().getScene().getWindow();
+
+			Stage configModal = ModalUtils.createApplicationModal(configLoad, primary, primary.getIcons().get(0),
+					I18N.getString("app.config"));
+			configModal.showAndWait();
+
+			LOG.info("Se salió del modal");
+		} catch (IOException e) {
+			LOG.error("Se ha producido un error IOException al abrir modal de configuración {0}", e);
+		}
+
 	}
 
 	@FXML

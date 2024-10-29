@@ -33,7 +33,9 @@ public class Product {
 	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)")
 	private ProductType productType;
 	
-	public Product() {}
+	public Product() {
+		// Constructor vacío
+	}
 
 	public Long getId() {
 		return id;

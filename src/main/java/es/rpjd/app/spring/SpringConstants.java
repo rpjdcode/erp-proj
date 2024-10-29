@@ -16,6 +16,7 @@ public class SpringConstants {
 	public static final String BEAN_CONTROLLER_TESTING = "testingController";
 	public static final String BEAN_CONTROLLER_MENU = "menuController";
 	public static final String BEAN_CONTROLLER_HOME = "homeController";
+	public static final String BEAN_CONTROLLER_CONFIG = "configController";
 	
 
 	/*
