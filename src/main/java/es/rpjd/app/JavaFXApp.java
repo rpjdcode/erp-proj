@@ -1,14 +1,10 @@
 package es.rpjd.app;
 
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.Environment;
 
-import es.rpjd.app.constants.Constants;
-import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.spring.SpringConfig;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
@@ -17,7 +13,6 @@ import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -29,6 +24,7 @@ public class JavaFXApp extends Application {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JavaFXApp.class);
 	
+	
 	private Environment env;
 
 	private AnnotationConfigApplicationContext context;
@@ -39,13 +35,8 @@ public class JavaFXApp extends Application {
 		context = new AnnotationConfigApplicationContext(SpringConfig.class);
 		env = context.getEnvironment();
 		
-		Locale systemLocale = Locale.getDefault();
+		ApplicationConfigurer.initialize();
 		
-		LOG.info("Se intentará establecer el idioma de aplicación a {}", systemLocale.getLanguage());
-		I18N.load(Locale.getDefault());
-		
-		LOG.info("Comenzando carga de fuentes");
-		loadFonts();
 	}
 
 	@Override
@@ -72,19 +63,6 @@ public class JavaFXApp extends Application {
 	public void stop() throws Exception {
 		LOG.info("MÉTODO STOP()");
 		context.close();
-	}
-	
-	/**
-	 * Método encargado de cargar las fuentes personalizadas (.ttf)
-	 */
-	private void loadFonts() {
-		// Tamaños de fuente incluidos en los .ttf
-		int[] sizes = new int[] { 12, 18, 24, 36, 48, 60, 72};
-		
-		for (int size : sizes) {
-	        Font.loadFont(JavaFXApp.class.getResource(Constants.FONT_MONTSERRAT_TTF).toExternalForm(), size);
-	        Font.loadFont(JavaFXApp.class.getResource(Constants.FONT_MONTSERRAT_BOLD_TTF).toExternalForm(), size);
-		}
 	}
 
 	public static void main(String[] args) {

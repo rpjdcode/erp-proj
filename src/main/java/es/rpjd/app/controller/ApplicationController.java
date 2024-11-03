@@ -1,5 +1,7 @@
 package es.rpjd.app.controller;
 
+import java.util.ResourceBundle;
+
 import javafx.scene.Node;
 
 /**
@@ -13,4 +15,10 @@ public interface ApplicationController {
 	 * La implementación de este método permitirá la liberación de recursos de un controlador
 	 */
 	void clearResources();
+	
+	/**
+	 * La implementación de este método definirá los textos de la interfaz a actualizar
+	 * cuando se realiza un cambio de lenguaje en la aplicación
+	 */
+	void updateTexts(ResourceBundle bundle);
 }

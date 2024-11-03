@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
+/**
+ * Clase utilizada para la generación de modales propios de la aplicación
+ */
 public class ModalUtils {
 
 	private ModalUtils() {}

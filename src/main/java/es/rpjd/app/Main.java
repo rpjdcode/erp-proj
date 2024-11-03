@@ -2,6 +2,7 @@ package es.rpjd.app;
 
 import java.io.File;
 
+import es.rpjd.app.constants.Constants;
 import es.rpjd.app.utils.AppUtils;
 
 /**
@@ -13,8 +14,6 @@ import es.rpjd.app.utils.AppUtils;
  */
 public class Main {
 	
-	private static final String LOG_PROPERTY = "LOG_PATH";
-	
 	/**
 	 * Método encargado de preparar la ejecución de la app para un entorno de desarrollo.
 	 * 
@@ -22,7 +21,8 @@ public class Main {
 	 */
 	private static final void initDevelopmentEnvironment() {
 		String currentDirectory = System.getProperty("user.dir");
-		System.setProperty(LOG_PROPERTY, String.format("%s%s%s", currentDirectory, File.separator, "log"));
+		System.setProperty(Constants.LOG_PROPERTY, String.format("%s%s%s", currentDirectory, File.separator, "log"));
+		System.setProperty(Constants.CONFIG_PROPERTY, String.format("%s%s%s%s%s", currentDirectory, File.separator, "dev", File.separator, "application.conf"));
 	}
 	
 	/**
@@ -32,7 +32,8 @@ public class Main {
 		if (!AppUtils.isAppDataDirectoryCreated()) {
 			AppUtils.createAppDataDirectory();
 		}
-		System.setProperty(LOG_PROPERTY, String.format("%s%s%s", AppUtils.APP_DATA_DIRECTORY, File.separator, "log"));
+		System.setProperty(Constants.LOG_PROPERTY, String.format("%s%s%s", AppUtils.APP_DATA_DIRECTORY, File.separator, "log"));
+		System.setProperty(Constants.CONFIG_PROPERTY, String.format("%s%s%s", AppUtils.APP_DATA_DIRECTORY, File.separator, "application.conf"));
 	}
 	
 	public static void main(String[] args) {

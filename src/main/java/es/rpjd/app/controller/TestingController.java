@@ -40,4 +40,10 @@ public class TestingController implements Initializable, ApplicationController {
 		LOG.info("Limpiando recursos en TestingController");
 	}
 
+	@Override
+	public void updateTexts(ResourceBundle bundle) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

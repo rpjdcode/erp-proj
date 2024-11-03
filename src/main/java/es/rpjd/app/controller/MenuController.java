@@ -12,9 +12,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import es.rpjd.app.i18n.I18N;
+import es.rpjd.app.model.MenuModel;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
 import es.rpjd.app.utils.ModalUtils;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_MENU)
-public class MenuController implements Initializable {
+public class MenuController implements Initializable, ApplicationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MenuController.class);
 
@@ -42,6 +44,8 @@ public class MenuController implements Initializable {
 
 	@FXML
 	private HBox view;
+	
+	private MenuModel model;
 
 	private ApplicationContext context;
 	private Environment env;
@@ -56,7 +60,14 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		LOG.info("Initialize de MenuController");
+		this.model = new MenuModel();
+		LOG.info("Inicializando MenuController");
+		
+		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> {
+			updateTexts(nv);
+		};
+		model.setI18nListener(changeListener);
+		I18N.bundleProperty().addListener(changeListener);
 
 	}
 
@@ -108,7 +119,7 @@ public class MenuController implements Initializable {
 	private void loadApplicationContent(String beanController) {
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 		String fxmlPath;
-		ApplicationController controller;
+		ApplicationController controller = null;
 
 		try {
 			switch (beanController) {
@@ -138,6 +149,20 @@ public class MenuController implements Initializable {
 			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación: {0}",
 					e.getCause());
 		}
+	}
+
+	@Override
+	public void clearResources() {
+		LOG.info("Liberando recursos del MenuController");
+		I18N.bundleProperty().removeListener(model.getI18nListener());
+		
+	}
+
+	@Override
+	public void updateTexts(ResourceBundle bundle) {
+		homeButton.setText(bundle.getString("app.menu.home"));
+		configButton.setText(bundle.getString("app.menu.config"));
+		
 	}
 
 }

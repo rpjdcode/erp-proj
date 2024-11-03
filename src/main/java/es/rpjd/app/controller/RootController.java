@@ -29,7 +29,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_ROOT)
-public class RootController implements Initializable {
+public class RootController implements Initializable, ApplicationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RootController.class);
 
@@ -78,6 +78,7 @@ public class RootController implements Initializable {
 
 	}
 
+	@Override
 	public GridPane getView() {
 		return view;
 	}
@@ -144,5 +145,17 @@ public class RootController implements Initializable {
 			LOG.info("Eliminando contenido");
 			contentBox.getChildren().clear();
 		}
+	}
+
+	@Override
+	public void clearResources() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateTexts(ResourceBundle bundle) {
+		
+		
 	}
 }
