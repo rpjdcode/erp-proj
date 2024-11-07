@@ -38,9 +38,15 @@ public class MenuController implements Initializable, ApplicationController {
 
 	@FXML
 	private Button productButton;
+	
+	@FXML
+	private Button orderButton;
 
 	@FXML
 	private Button testingButton;
+	
+	@FXML
+	private Button checkButton;
 
 	@FXML
 	private HBox view;
@@ -103,6 +109,22 @@ public class MenuController implements Initializable, ApplicationController {
 		LOG.info("Click en home");
 		loadApplicationContent(SpringConstants.BEAN_CONTROLLER_HOME);
 	}
+	
+	@FXML
+	void onOrdersAction(ActionEvent event) {
+		LOG.info("Click en comandas");
+	}
+	
+	@FXML
+	void onProductsAction(ActionEvent event) {
+		LOG.info("Click en productos");
+		loadApplicationContent(SpringConstants.BEAN_CONTROLLER_PRODUCT);
+	}
+	
+	@FXML
+	void onCheckAction(ActionEvent event) {
+		LOG.info("Click en caja");
+	}
 
 	public HBox getView() {
 		return view;
@@ -118,7 +140,7 @@ public class MenuController implements Initializable, ApplicationController {
 	 */
 	private void loadApplicationContent(String beanController) {
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-		String fxmlPath;
+		String fxmlPath = null;
 		ApplicationController controller = null;
 
 		try {
@@ -132,6 +154,11 @@ public class MenuController implements Initializable, ApplicationController {
 				fxmlPath = null;
 				this.root.unloadControllerContent();
 				controller = null;
+				break;
+				
+			case SpringConstants.BEAN_CONTROLLER_PRODUCT:
+				fxmlPath = String.format("%s%s", env.getProperty("path.fxml"), "products/products.fxml");
+				controller = context.getBean(ProductController.class);
 				break;
 
 			default:

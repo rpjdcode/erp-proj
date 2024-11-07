@@ -20,8 +20,8 @@ public class Product {
 	@Column(name = "ID", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Long id;
 	
-	@Column(name = "NAME", columnDefinition = "VARCHAR(90)", nullable = false, unique = true)
-	private String name;
+	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
+	private String propertyName;
 	
 	@Column(name = "PRODUCT_CODE", columnDefinition = "CHAR(10)", nullable = false, unique = true)
 	private String productCode;
@@ -45,12 +45,12 @@ public class Product {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getPropertyName() {
+		return propertyName;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public String getProductCode() {

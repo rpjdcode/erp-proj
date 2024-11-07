@@ -12,17 +12,17 @@
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="productButton" mnemonicParsing="false" style="-fx-font-family: Montserrat; -fx-font-weight: bold;" text="Func" HBox.hgrow="ALWAYS">
+      <Button fx:id="productButton" mnemonicParsing="false" onAction="#onProductsAction" style="-fx-font-family: Montserrat; -fx-font-weight: bold;" text="%app.menu.db.products" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button mnemonicParsing="false" style="-fx-font-family: Montserrat;" text="Func" HBox.hgrow="ALWAYS">
+      <Button fx:id="orderButton" mnemonicParsing="false" onAction="#onOrdersAction" style="-fx-font-family: Montserrat;" text="%app.menu.db.orders" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button mnemonicParsing="false" text="Func" HBox.hgrow="ALWAYS">
+      <Button fx:id="checkButton" mnemonicParsing="false" onAction="#onCheckAction" text="%app.menu.db.check" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>

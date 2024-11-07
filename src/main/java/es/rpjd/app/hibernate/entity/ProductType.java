@@ -19,8 +19,11 @@ public class ProductType {
 	@Column(name = "ID", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Long id;
 
-	@Column(name = "TYPE", columnDefinition = "VARCHAR(30)", length = 30, nullable = false, unique = true)
-	private String type;
+	@Column(name = "TYP_CODE", columnDefinition = "VARCHAR(30)", length = 30, nullable = false, unique = true)
+	private String code;
+	
+	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", length = 50, nullable = false)
+	private String propertyName;
 	
 	@OneToMany(mappedBy = "productType")
 	private List<Product> products;
@@ -32,13 +35,21 @@ public class ProductType {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getType() {
-		return type;
+	
+	public String getCode() {
+		return code;
+	}
+	
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public String getPropertyName() {
+		return propertyName;
+	}
+	
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 
 	public List<Product> getProducts() {
@@ -48,8 +59,5 @@ public class ProductType {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
-
-	
-
 
 }

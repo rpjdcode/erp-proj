@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TitledPane fx:id="productsPane" animated="false" expanded="false" text="%app.products.pane.prod">
+         <content>
+            <VBox fx:id="productsBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="400.0" />
+         </content>
+      </TitledPane>
+      <TitledPane fx:id="typesPane" animated="false" expanded="false" text="%app.products.pane.prod.type">
+         <content>
+            <VBox fx:id="typesBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+         </content>
+      </TitledPane>
+   </children>
+</VBox>

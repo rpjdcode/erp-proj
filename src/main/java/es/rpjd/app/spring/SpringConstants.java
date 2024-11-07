@@ -17,10 +17,13 @@ public class SpringConstants {
 	public static final String BEAN_CONTROLLER_MENU = "menuController";
 	public static final String BEAN_CONTROLLER_HOME = "homeController";
 	public static final String BEAN_CONTROLLER_CONFIG = "configController";
+	public static final String BEAN_CONTROLLER_PRODUCT = "productController";
 	
 
 	/*
 	 * Nombres de Beans relacionados con servicios
 	 */
 	public static final String BEAN_SERVICE_USER = "userService";
+	public static final String BEAN_SERVICE_PRODUCT = "productService";
+	public static final String BEAN_SERVICE_PRODUCT_TYPE = "productTypeService";
 }
