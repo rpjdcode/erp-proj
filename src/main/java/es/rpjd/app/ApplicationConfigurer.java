@@ -1,18 +1,29 @@
 package es.rpjd.app;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -94,38 +105,114 @@ public final class ApplicationConfigurer {
 	private final class ThemeConfigurer {
 
 		protected static List<Theme> collectThemes() {
-			Path dir = Paths.get("src/main/resources/css");
-			try (Stream<Path> files = Files.walk(dir)) {
-
-				return files.filter(Files::isRegularFile)
-						.filter(file -> file.toString().endsWith(Constants.FILE_EXTENSION_CSS)).map(file -> {
-							String fileName = file.getFileName().toString().replace(Constants.FILE_EXTENSION_CSS, "");
-							String capitalized = String.format("%s%s", fileName.substring(0, 1).toUpperCase(),
-									fileName.substring(1));
-							Path path;
-							switch (capitalized) {
-							case Constants.CSS.CSS_THEME_NAME_TEST:
-								path = Paths.get(Constants.CSS.CSS_THEME_TEST);
-								break;
-							case Constants.CSS.CSS_THEME_NAME_LIGHT:
-								path = Paths.get(Constants.CSS.CSS_THEME_LIGHT);
-								break;
-							case Constants.CSS.CSS_THEME_NAME_DARK:
-								path = Paths.get(Constants.CSS.CSS_THEME_DARK);
-								break;
-							default:
-								path = Paths.get(Constants.CSS.CSS_THEME_TEST);
-								break;
-							}
-
-							return new Theme(capitalized, path);
-						}).toList();
-
-			} catch (IOException e) {
-				LOG.error("Se ha producido una excepción durante la recolección de temas: {0}", e);
-			}
 			
-			return Collections.emptyList();
+//	        List<Theme> themes = new ArrayList<>();
+//
+//	        try {
+//	            // Obtener el recurso del directorio "css" como URL
+//	            URL resource = JavaFXApp.class.getClassLoader().getResource("css");
+//
+//	            if (resource == null) {
+//	                throw new IOException("El directorio css no se encontró.");
+//	            }
+//
+//	            URI uri = resource.toURI();
+//
+//	            // Abrir sistema de archivos en el caso de que esté empaquetado en un JAR
+//	            try (FileSystem fileSystem = (uri.getScheme().equals("jar")) 
+//	                    ? FileSystems.newFileSystem(uri, Collections.emptyMap()) 
+//	                    : FileSystems.getDefault()) {
+//	            	
+//
+//	                Path dir = (uri.getScheme().equals("jar")) ? fileSystem.getPath("css") : fileSystem.getPath("src/main/resources/css");
+//	                dir = dir.toAbsolutePath();
+//	                // Recorrer los archivos en el directorio "css" y filtrar los .css
+//	                try (Stream<Path> paths = Files.walk(dir, 1)) {
+//	                    themes = paths
+//	                            .filter(Files::isRegularFile)
+//	                            .filter(path -> path.toString().endsWith(".css"))
+//	                            .map(path -> {
+//	                            	LOG.info("EL PATH OBTENIDO ES: {}", path);
+//	                                String fileName = path.getFileName().toString().replace(".css", "");
+//	                                String capitalized = String.format("%s%s", 
+//	                                        fileName.substring(0, 1).toUpperCase(), 
+//	                                        fileName.substring(1));
+//	                                if (!path.isAbsolute()) {
+//	                                	LOG.info("No es un path absoluto");
+//	                                }
+//	                                return new Theme(capitalized, path);
+//	                            })
+//	                            .toList();
+//	                }
+//	            }
+//
+//	        } catch (IOException | URISyntaxException e) {
+//	            e.printStackTrace();
+//	        }
+//
+//	        return themes;
+			
+		    List<Theme> themes = new ArrayList<>();
+
+		    try {
+		        // Obtener el recurso del directorio "css" como URL
+		        URL resource = JavaFXApp.class.getClassLoader().getResource("css");
+
+		        if (resource == null) {
+		            throw new IOException("El directorio css no se encontró.");
+		        }
+
+		        URI uri = resource.toURI();
+		        boolean isJar = uri.getScheme().equals("jar");
+
+		        // Abrir el sistema de archivos solo si está empaquetado en un JAR
+		        FileSystem fileSystem = isJar ? FileSystems.newFileSystem(uri, Collections.emptyMap()) : FileSystems.getDefault();
+		        
+		        try {
+		            Path dir = isJar ? fileSystem.getPath("css") : Paths.get("src/main/resources/css").toAbsolutePath();
+
+		            // Recorrer los archivos en el directorio "css" y filtrar los .css
+		            try (Stream<Path> paths = Files.walk(dir, 1)) {
+		                themes = paths
+		                        .filter(Files::isRegularFile)
+		                        .filter(path -> path.toString().endsWith(".css"))
+		                        .map(path -> {
+		                        	Theme theme = new Theme("", "");
+		                            LOG.info("EL PATH OBTENIDO ES: {}", path);
+		                            String fileName = path.getFileName().toString().replace(".css", "");
+		                            String capitalized = String.format("%s%s",
+		                                    fileName.substring(0, 1).toUpperCase(),
+		                                    fileName.substring(1));
+		                            theme.setName(capitalized);
+		                            if (!path.isAbsolute()) {
+		                                LOG.info("No es un path absoluto");
+		                                theme.setPath(Paths.get(path.toString()).toString());
+		                            } else {
+		                            	LOG.info("Es un path absoluto: {}", path);
+		                            	Path parent = path.getParent();
+		                            	String parString = parent.toString();
+		                            	String fin = parString.substring(parString.indexOf("css"), parString.length());
+		                            	String fin2 = String.format("%s%s%s.css", fin, File.separator, fileName);
+		                            	LOG.info("FIN2: {}", fin2);
+		                            	theme.setPath(Paths.get(fin2));
+		                            	
+		                            }
+		                            return theme;
+		                        })
+		                        .toList();
+		            }
+		        } finally {
+		            // Solo cerrar el sistema de archivos si fue creado para un JAR
+		            if (isJar && fileSystem.isOpen()) {
+		                fileSystem.close();
+		            }
+		        }
+
+		    } catch (IOException | URISyntaxException e) {
+		        e.printStackTrace();
+		    }
+
+		    return themes;
 		}
 	}
 

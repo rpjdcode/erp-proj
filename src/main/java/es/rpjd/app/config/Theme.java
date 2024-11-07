@@ -18,6 +18,11 @@ public class Theme implements Serializable {
 		this.name = name;
 		this.path = path.toString();
 	}
+	
+	public Theme(String name, String path) {
+		this.name = name;
+		this.path = path;
+	}
 
 	public String getName() {
 		return name;
@@ -33,6 +38,15 @@ public class Theme implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+	
+	public void setPath(Path path) {
+		if (path != null) {
+			this.path = path.toString();
+		} else {
+			this.path = null;
+		}
+		
 	}
 	
 	@Override

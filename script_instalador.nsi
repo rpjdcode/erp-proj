@@ -12,6 +12,7 @@
 !define AppJarDir "jar"
 !define AppEnvVar "HMRP"
 !define MUI_ICON "A:\Evi\Workspace-Eclipse2024\HostManager\src\main\resources\icon.ico"
+
 ; Icono del desinstalador aún por decidir
 ;!define MUI_UNICON "A:\Evi\Workspace-Eclipse2024\MasterRP\src\main\resources\icono.ico"
 
@@ -80,6 +81,12 @@ SectionEnd
 
 ; Sección de desinstalación
 Section "Uninstall"
+
+  ; Eliminar el directorio en %APPDATA%
+  ReadEnvStr $R0 "APPDATA"
+  StrCpy $R0 "$R0\HostManager"
+  RMDir /r "$R0" ; Elimina el directorio y su contenido
+  
   ; Elimina archivos y directorios
   Delete "$INSTDIR\${AppExeName}"
   RMDir /r "$INSTDIR\${AppJarDir}\${AppLibDir}"
@@ -89,6 +96,7 @@ Section "Uninstall"
   RMDir "$INSTDIR"
   Delete "$SMPROGRAMS\${AppName}\${AppName}.lnk"
   RMDir "$SMPROGRAMS\${AppName}"
+  
   
   ; Limpia el registro
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${AppName}"

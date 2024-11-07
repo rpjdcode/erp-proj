@@ -7,7 +7,7 @@ public class Constants {
 		private CSS() {}
 		
 		public static final String CSS_THEME_NAME_TEST = "Test";
-		public static final String CSS_THEME_TEST = "/css/test.css";
+		public static final String CSS_THEME_TEST = "css/test.css";
 		
 		public static final String CSS_THEME_NAME_LIGHT = "Light";
 		public static final String CSS_THEME_LIGHT = "/css/light.css";

@@ -19,6 +19,7 @@ import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.i18n.SupportedLocale;
 import es.rpjd.app.model.ConfigModel;
 import es.rpjd.app.spring.SpringConstants;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,6 +87,16 @@ public class ConfigController implements Initializable, ApplicationController {
 		themeCombo.itemsProperty().bind(model.applicationThemesProperty());
 		
 		Theme temaSeleccionado = new Theme(Constants.CSS.CSS_THEME_NAME_TEST, Paths.get(Constants.CSS.CSS_THEME_TEST));
+		
+		LOG.info("Tema seleccionado: {}", temaSeleccionado.getPath());
+		LOG.info("App Tema seleccionado: {}", ApplicationConfigurer.getApplicationConfiguration().getTheme().getPath());
+		
+		ObservableList<Theme> temas = themeCombo.getItems();
+		
+		for (Theme theme : temas) {
+			String infoTema = String.format("NOMBRE TEMA: %s --- PATH: %s", theme.getName(), theme.getPath());
+			LOG.info(infoTema);
+		}
 		
 		if (themeCombo.getItems().contains(temaSeleccionado)) {
 			ApplicationConfiguration conf = ApplicationConfigurer.getApplicationConfiguration();
