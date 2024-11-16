@@ -8,6 +8,11 @@ public class SpringConstants {
 
 	private SpringConstants() {
 	}
+	
+	/*
+	 * Propiedades incluidas en el application.properties de Spring
+	 */
+	public static final String PROPERTY_FXML_PATH = "path.fxml";
 
 	/*
 	 * Nombres de Beans relacionados a controladores de JavaFX
@@ -18,6 +23,9 @@ public class SpringConstants {
 	public static final String BEAN_CONTROLLER_HOME = "homeController";
 	public static final String BEAN_CONTROLLER_CONFIG = "configController";
 	public static final String BEAN_CONTROLLER_PRODUCT = "productController";
+	public static final String BEAN_CONTROLLER_PRODUCT_MANAGEMENT = "productManagementController";
+	public static final String BEAN_CONTROLLER_PRODUCT_STADISTICS = "productStadisticsController";
+	public static final String BEAN_CONTROLLER_PRODUCT_FILES = "productFilesController";
 	
 
 	/*

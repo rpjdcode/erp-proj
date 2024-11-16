@@ -4,6 +4,7 @@ import java.io.File;
 
 import es.rpjd.app.constants.Constants;
 import es.rpjd.app.utils.AppUtils;
+import es.rpjd.app.utils.StringFormatUtils;
 
 /**
  * Clase empleada para la ejecución de la aplicación.
@@ -21,8 +22,10 @@ public class Main {
 	 */
 	private static final void initDevelopmentEnvironment() {
 		String currentDirectory = System.getProperty("user.dir");
-		System.setProperty(Constants.LOG_PROPERTY, String.format("%s%s%s", currentDirectory, File.separator, "log"));
-		System.setProperty(Constants.CONFIG_PROPERTY, String.format("%s%s%s%s%s", currentDirectory, File.separator, "dev", File.separator, "application.conf"));
+		System.setProperty(Constants.LOG_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, currentDirectory, File.separator, "log"));
+		System.setProperty(Constants.CONFIG_PROPERTY, String.format(StringFormatUtils.PENTA_PARAMETER, currentDirectory, File.separator, "dev", File.separator, "application.conf"));
+		System.setProperty(Constants.CUSTOM_PROPS_PROPERTY, String.format(StringFormatUtils.PENTA_PARAMETER, currentDirectory, File.separator, "dev", File.separator, "custom.properties"));
+		System.setProperty(Constants.ENVIRONMENT_PROPERTY, Constants.Environment.DEVELOPMENT.getValue());
 	}
 	
 	/**
@@ -32,13 +35,23 @@ public class Main {
 		if (!AppUtils.isAppDataDirectoryCreated()) {
 			AppUtils.createAppDataDirectory();
 		}
-		System.setProperty(Constants.LOG_PROPERTY, String.format("%s%s%s", AppUtils.APP_DATA_DIRECTORY, File.separator, "log"));
-		System.setProperty(Constants.CONFIG_PROPERTY, String.format("%s%s%s", AppUtils.APP_DATA_DIRECTORY, File.separator, "application.conf"));
+		System.setProperty(Constants.LOG_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, AppUtils.APP_DATA_DIRECTORY, File.separator, "log"));
+		System.setProperty(Constants.CONFIG_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, AppUtils.APP_DATA_DIRECTORY, File.separator, "application.conf"));
+		System.setProperty(Constants.CUSTOM_PROPS_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, AppUtils.APP_DATA_DIRECTORY, File.separator, "custom.properties"));
+		System.setProperty(Constants.ENVIRONMENT_PROPERTY, Constants.Environment.PRODUCTION.getValue());
 	}
 	
 	public static void main(String[] args) {
 		
-		if (args.length > 0 && args[0].equals("dev")) {
+		/*
+		 * Inicialización de la aplicación en base de los argumentos indicados en el arranque.
+		 * 
+		 * Si se indica un parámetro y ese parámetro es 'dev', se inicializará una configuración de aplicación para el entorno de desarrollo.
+		 * 
+		 * En caso de no especificar ningún argumento o si este no es 'dev', se establece una configuración de producción
+		 */
+		
+		if (args.length > 0 && args[0].toUpperCase().equals(Constants.Environment.DEVELOPMENT.getValue())) {
 			initDevelopmentEnvironment();
 		} else {
 			initProductionEnvironment();

@@ -42,7 +42,8 @@ public class TestingController implements Initializable, ApplicationController {
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
-		// TODO Auto-generated method stub
+		// Método de actualización de textos durante cambio de internacionalización en tiempo real
+		// (requiere adición de listener)
 		
 	}
 

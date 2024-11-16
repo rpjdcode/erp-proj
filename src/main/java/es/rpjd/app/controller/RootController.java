@@ -11,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import es.rpjd.app.i18n.I18N;
-import es.rpjd.app.service.UserService;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
 import es.rpjd.app.utils.AlertUtils;
@@ -46,13 +45,11 @@ public class RootController implements Initializable, ApplicationController {
 	private GridPane view;
 
 	private ApplicationContext context;
-	private UserService userService;
 
 	private ApplicationController contentController;
 
 	@Autowired
-	public RootController(UserService userService, ApplicationContext context) {
-		this.userService = userService;
+	public RootController(ApplicationContext context) {
 		this.context = context;
 	}
 
@@ -94,7 +91,8 @@ public class RootController implements Initializable, ApplicationController {
 		String appInfoHeader = I18N.getString("app.alert.appinfo.header");
 		String buildVersion = I18N.getString("app.build.version");
 		String buildDate = I18N.getString("app.build.date");
-		String content = String.format("BUILD VERSION: %s%nBUILD DATE: %s", buildVersion, buildDate);
+		String buildStatus = I18N.getString("app.build.status");
+		String content = String.format("BUILD VERSION: %s%nBUILD DATE: %s%nBUILD STATUS: %s", buildVersion, buildDate, buildStatus);
 
 		this.getView().getScene().getWindow();
 
@@ -102,7 +100,6 @@ public class RootController implements Initializable, ApplicationController {
 				getView().getScene().getWindow());
 
 		alert.showAndWait();
-		LOG.info("USUARIOS: {}", userService.getUsers().getData());
 	}
 
 	/**
@@ -149,7 +146,7 @@ public class RootController implements Initializable, ApplicationController {
 
 	@Override
 	public void clearResources() {
-		// TODO Auto-generated method stub
+		// TODO Pendiente de actualizar los textos durante cambio de idioma en vivo
 		
 	}
 

@@ -24,3 +24,26 @@
     -fx-font-size: 16;
 }
 
+.tile {
+	-fx-font-size: 16;
+}
+
+.productsLinkBox {
+	-fx-border-color: #3498db;          /* Color del borde */
+    -fx-border-width: 2;                /* Ancho del borde */
+    -fx-border-radius: 10;              /* Bordes redondeados */
+    -fx-background-radius: 10;          /* Radio de fondo para combinar con el borde */
+    -fx-background-color: #f5f5f5;      /* Color de fondo del VBox */
+    -fx-padding: 15;                    /* Espacio interior */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 3); /* Sombra */
+}
+
+.productsContentView {
+	-fx-border-color: #3498db;          /* Color del borde */
+    -fx-border-width: 2;                /* Ancho del borde */
+    -fx-border-radius: 10;              /* Bordes redondeados */
+    -fx-background-radius: 10;          /* Radio de fondo para combinar con el borde */
+    -fx-background-color: #f5f5f5;      /* Color de fondo del VBox */
+    -fx-padding: 15;                    /* Espacio interior */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 3); /* Sombra */
+}

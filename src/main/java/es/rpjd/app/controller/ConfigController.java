@@ -150,7 +150,7 @@ public class ConfigController implements Initializable, ApplicationController {
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
-		// TODO Auto-generated method stub
+		// TODO Pendiente de actualizar los textos durante cambio de idioma en vivo
 		
 	}
 

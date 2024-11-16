@@ -1,6 +1,7 @@
 package es.rpjd.app.hibernate.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Table(name = "PRODUCT")
 @Entity
-public class Product {
+public class Product implements ApplicationEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,12 @@ public class Product {
 	
 	@Column(name = "PRICE", columnDefinition = "DECIMAL(19,2)", precision = 19, scale = 2)
 	private BigDecimal price;
+	
+	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
+	private LocalDateTime createdAt;
+	
+	@Column(name = "MODIFIED_AT", columnDefinition = "TIMESTAMP", nullable = true)
+	private LocalDateTime modifiedAt;
 	
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)")
@@ -77,7 +84,20 @@ public class Product {
 		this.productType = productType;
 	}
 	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 	
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 	
+	public LocalDateTime getModifiedAt() {
+		return modifiedAt;
+	}
+	
+	public void setModifiedAt(LocalDateTime modifiedAt) {
+		this.modifiedAt = modifiedAt;
+	}
 	
 }

@@ -16,6 +16,7 @@ import es.rpjd.app.model.MenuModel;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
 import es.rpjd.app.utils.ModalUtils;
+import es.rpjd.app.utils.StringFormatUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -146,7 +147,7 @@ public class MenuController implements Initializable, ApplicationController {
 		try {
 			switch (beanController) {
 			case SpringConstants.BEAN_CONTROLLER_TESTING:
-				fxmlPath = String.format("%s%s", env.getProperty("path.fxml"), "testing/testing.fxml");
+				fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "testing/testing.fxml");
 				controller = context.getBean(TestingController.class);
 				break;
 
@@ -157,7 +158,7 @@ public class MenuController implements Initializable, ApplicationController {
 				break;
 				
 			case SpringConstants.BEAN_CONTROLLER_PRODUCT:
-				fxmlPath = String.format("%s%s", env.getProperty("path.fxml"), "products/products.fxml");
+				fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/products.fxml");
 				controller = context.getBean(ProductController.class);
 				break;
 
@@ -173,8 +174,7 @@ public class MenuController implements Initializable, ApplicationController {
 			}
 
 		} catch (IOException e) {
-			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación: {0}",
-					e.getCause());
+			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación: {}", e.getMessage());
 		}
 	}
 
@@ -187,6 +187,7 @@ public class MenuController implements Initializable, ApplicationController {
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
+		// TODO Pendiente de actualizar los textos durante cambio de idioma en vivo
 		homeButton.setText(bundle.getString("app.menu.home"));
 		configButton.setText(bundle.getString("app.menu.config"));
 		

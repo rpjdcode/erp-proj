@@ -1,5 +1,7 @@
 package es.rpjd.app.constants;
 
+import javafx.scene.paint.Color;
+
 public class Constants {
 	
 	public class CSS {
@@ -16,6 +18,21 @@ public class Constants {
 		public static final String CSS_THEME_DARK = "/css/dark.css";
 	}
 	
+	public enum Environment {
+		DEVELOPMENT("DEV"),
+		PRODUCTION("PRO");
+		
+		private String value;
+		
+		Environment(String value) {
+			this.value=value;
+		}
+		
+		public String getValue() {
+			return value;
+		}
+	}
+	
 	private Constants() {}
 
 	public static final String APP_NAME = "HostManager";
@@ -30,4 +47,12 @@ public class Constants {
 	 */
 	public static final String LOG_PROPERTY = "LOG_PATH";
 	public static final String CONFIG_PROPERTY = "HM_CONFIG_FILE";
+	public static final String CUSTOM_PROPS_PROPERTY = "CUSTOM_PROPS";
+	public static final String ENVIRONMENT_PROPERTY = "HMRP_ENV";
+	
+	/*
+	 * Propiedades de colores
+	 */
+	public static final Color OPTION_ACTIVE = Color.VIOLET;
+	public static final Color OPTION_DEFAULT = Color.web("#0400e8");
 }

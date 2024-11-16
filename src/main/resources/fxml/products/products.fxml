@@ -1,20 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-
 
 <VBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TitledPane fx:id="productsPane" animated="false" expanded="false" text="%app.products.pane.prod">
-         <content>
-            <VBox fx:id="productsBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="400.0" />
-         </content>
-      </TitledPane>
-      <TitledPane fx:id="typesPane" animated="false" expanded="false" text="%app.products.pane.prod.type">
-         <content>
-            <VBox fx:id="typesBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-         </content>
-      </TitledPane>
+      <Accordion fx:id="accordion" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <panes>
+          <TitledPane fx:id="productsPane" animated="false" text="%app.products.pane.prod">
+               <content>
+                  <VBox fx:id="productsBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                     <children>
+                        <BorderPane fx:id="productsContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                           <left>
+                              <VBox fx:id="optionsBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" styleClass="productsLinkBox" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="productsManagementLabel" onMouseClicked="#onProductOptionClick" text="%app.lang.products.label.manage" textFill="#0400e8" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <Label fx:id="productsStadisticsLabel" onMouseClicked="#onProductOptionClick" text="%app.lang.products.label.stads" textFill="#0400e8" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                    <Label fx:id="productsFilesLabel" onMouseClicked="#onProductOptionClick" text="%app.lang.products.label.files" textFill="#0400e8" underline="true">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Label>
+                                 </children>
+                                 <BorderPane.margin>
+                                    <Insets right="10.0" />
+                                 </BorderPane.margin>
+                              </VBox>
+                           </left>
+                           <center>
+                              <VBox fx:id="productsView" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" styleClass="productsContentView" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label fx:id="noOptionLabel" alignment="TOP_LEFT" text="%app.lang.products.no.option" />
+                                 </children>
+                              </VBox>
+                           </center>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </BorderPane>
+                     </children>
+                  </VBox>
+               </content>
+          </TitledPane>
+          <TitledPane fx:id="typesPane" animated="false" text="%app.products.pane.prod.type">
+               <content>
+                  <VBox fx:id="typesBox" prefHeight="200.0" prefWidth="100.0" />
+               </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
    </children>
 </VBox>

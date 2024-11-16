@@ -25,10 +25,13 @@ public class FileUtils {
 	 * Método encargado de crear un nuevo fichero en una ruta indicada.
 	 * @param path
 	 * @param fileName
-	 * @return Objeto File si se crea el fichero, null si no se crea o se produce un error
+	 * @return Objeto File si se crea el fichero o si ya existe, null si no se crea o se produce un error
 	 */
 	public static File createNewFile(String path, String fileName) {
 		File f = new File(path.concat(fileName));
+		if (f.exists()) {
+			return f;
+		}
 		
 		try {
 			if (!f.createNewFile()) {
@@ -41,6 +44,19 @@ public class FileUtils {
 		}
 		
 		return f;
+	}
+	
+	public static File createNewFile(File fi) {
+		if (!fi.exists()) {
+			try {
+				fi.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return fi;
 	}
 	
 	/**
@@ -81,5 +97,19 @@ public class FileUtils {
 		return ret;
 		
 		
+	}
+	
+	/**
+	 * Devuelve un objeto File si ya existe
+	 * @return
+	 */
+	public static File getFile(String path) {
+		File fi = new File(path);
+		
+		if (!fi.exists()) {
+			return null;
+		}
+		
+		return fi;
 	}
 }
