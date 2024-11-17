@@ -188,9 +188,11 @@ public class MenuController implements Initializable, ApplicationController {
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
-		// TODO Pendiente de actualizar los textos durante cambio de idioma en vivo
 		homeButton.setText(bundle.getString("app.menu.home"));
 		configButton.setText(bundle.getString("app.menu.config"));
+		productButton.setText(bundle.getString("app.menu.db.products"));
+		orderButton.setText(bundle.getString("app.menu.db.orders"));
+		checkButton.setText(bundle.getString("app.menu.db.check"));
 		
 	}
 

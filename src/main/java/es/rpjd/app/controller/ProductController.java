@@ -18,6 +18,7 @@ import es.rpjd.app.controller.product.ProductManagementController;
 import es.rpjd.app.controller.product.ProductStadisticsController;
 import es.rpjd.app.enums.ProductOptions;
 import es.rpjd.app.hibernate.entity.ProductType;
+import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.model.ProductModel;
 import es.rpjd.app.service.ProductService;
@@ -25,6 +26,7 @@ import es.rpjd.app.service.ProductTypeService;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
 import es.rpjd.app.utils.StringFormatUtils;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -103,7 +105,15 @@ public class ProductController implements Initializable, ApplicationController {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.model = new ProductModel();
+		model = new ProductModel();
+		
+		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> {
+			updateTexts(nv);
+		};
+		
+		model.setI18nListener(changeListener);
+		I18N.bundleProperty().addListener(changeListener);
+		
 		DBResponseModel<List<ProductType>> response = productTypeService.getTypes();
 		LOG.info("Respuesta obtenida: {}", response.getMessage());
 		
@@ -219,13 +229,18 @@ public class ProductController implements Initializable, ApplicationController {
 	
 	@Override
 	public void clearResources() {
-		// TODO Pendiente de liberar recursos
+		I18N.bundleProperty().removeListener(model.getI18nListener());
 
 	}
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
-		// TODO Pendiente de actualizar los textos durante cambio de idioma en vivo
+		productsPane.setText(bundle.getString("app.products.pane.prod"));
+		typesPane.setText(bundle.getString("app.products.pane.prod.type"));
+		productsManagementLabel.setText(bundle.getString("app.lang.products.label.manage"));
+		productsStadisticsLabel.setText(bundle.getString("app.lang.products.label.stads"));
+		productsFilesLabel.setText(bundle.getString("app.lang.products.label.files"));
+		noOptionLabel.setText(bundle.getString("app.lang.products.no.option"));
 
 	}
 

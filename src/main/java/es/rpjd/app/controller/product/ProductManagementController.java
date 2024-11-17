@@ -1,14 +1,10 @@
 package es.rpjd.app.controller.product;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +17,6 @@ import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.model.product.ProductManagementModel;
 import es.rpjd.app.service.ProductService;
 import es.rpjd.app.spring.SpringConstants;
-import es.rpjd.app.utils.CustomPropertiesAssistant;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -85,6 +80,7 @@ public class ProductManagementController implements Initializable, ApplicationCo
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		LOG.info("Inicializando ProductManagementController");
 		this.model = new ProductManagementModel();
 		
 		initializeTables();
@@ -140,25 +136,25 @@ public class ProductManagementController implements Initializable, ApplicationCo
 	@FXML
 	void onDeleteProductAction(ActionEvent event) {}
 
-	private void testingCustomProperties() {
-		CustomPropertiesAssistant generator = new CustomPropertiesAssistant();
-		try {
-			Map<String,String> mapa = new HashMap<>();
-			mapa.put("property.prueba1", "valor1");
-			mapa.put("property.prueba2", "valor2");
-			mapa.put("property.prueba3", "valor3");
-			
-			Set<String> keys = mapa.keySet();
-			
-			for (String prop : keys) {
-				generator.addProperty(prop, mapa.get(prop));
-			}
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	private void testingCustomProperties() {
+//		CustomPropertiesAssistant generator = new CustomPropertiesAssistant();
+//		try {
+//			Map<String,String> mapa = new HashMap<>();
+//			mapa.put("property.prueba1", "valor1");
+//			mapa.put("property.prueba2", "valor2");
+//			mapa.put("property.prueba3", "valor3");
+//			
+//			Set<String> keys = mapa.keySet();
+//			
+//			for (String prop : keys) {
+//				generator.addProperty(prop, mapa.get(prop));
+//			}
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 
 
 }

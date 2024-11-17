@@ -17,6 +17,9 @@ public class SpringConstants {
 	private SpringConstants() {
 	}
 	
+	/**
+	 * Controladores que son aptos para la precarga durante la inicialización de la aplicación
+	 */
 	public static final Map<Class<? extends ApplicationController>, String> PRELOADABLE_CONTROLLERS = Map.of(
 			MenuController.class, "menu/menu.fxml",
 			ConfigController.class, "config/config.fxml",
