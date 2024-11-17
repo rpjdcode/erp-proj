@@ -1,5 +1,13 @@
 package es.rpjd.app.spring;
 
+import java.util.Map;
+
+import es.rpjd.app.controller.ApplicationController;
+import es.rpjd.app.controller.ConfigController;
+import es.rpjd.app.controller.MenuController;
+import es.rpjd.app.controller.ProductController;
+import es.rpjd.app.controller.product.ProductManagementController;
+
 /**
  * Clase que contiene las constantes relacionadas con Spring, como por ejemplo
  * los nombres de las beans de controladores, servicios, etc.
@@ -9,6 +17,13 @@ public class SpringConstants {
 	private SpringConstants() {
 	}
 	
+	public static final Map<Class<? extends ApplicationController>, String> PRELOADABLE_CONTROLLERS = Map.of(
+			MenuController.class, "menu/menu.fxml",
+			ConfigController.class, "config/config.fxml",
+			ProductController.class, "products/products.fxml",
+			ProductManagementController.class, "products/management/productManagement.fxml"
+			);
+
 	/*
 	 * Propiedades incluidas en el application.properties de Spring
 	 */
@@ -26,7 +41,6 @@ public class SpringConstants {
 	public static final String BEAN_CONTROLLER_PRODUCT_MANAGEMENT = "productManagementController";
 	public static final String BEAN_CONTROLLER_PRODUCT_STADISTICS = "productStadisticsController";
 	public static final String BEAN_CONTROLLER_PRODUCT_FILES = "productFilesController";
-	
 
 	/*
 	 * Nombres de Beans relacionados con servicios

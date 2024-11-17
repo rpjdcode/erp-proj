@@ -8,6 +8,7 @@ import org.springframework.core.env.Environment;
 import es.rpjd.app.spring.SpringConfig;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
+import es.rpjd.app.utils.StringFormatUtils;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -41,12 +42,17 @@ public class JavaFXApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		
 		LOG.info("Comenzando con ejecución de aplicación");
 		
+		String fxmlRootPath = env.getProperty(SpringConstants.PROPERTY_FXML_PATH);
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-		Parent root = loader.load("/fxml/root.fxml", SpringConstants.BEAN_CONTROLLER_ROOT);
-
+		
+		// Precarga de controladores para optimización
+		ApplicationConfigurer.preloadControllers(loader, fxmlRootPath);
+		
+		String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, fxmlRootPath , "root.fxml");
+		Parent root = loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_ROOT);
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add("/css/test.css");
 		primaryStage.setWidth(600);

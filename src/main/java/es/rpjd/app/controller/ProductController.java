@@ -24,6 +24,7 @@ import es.rpjd.app.service.ProductService;
 import es.rpjd.app.service.ProductTypeService;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
+import es.rpjd.app.utils.StringFormatUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -109,7 +110,8 @@ public class ProductController implements Initializable, ApplicationController {
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 		
 		try {
-			loader.load("/fxml/products/management/productManagement.fxml", SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT);
+			String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/management/productManagement.fxml");
+			loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT);
 			pmc = context.getBean(ProductManagementController.class);
 		} catch (IOException e) {
 			LOG.error("Se ha producido una IOException al cargar controlador ProductManagement : {}", e.getMessage());

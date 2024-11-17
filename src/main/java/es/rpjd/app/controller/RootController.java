@@ -8,12 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
 import es.rpjd.app.utils.AlertUtils;
+import es.rpjd.app.utils.StringFormatUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,12 +47,14 @@ public class RootController implements Initializable, ApplicationController {
 	private GridPane view;
 
 	private ApplicationContext context;
+	private Environment env;
 
 	private ApplicationController contentController;
 
 	@Autowired
-	public RootController(ApplicationContext context) {
+	public RootController(ApplicationContext context, Environment env) {
 		this.context = context;
+		this.env = env;
 	}
 
 	@Override
@@ -59,7 +63,8 @@ public class RootController implements Initializable, ApplicationController {
 
 		try {
 			SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-			loader.load("/fxml/menu/menu.fxml", SpringConstants.BEAN_CONTROLLER_MENU);
+			String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "menu/menu.fxml");
+			loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_MENU);
 			MenuController menu = context.getBean(MenuController.class);
 
 			// Se añade en la primera posición fila del gridpane el menu de la aplicación y

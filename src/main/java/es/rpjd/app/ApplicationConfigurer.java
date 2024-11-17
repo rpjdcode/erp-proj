@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -27,8 +29,16 @@ import org.slf4j.LoggerFactory;
 import es.rpjd.app.config.ApplicationConfiguration;
 import es.rpjd.app.config.Theme;
 import es.rpjd.app.constants.Constants;
+import es.rpjd.app.controller.ApplicationController;
+import es.rpjd.app.controller.ConfigController;
+import es.rpjd.app.controller.MenuController;
+import es.rpjd.app.controller.ProductController;
+import es.rpjd.app.controller.product.ProductManagementController;
 import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.i18n.SupportedLocale;
+import es.rpjd.app.spring.SpringConstants;
+import es.rpjd.app.spring.SpringFXMLLoader;
+import es.rpjd.app.utils.StringFormatUtils;
 import javafx.scene.text.Font;
 
 /**
@@ -51,6 +61,10 @@ public final class ApplicationConfigurer {
 
 		// Inicialización de configuración de aplicación
 		ConfigInitializer.initializeApplicationConfig();
+	}
+	
+	public static void preloadControllers(SpringFXMLLoader loader, String fxmlRootPath) throws IOException {
+		ControllersInitializer.initializeControllers(loader, fxmlRootPath);
 	}
 
 	public static void saveConfig(ApplicationConfiguration config) {
@@ -129,7 +143,7 @@ public final class ApplicationConfigurer {
 		                        	Theme theme = new Theme("", "");
 		                            LOG.info("EL PATH OBTENIDO ES: {}", path);
 		                            String fileName = path.getFileName().toString().replace(".css", "");
-		                            String capitalized = String.format("%s%s",
+		                            String capitalized = String.format(StringFormatUtils.DOUBLE_PARAMETER,
 		                                    fileName.substring(0, 1).toUpperCase(),
 		                                    fileName.substring(1));
 		                            theme.setName(capitalized);
@@ -275,6 +289,39 @@ public final class ApplicationConfigurer {
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
 				oos.writeObject(config);
+			}
+		}
+	}
+
+	/**
+	 * TODO: Centralización de inicialización de controladores para mejorar la carga
+	 */
+	private final class ControllersInitializer {
+		
+		/**
+		 * Método que pre-inicializa los controladores para ayudar a aliviar la carga de pantallas
+		 * una vez se enceuntre la aplicación en ejecución
+		 * @throws IOException 
+		 */
+		private static void initializeControllers(SpringFXMLLoader loader, String fxmlRootPath) throws IOException {
+			LOG.info("Precarga de controladores de la aplicación");
+			Map<Class<? extends ApplicationController>, String> map = SpringConstants.PRELOADABLE_CONTROLLERS;
+			
+			Set<Class<? extends ApplicationController>> keys = map.keySet();
+			
+			String controllerName = null;
+			for (Class<? extends ApplicationController> controllerClass : keys) {
+				if (controllerClass.equals(MenuController.class)) {
+					controllerName = SpringConstants.BEAN_CONTROLLER_MENU;
+				} else if (controllerClass.equals(ConfigController.class)) {
+					controllerName = SpringConstants.BEAN_CONTROLLER_CONFIG;
+				} else if (controllerClass.equals(ProductController.class)) {
+					controllerName = SpringConstants.BEAN_CONTROLLER_PRODUCT;
+				} else if (controllerClass.equals(ProductManagementController.class)) {
+					controllerName = SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT;
+				}
+				LOG.info("Precargando controlador {} ", controllerName);
+				loader.load(String.format(StringFormatUtils.DOUBLE_PARAMETER, fxmlRootPath, map.get(controllerClass)), controllerName);
 			}
 		}
 	}

@@ -90,7 +90,8 @@ public class MenuController implements Initializable, ApplicationController {
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 		Parent configLoad;
 		try {
-			configLoad = loader.load("/fxml/config/config.fxml", SpringConstants.BEAN_CONTROLLER_CONFIG);
+			String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "config/config.fxml");
+			configLoad = loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_CONFIG);
 
 			Stage primary = (Stage) root.getView().getScene().getWindow();
 
