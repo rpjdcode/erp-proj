@@ -38,6 +38,7 @@ import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.i18n.SupportedLocale;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
+import es.rpjd.app.utils.CustomPropertiesAssistant;
 import es.rpjd.app.utils.StringFormatUtils;
 import javafx.scene.text.Font;
 
@@ -61,8 +62,12 @@ public final class ApplicationConfigurer {
 
 		// Inicialización de configuración de aplicación
 		ConfigInitializer.initializeApplicationConfig();
+
+		// Inicialización de propiedades personalizadas
+		CustomPropertiesInitializer.initialize();
+
 	}
-	
+
 	public static void preloadControllers(SpringFXMLLoader loader, String fxmlRootPath) throws IOException {
 		ControllersInitializer.initializeControllers(loader, fxmlRootPath);
 	}
@@ -70,7 +75,7 @@ public final class ApplicationConfigurer {
 	public static void saveConfig(ApplicationConfiguration config) {
 		ConfigInitializer.saveConfiguration(config);
 	}
-	
+
 	public static List<Theme> getApplicationThemes() {
 		return ThemeConfigurer.collectThemes();
 	}
@@ -114,68 +119,65 @@ public final class ApplicationConfigurer {
 	private final class ThemeConfigurer {
 
 		protected static List<Theme> collectThemes() {
-			
-		    List<Theme> themes = new ArrayList<>();
 
-		    try {
-		        // Obtener el recurso del directorio "css" como URL
-		        URL resource = JavaFXApp.class.getClassLoader().getResource("css");
+			List<Theme> themes = new ArrayList<>();
 
-		        if (resource == null) {
-		            throw new IOException("El directorio css no se encontró.");
-		        }
+			try {
+				// Obtener el recurso del directorio "css" como URL
+				URL resource = JavaFXApp.class.getClassLoader().getResource("css");
 
-		        URI uri = resource.toURI();
-		        boolean isJar = uri.getScheme().equals("jar");
+				if (resource == null) {
+					throw new IOException("El directorio css no se encontró.");
+				}
 
-		        // Abrir el sistema de archivos solo si está empaquetado en un JAR
-		        FileSystem fileSystem = isJar ? FileSystems.newFileSystem(uri, Collections.emptyMap()) : FileSystems.getDefault();
-		        
-		        try {
-		            Path dir = isJar ? fileSystem.getPath("css") : Paths.get("src/main/resources/css").toAbsolutePath();
+				URI uri = resource.toURI();
+				boolean isJar = uri.getScheme().equals("jar");
 
-		            // Recorrer los archivos en el directorio "css" y filtrar los .css
-		            try (Stream<Path> paths = Files.walk(dir, 1)) {
-		                themes = paths
-		                        .filter(Files::isRegularFile)
-		                        .filter(path -> path.toString().endsWith(".css"))
-		                        .map(path -> {
-		                        	Theme theme = new Theme("", "");
-		                            LOG.info("EL PATH OBTENIDO ES: {}", path);
-		                            String fileName = path.getFileName().toString().replace(".css", "");
-		                            String capitalized = String.format(StringFormatUtils.DOUBLE_PARAMETER,
-		                                    fileName.substring(0, 1).toUpperCase(),
-		                                    fileName.substring(1));
-		                            theme.setName(capitalized);
-		                            if (!path.isAbsolute()) {
-		                                LOG.info("No es un path absoluto");
-		                                theme.setPath(Paths.get(path.toString()).toString());
-		                            } else {
-		                            	LOG.info("Es un path absoluto: {}", path);
-		                            	Path parent = path.getParent();
-		                            	String parString = parent.toString();
-		                            	String fin = parString.substring(parString.indexOf("css"), parString.length());
-		                            	String fin2 = String.format("%s%s%s.css", fin, File.separator, fileName);
-		                            	LOG.info("FIN2: {}", fin2);
-		                            	theme.setPath(Paths.get(fin2));
-		                            	
-		                            }
-		                            return theme;
-		                        })
-		                        .toList();
-		            }
-		        } finally {
-		            // Solo cerrar el sistema de archivos si fue creado para un JAR
-		            if (isJar && fileSystem.isOpen()) {
-		                fileSystem.close();
-		            }
-		        }
+				// Abrir el sistema de archivos solo si está empaquetado en un JAR
+				FileSystem fileSystem = isJar ? FileSystems.newFileSystem(uri, Collections.emptyMap())
+						: FileSystems.getDefault();
 
-		    } catch (IOException | URISyntaxException e) {
-		        e.printStackTrace();
-		    }
+				try {
+					Path dir = isJar ? fileSystem.getPath("css") : Paths.get("src/main/resources/css").toAbsolutePath();
 
-		    return themes;
+					// Recorrer los archivos en el directorio "css" y filtrar los .css
+					try (Stream<Path> paths = Files.walk(dir, 1)) {
+						themes = paths.filter(Files::isRegularFile).filter(path -> path.toString().endsWith(".css"))
+								.map(path -> {
+									Theme theme = new Theme("", "");
+									LOG.info("EL PATH OBTENIDO ES: {}", path);
+									String fileName = path.getFileName().toString().replace(".css", "");
+									String capitalized = String.format(StringFormatUtils.DOUBLE_PARAMETER,
+											fileName.substring(0, 1).toUpperCase(), fileName.substring(1));
+									theme.setName(capitalized);
+									if (!path.isAbsolute()) {
+										LOG.info("No es un path absoluto");
+										theme.setPath(Paths.get(path.toString()).toString());
+									} else {
+										LOG.info("Es un path absoluto: {}", path);
+										Path parent = path.getParent();
+										String parString = parent.toString();
+										String fin = parString.substring(parString.indexOf("css"), parString.length());
+										String fin2 = String.format("%s%s%s.css", fin, File.separator, fileName);
+										LOG.info("FIN2: {}", fin2);
+										theme.setPath(Paths.get(fin2));
+
+									}
+									return theme;
+								}).toList();
+					}
+				} finally {
+					// Solo cerrar el sistema de archivos si fue creado para un JAR
+					if (isJar && fileSystem.isOpen()) {
+						fileSystem.close();
+					}
+				}
+
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+
+			return themes;
 		}
 	}
 
@@ -294,21 +296,52 @@ public final class ApplicationConfigurer {
 	}
 
 	/**
+	 * Clase encargada de la inicialización del fichero de propiedades
+	 * personalizadas durante el arranque de la aplicación
+	 */
+	private final class CustomPropertiesInitializer {
+
+		/**
+		 * Creación del fichero en cas de no existir, y ordenación del mismo si existe
+		 */
+		protected static void initialize() {
+			CustomPropertiesAssistant assistant = new CustomPropertiesAssistant();
+			if (!assistant.existsCustomPropertiesFile()) {
+				try {
+					assistant.createCustomPropertiesFile();
+				} catch (IOException e) {
+					LOG.error("Se ha producido un error inesperado al crear fichero de propiedades personalizadas: {}",
+							e.getMessage());
+				}
+			} else {
+				try {
+					assistant.sortCustomPropertiesFile();
+				} catch (IOException e) {
+					LOG.error(
+							"Se ha producido un error inesperado al intentar ordenar el fichero de propiedades personalizadas: {}",
+							e.getMessage());
+				}
+			}
+		}
+	}
+
+	/**
 	 * TODO: Centralización de inicialización de controladores para mejorar la carga
 	 */
 	private final class ControllersInitializer {
-		
+
 		/**
-		 * Método que pre-inicializa los controladores para ayudar a aliviar la carga de pantallas
-		 * una vez se enceuntre la aplicación en ejecución
-		 * @throws IOException 
+		 * Método que pre-inicializa los controladores para ayudar a aliviar la carga de
+		 * pantallas una vez se enceuntre la aplicación en ejecución
+		 * 
+		 * @throws IOException
 		 */
 		private static void initializeControllers(SpringFXMLLoader loader, String fxmlRootPath) throws IOException {
 			LOG.info("Precarga de controladores de la aplicación");
 			Map<Class<? extends ApplicationController>, String> map = SpringConstants.PRELOADABLE_CONTROLLERS;
-			
+
 			Set<Class<? extends ApplicationController>> keys = map.keySet();
-			
+
 			String controllerName = null;
 			for (Class<? extends ApplicationController> controllerClass : keys) {
 				if (controllerClass.equals(MenuController.class)) {
@@ -321,8 +354,10 @@ public final class ApplicationConfigurer {
 					controllerName = SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT;
 				}
 				LOG.info("Precargando controlador {} ", controllerName);
-				loader.load(String.format(StringFormatUtils.DOUBLE_PARAMETER, fxmlRootPath, map.get(controllerClass)), controllerName);
+				loader.load(String.format(StringFormatUtils.DOUBLE_PARAMETER, fxmlRootPath, map.get(controllerClass)),
+						controllerName);
 			}
 		}
 	}
+
 }

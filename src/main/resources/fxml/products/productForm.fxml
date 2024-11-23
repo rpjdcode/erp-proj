@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="view" hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" vgap="5.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints />
+    <ColumnConstraints hgrow="ALWAYS" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="1.7976931348623157E308" />
+    <RowConstraints />
+    <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+  </rowConstraints>
+   <children>
+      <Label fx:id="productCodeLabel" text="%app.form.product.code" />
+      <TextField fx:id="productCodeText" GridPane.columnIndex="1" />
+      <Label fx:id="productNameLabel" text="%app.form.product.name" GridPane.rowIndex="1" />
+      <TextField fx:id="productNameText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <Label fx:id="productTypeLabel" text="%app.form.product.type" GridPane.rowIndex="2" />
+      <ComboBox fx:id="productTypeCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Label fx:id="priceLabel" text="%app.form.product.price" GridPane.rowIndex="3" />
+      <TextField fx:id="priceText" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <HBox fx:id="buttonsBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4">
+         <children>
+            <Button fx:id="actionButton" defaultButton="true" mnemonicParsing="false" onAction="#onFormAction" text="%app.button.apply" />
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#onCancelAction" text="%app.button.cancel" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</GridPane>

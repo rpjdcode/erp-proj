@@ -157,7 +157,7 @@ public class RootController implements Initializable, ApplicationController {
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
-		
+		throw new UnsupportedOperationException("Operación no permitida. No es necesario realizarlo desde este controlador");
 		
 	}
 }

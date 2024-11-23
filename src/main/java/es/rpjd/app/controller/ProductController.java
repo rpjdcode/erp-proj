@@ -107,9 +107,7 @@ public class ProductController implements Initializable, ApplicationController {
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new ProductModel();
 		
-		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> {
-			updateTexts(nv);
-		};
+		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> 	updateTexts(nv);
 		
 		model.setI18nListener(changeListener);
 		I18N.bundleProperty().addListener(changeListener);

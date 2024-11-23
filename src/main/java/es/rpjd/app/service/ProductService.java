@@ -8,5 +8,6 @@ import es.rpjd.app.model.DBResponseModel;
 public interface ProductService {
 
 	DBResponseModel<List<Product>> getProducts();
+	DBResponseModel<Product> save(Product product);
 
 }

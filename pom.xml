@@ -52,6 +52,13 @@
 			<version>11.2.1</version>
 		</dependency>
 
+		<!-- ValidatorFX -->
+		<dependency>
+			<groupId>net.synedra</groupId>
+			<artifactId>validatorfx</artifactId>
+			<version>0.5.1</version>
+		</dependency>
+
 		<!-- TilesFX -->
 		<dependency>
 			<groupId>eu.hansolo</groupId>

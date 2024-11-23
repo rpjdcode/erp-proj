@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -51,6 +52,7 @@ public class CustomPropertiesAssistant {
 	}
 	
 	private static final Logger LOG = LoggerFactory.getLogger(CustomPropertiesAssistant.class);
+	
 
 	/**
 	 * Reemplaza el valor de una property personalizada en caso de existir
@@ -67,6 +69,49 @@ public class CustomPropertiesAssistant {
 				.map(line -> line.contains(name) ? String.format("%s=%s", name, value) : line).toList();
 
 		Files.write(Path.of(file.toURI()), updated, StandardOpenOption.TRUNCATE_EXISTING);
+	}
+	
+	/**
+	 * Comprueba si existe el fichero de propiedades personalizadas
+	 * @return
+	 */
+	public boolean existsCustomPropertiesFile() {
+		String propertiesFile = System.getProperty(Constants.CUSTOM_PROPS_PROPERTY);
+		File file = new File(propertiesFile);
+		
+		return file.exists();
+	}
+	
+	/**
+	 * Crea el fichero de propiedades personalizadas
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean createCustomPropertiesFile() throws IOException {
+		String propertiesFile = System.getProperty(Constants.CUSTOM_PROPS_PROPERTY);
+		File file = new File(propertiesFile);
+		if (!file.exists()) {
+			return file.createNewFile();
+		}
+		return false;
+	}
+	
+	/**
+	 * Ordena el fichero de propiedades personalizades en base al nombre de propiedad
+	 * @throws IOException 
+	 */
+	public void sortCustomPropertiesFile() throws IOException {
+		String propertiesFile = System.getProperty(Constants.CUSTOM_PROPS_PROPERTY);
+		File file = new File(propertiesFile);
+		List<String> lines = Files.readAllLines(Path.of(file.toURI()));
+        Collections.sort(lines, (line1, line2) -> {
+            String key1 = line1.split("=")[0];
+            String key2 = line2.split("=")[0];
+            return key1.compareTo(key2);
+        });
+        
+        Files.write(Path.of(file.toURI()), lines);
+		
 	}
 
 	/**
@@ -110,6 +155,9 @@ public class CustomPropertiesAssistant {
 	 * @throws IOException
 	 */
 	public String getProperty(String property) throws IOException {
+		if (property == null) {
+			return null;
+		}
 		String propertiesPath = System.getProperty(Constants.CUSTOM_PROPS_PROPERTY);
 		File fi = FileUtils.getFile(propertiesPath);
 

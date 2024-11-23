@@ -38,4 +38,13 @@ public class ProductServiceImpl implements ProductService {
 		LOG.info("Productos obtenidos de bbdd: {}", products);
 		return new DBResponseModel<>(DBResponseStatus.OK, "Productos obtenidos", products);
 	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<Product> save(Product product) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		session.persist(product);
+		return new DBResponseModel<Product>(DBResponseStatus.OK, "Producto guardado", product);
+	}
 }

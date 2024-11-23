@@ -44,6 +44,7 @@ public class SpringConstants {
 	public static final String BEAN_CONTROLLER_PRODUCT_MANAGEMENT = "productManagementController";
 	public static final String BEAN_CONTROLLER_PRODUCT_STADISTICS = "productStadisticsController";
 	public static final String BEAN_CONTROLLER_PRODUCT_FILES = "productFilesController";
+	public static final String BEAN_CONTROLLER_PRODUCT_FORM = "productFormController";
 
 	/*
 	 * Nombres de Beans relacionados con servicios

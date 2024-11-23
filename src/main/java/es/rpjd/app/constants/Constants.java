@@ -37,6 +37,8 @@ public class Constants {
 
 	public static final String APP_NAME = "HostManager";
 	
+	public static final String APP_I18N_DEFAULT_PREFIX = "app.lang";
+	
 	public static final String FONT_MONTSERRAT_TTF = "/fonts/montserrat/Montserrat-Regular.ttf";
 	public static final String FONT_MONTSERRAT_BOLD_TTF = "/fonts/montserrat/Montserrat-Bold.ttf";
 	
@@ -55,4 +57,9 @@ public class Constants {
 	 */
 	public static final Color OPTION_ACTIVE = Color.VIOLET;
 	public static final Color OPTION_DEFAULT = Color.web("#0400e8");
+	
+	/*
+	 * Propiedades de expresiones regulares
+	 */
+	public static final String REGEXP_ONLY_DECIMAL = "\\d*\\.?\\d*";
 }
