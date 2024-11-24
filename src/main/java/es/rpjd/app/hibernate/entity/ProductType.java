@@ -1,5 +1,6 @@
 package es.rpjd.app.hibernate.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -12,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Table(name = "PRODUCT_TYPE")
 @Entity
-public class ProductType implements ApplicationEntity{
+public class ProductType implements ApplicationEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +22,16 @@ public class ProductType implements ApplicationEntity{
 
 	@Column(name = "TYP_CODE", columnDefinition = "VARCHAR(30)", length = 30, nullable = false, unique = true)
 	private String code;
-	
+
 	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", length = 50, nullable = false)
 	private String propertyName;
-	
+
+	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
+	private LocalDateTime createdAt;
+
+	@Column(name = "MODIFIED_AT", columnDefinition = "TIMESTAMP", nullable = true)
+	private LocalDateTime modifiedAt;
+
 	@OneToMany(mappedBy = "productType")
 	private List<Product> products;
 
@@ -35,11 +42,11 @@ public class ProductType implements ApplicationEntity{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getCode() {
 		return code;
 	}
-	
+
 	public void setCode(String code) {
 		this.code = code;
 	}
@@ -47,7 +54,7 @@ public class ProductType implements ApplicationEntity{
 	public String getPropertyName() {
 		return propertyName;
 	}
-	
+
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
 	}
@@ -58,6 +65,22 @@ public class ProductType implements ApplicationEntity{
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getModifiedAt() {
+		return modifiedAt;
+	}
+
+	public void setModifiedAt(LocalDateTime modifiedAt) {
+		this.modifiedAt = modifiedAt;
 	}
 
 }

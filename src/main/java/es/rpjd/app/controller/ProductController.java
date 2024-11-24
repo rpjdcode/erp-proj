@@ -65,9 +65,15 @@ public class ProductController implements Initializable, ApplicationController {
 
 	@FXML
 	private BorderPane productsContent;
+	
+	@FXML
+	private BorderPane typesContent;
 
 	@FXML
-	private VBox optionsBox;
+	private VBox productsOptionsBox;
+	
+	@FXML
+	private VBox typesOptionsBox;
 
 	@FXML
 	private Label productsManagementLabel;
@@ -79,10 +85,25 @@ public class ProductController implements Initializable, ApplicationController {
 	private Label productsFilesLabel;
 	
 	@FXML
+	private Label typesManagementLabel;
+	
+	@FXML
+	private Label typesStadisticsLabel;
+	
+	@FXML
+	private Label typesFilesLabel;
+	
+	@FXML
 	private Label noOptionLabel;
 	
 	@FXML
+	private Label noTypeOptionLabel;
+	
+	@FXML
 	private VBox productsView;
+	
+	@FXML
+	private VBox typesView;
 
 	@FXML
 	private VBox typesBox;
@@ -236,7 +257,11 @@ public class ProductController implements Initializable, ApplicationController {
 		productsManagementLabel.setText(bundle.getString("app.lang.products.label.manage"));
 		productsStadisticsLabel.setText(bundle.getString("app.lang.products.label.stads"));
 		productsFilesLabel.setText(bundle.getString("app.lang.products.label.files"));
+		typesManagementLabel.setText(bundle.getString("app.lang.products.types.label.manage"));
+		typesStadisticsLabel.setText(bundle.getString("app.lang.products.types.label.stads"));
+		typesFilesLabel.setText(bundle.getString("app.lang.products.types.label.files"));
 		noOptionLabel.setText(bundle.getString("app.lang.products.no.option"));
+		noTypeOptionLabel.setText(bundle.getString("app.lang.products.no.option"));
 
 	}
 
