@@ -7,8 +7,6 @@ import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import es.rpjd.app.ApplicationConfigurer;
@@ -60,14 +58,7 @@ public class ConfigController implements Initializable, ApplicationController {
 	@FXML
 	private Button cancelButton;
 
-	private ApplicationContext context;
-
 	private ConfigModel model;
-
-	@Autowired
-	public ConfigController(ApplicationContext context) {
-		this.context = context;
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

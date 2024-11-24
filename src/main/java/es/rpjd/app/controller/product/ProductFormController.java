@@ -1,6 +1,6 @@
 package es.rpjd.app.controller.product;
 
-import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import es.rpjd.app.constants.Constants;
@@ -21,10 +19,10 @@ import es.rpjd.app.hibernate.entity.Product;
 import es.rpjd.app.hibernate.entity.ProductType;
 import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.model.product.ProductFormModel;
+import es.rpjd.app.service.CustomPropertyService;
 import es.rpjd.app.service.ProductService;
 import es.rpjd.app.service.ProductTypeService;
 import es.rpjd.app.spring.SpringConstants;
-import es.rpjd.app.utils.CustomPropertiesAssistant;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
@@ -79,20 +77,18 @@ public class ProductFormController implements Initializable, ApplicationControll
 	@FXML
 	private GridPane view;
 
-	private ApplicationContext context;
-	private Environment env;
 	private ProductService productService;
 	private ProductTypeService productTypeService;
+	private CustomPropertyService customPropertyService;
 
 	private ProductFormModel model;
 
 	@Autowired
-	public ProductFormController(ApplicationContext context, Environment env, ProductService productService,
-			ProductTypeService productTypeService) {
-		this.context = context;
-		this.env = env;
+	public ProductFormController(ProductService productService,
+			ProductTypeService productTypeService, CustomPropertyService customPropertyService) {
 		this.productService = productService;
 		this.productTypeService = productTypeService;
+		this.customPropertyService = customPropertyService;
 	}
 
 	@Override
@@ -118,21 +114,22 @@ public class ProductFormController implements Initializable, ApplicationControll
 		priceText.textProperty().addListener((o, ov, nv) -> {
 			if (!nv.matches(Constants.REGEXP_ONLY_DECIMAL)) {
 				priceText.setText(ov);
-			} else {
-				priceText.setText(nv);
 			}
 		});
 
-		BooleanBinding emptyFieldsBinding = model.codeProperty().isEmpty()
-				.or(model.nameProperty().isEmpty())
-				.or(model.priceProperty().isEqualTo(0).or(model.priceProperty().isNull()))
-				.or(model.productTypeProperty().isNull());
-		
-		actionButton.disableProperty().bind(emptyFieldsBinding);
+
 
 		productNameText.textProperty().bindBidirectional(model.nameProperty());
 		productCodeText.textProperty().bindBidirectional(model.codeProperty());
 		Bindings.bindBidirectional(priceText.textProperty(), model.priceProperty(), new BigDecimalStringConverter());
+		
+		BooleanBinding emptyFieldsBinding = model.codeProperty().isEmpty()
+				.or(model.nameProperty().isEmpty())
+				.or(model.priceProperty().isEqualTo(BigDecimal.valueOf(0)))
+				.or(model.priceProperty().isNull())
+				.or(model.productTypeProperty().isNull());
+		
+		actionButton.disableProperty().bind(emptyFieldsBinding);
 	}
 
 	@Override
@@ -154,6 +151,10 @@ public class ProductFormController implements Initializable, ApplicationControll
 
 	}
 
+	/**
+	 * Método que es llamado cuando se hace click en aplicar  cambios.
+	 * @param event
+	 */
 	@FXML
 	void onFormAction(ActionEvent event) {
 
@@ -162,23 +163,16 @@ public class ProductFormController implements Initializable, ApplicationControll
 		product.setProductType(model.getProductType());
 		product.setPrice(model.getPrice());
 		product.setCreatedAt(LocalDateTime.now());
+		
+		String propertyName = customPropertyService.generatePropertyName(product);
+		customPropertyService.addProperty(propertyName, model.getName());
+		product.setPropertyName(propertyName);
+		LOG.info("Nombre de propiedad custom: {} - Valor: {}", propertyName, model.getName());
 
-		// Asistente para generación de propiedad personalizada
-		CustomPropertiesAssistant assistant = new CustomPropertiesAssistant();
+		DBResponseModel<Product> response = productService.save(product);
+		LOG.info("Respuesta: {}", response.getData());
 
-		try {
-			String propertyName = assistant.generatePropertyName(product);
-			assistant.addProperty(propertyName, model.getName());
-			product.setPropertyName(propertyName);
-			LOG.info("Nombre de propiedad custom: {} - Valor: {}", propertyName, model.getName());
-
-			DBResponseModel<Product> response = productService.save(product);
-			LOG.info("Respuesta: {}", response.getData());
-
-			onCancelAction(null);
-		} catch (IOException e) {
-			LOG.error("Se ha producido un error al intentar añadir propiedad personalizada: {}", e.getMessage());
-		}
+		onCancelAction(null);
 
 	}
 
@@ -187,6 +181,19 @@ public class ProductFormController implements Initializable, ApplicationControll
 		clearResources();
 
 		((Stage) view.getScene().getWindow()).close();
+	}
+	
+	/**
+	 * Método para cargar datos de un producto en los inputs del formulario para ser modificados
+	 * @param data
+	 */
+	public void loadModifyForm(Product data) {
+		model.codeProperty().set(data.getProductCode());
+		model.nameProperty().set(customPropertyService.getProperty(data.getPropertyName()));
+		model.priceProperty().set(data.getPrice());
+		productTypeCombo.getSelectionModel().select(data.getProductType());
+		productCodeText.setDisable(true);
+		
 	}
 
 	@Override

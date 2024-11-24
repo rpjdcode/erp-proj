@@ -9,5 +9,6 @@ public interface ProductService {
 
 	DBResponseModel<List<Product>> getProducts();
 	DBResponseModel<Product> save(Product product);
+	DBResponseModel<Boolean> delete(Product product);
 
 }

@@ -120,13 +120,14 @@ public class CustomPropertiesAssistant {
 	 * @param value
 	 * @throws IOException
 	 */
-	public void addProperty(String propertyName, String value) throws IOException {
+	public boolean addProperty(String propertyName, String value) throws IOException {
 		String propertiesFile = System.getProperty(Constants.CUSTOM_PROPS_PROPERTY);
 		File file = new File(propertiesFile);
 		File created = FileUtils.createNewFile(file);
+		boolean ret = false;
 
 		if (created == null) {
-			return;
+			return false;
 		}
 
 		String existingPropertyValue = getProperty(propertyName);
@@ -135,6 +136,7 @@ public class CustomPropertiesAssistant {
 			// Si el valor de la propiedad en fichero no es igual al nuevo proporcionado, reemplazamos
 			if (!existingPropertyValue.equals(value)) {
 				replacePropertyValue(propertyName, value);
+				ret = true;
 			}
 			
 		} else {
@@ -144,12 +146,16 @@ public class CustomPropertiesAssistant {
 			String content = String.format("%s=%s%s", propertyName, value, System.lineSeparator());
 			
 			Files.writeString(filePath, content, StandardOpenOption.APPEND);
+			
+			ret = true;
 		}
+		
+		return ret;
 
 	}
 
 	/**
-	 * Obtiene una propiedad almacenada en el fichero de custom.properties
+	 * Obtiene un valor de propiedad almacenado en el fichero de custom.properties
 	 * @param property
 	 * @return
 	 * @throws IOException
@@ -173,6 +179,39 @@ public class CustomPropertiesAssistant {
 		}
 
 		return null;
+	}
+	
+	/**
+	 * Método encargado de eliminar una propiedad indicada por parámetro del fichero de custom.properties
+	 * @param propertyName
+	 * @return
+	 * @throws IOException 
+	 */
+	public boolean deleteProperty(String propertyName) throws IOException {
+		String propertiesPath = System.getProperty(Constants.CUSTOM_PROPS_PROPERTY);
+		File fi = FileUtils.getFile(propertiesPath);
+		boolean ret = false;
+		Integer indexToDelete = null;
+		
+		if (fi.exists()) {
+			List<String> lines = Files.readAllLines(Path.of(fi.toURI()));
+			
+			for (String line : lines) {
+				String prop = line.substring(0, line.indexOf("="));
+				if (prop.equals(propertyName)) {
+					indexToDelete = lines.indexOf(line);
+				}
+			}
+			
+			if (indexToDelete != null) {
+				lines.remove(indexToDelete.intValue());
+				ret = true;
+				Files.write(Path.of(fi.toURI()), lines);
+			}
+			
+			
+		}
+		return ret;
 	}
 	
 	/**

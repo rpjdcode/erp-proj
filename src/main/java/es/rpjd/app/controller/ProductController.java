@@ -45,7 +45,6 @@ public class ProductController implements Initializable, ApplicationController {
 	private ApplicationContext context;
 	private Environment env;
 
-	private ProductService productService;
 	private ProductTypeService productTypeService;
 	
 	private ProductManagementController pmc;
@@ -99,7 +98,6 @@ public class ProductController implements Initializable, ApplicationController {
 			ProductTypeService typesService) {
 		this.context = context;
 		this.env = env;
-		this.productService = productService;
 		this.productTypeService = typesService;
 	}
 

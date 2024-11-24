@@ -13,7 +13,7 @@ public class ProductManagementModel extends ApplicationModel {
 
 	public ProductManagementModel() {
 		super();
-		products = new SimpleListProperty<Product>(FXCollections.observableArrayList());
+		products = new SimpleListProperty<>(FXCollections.observableArrayList());
 	}
 
 	public final ListProperty<Product> productsProperty() {

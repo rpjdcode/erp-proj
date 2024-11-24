@@ -19,7 +19,7 @@ import es.rpjd.app.spring.SpringConstants;
 @Service(value = SpringConstants.BEAN_SERVICE_PRODUCT)
 public class ProductServiceImpl implements ProductService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ProductTypeServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 	
 	private SessionFactory sessionFactory;
 	
@@ -43,8 +43,23 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public DBResponseModel<Product> save(Product product) {
 		Session session = sessionFactory.getCurrentSession();
-		
 		session.persist(product);
-		return new DBResponseModel<Product>(DBResponseStatus.OK, "Producto guardado", product);
+		return new DBResponseModel<>(DBResponseStatus.OK, "Producto guardado", product);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<Boolean> delete(Product product) {
+		Session session = sessionFactory.getCurrentSession();
+		session.remove(product);
+		DBResponseModel<Boolean> ret = null;
+		if (session.get(Product.class, product.getId()) == null) {
+			LOG.info("Se ha eliminado el registro correctamente");
+			ret = new DBResponseModel<>(DBResponseStatus.OK, "Producto eliminado", true);
+		} else {
+			ret = new DBResponseModel<>(DBResponseStatus.ERROR, "No se eliminó el registro indicado", false);
+		}
+		
+		return ret;
 	}
 }

@@ -49,6 +49,7 @@ public class SpringConstants {
 	/*
 	 * Nombres de Beans relacionados con servicios
 	 */
+	public static final String BEAN_SERVICE_PROPERTY = "customPropertyService";
 	public static final String BEAN_SERVICE_USER = "userService";
 	public static final String BEAN_SERVICE_PRODUCT = "productService";
 	public static final String BEAN_SERVICE_PRODUCT_TYPE = "productTypeService";
