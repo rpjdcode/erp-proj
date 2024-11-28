@@ -111,7 +111,7 @@ public class ProductManagementController implements Initializable, ApplicationCo
 		LOG.info("Inicializando ProductManagementController");
 		this.model = new ProductManagementModel();
 
-		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> updateTexts(nv);
+		ChangeListener<ResourceBundle> changeListener = (o, ov, nv) -> updateTexts(nv);
 
 		model.setI18nListener(changeListener);
 		I18N.bundleProperty().addListener(changeListener);

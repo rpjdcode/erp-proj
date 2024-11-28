@@ -70,7 +70,7 @@ public class MenuController implements Initializable, ApplicationController {
 		this.model = new MenuModel();
 		LOG.info("Inicializando MenuController");
 		
-		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> {
+		ChangeListener<ResourceBundle> changeListener = (o, ov, nv) -> {
 			updateTexts(nv);
 		};
 		model.setI18nListener(changeListener);

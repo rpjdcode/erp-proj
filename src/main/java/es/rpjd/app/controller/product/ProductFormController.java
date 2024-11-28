@@ -147,7 +147,7 @@ public class ProductFormController implements Initializable, ApplicationControll
 
 	@Override
 	public void updateTexts(ResourceBundle bundle) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Método no necesario en este controlador");
 
 	}
 

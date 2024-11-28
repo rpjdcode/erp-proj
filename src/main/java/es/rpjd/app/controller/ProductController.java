@@ -125,7 +125,7 @@ public class ProductController implements Initializable, ApplicationController {
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new ProductModel();
 
-		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> updateTexts(nv);
+		ChangeListener<ResourceBundle> changeListener = (o, ov, nv) -> updateTexts(nv);
 
 		model.setI18nListener(changeListener);
 		I18N.bundleProperty().addListener(changeListener);
@@ -159,10 +159,9 @@ public class ProductController implements Initializable, ApplicationController {
 				loadProductsView(pfc);
 				break;
 
-			case ProductOptions.TYPE_MANAGEMENT:
-			case ProductOptions.TYPE_STADISTICS:
-			case ProductOptions.TYPE_FILES:
-			case ProductOptions.NONE:
+			case ProductOptions.NONE, ProductOptions.TYPE_MANAGEMENT, ProductOptions.TYPE_STADISTICS,
+					ProductOptions.TYPE_FILES:
+				// Se indica que no se ha seleccionado ninguna opción
 				noOptionDisplayed();
 				break;
 			default:
@@ -271,6 +270,9 @@ public class ProductController implements Initializable, ApplicationController {
 
 	}
 
+	/**
+	 * Método encargado de mostrar un cartel de opción no seleccionada
+	 */
 	private void noOptionDisplayed() {
 		productsView.getChildren().clear();
 		productsView.setAlignment(Pos.CENTER);
