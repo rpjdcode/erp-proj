@@ -16,6 +16,7 @@ import es.rpjd.app.constants.Constants;
 import es.rpjd.app.controller.product.ProductFilesController;
 import es.rpjd.app.controller.product.ProductManagementController;
 import es.rpjd.app.controller.product.ProductStadisticsController;
+import es.rpjd.app.controller.product.type.ProductTypeManagementController;
 import es.rpjd.app.enums.ProductOptions;
 import es.rpjd.app.hibernate.entity.ProductType;
 import es.rpjd.app.i18n.I18N;
@@ -50,6 +51,8 @@ public class ProductController implements Initializable, ApplicationController {
 	private ProductManagementController pmc;
 	private ProductStadisticsController psc;
 	private ProductFilesController pfc;
+
+	private ProductTypeManagementController ptmc;
 
 	@FXML
 	private Accordion accordion;
@@ -140,6 +143,12 @@ public class ProductController implements Initializable, ApplicationController {
 					env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/management/productManagement.fxml");
 			loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT);
 			pmc = context.getBean(ProductManagementController.class);
+
+			String fxmlPath2 = String.format(StringFormatUtils.DOUBLE_PARAMETER,
+					env.getProperty(SpringConstants.PROPERTY_FXML_PATH),
+					"products/type/management/productTypesManagement.fxml");
+			loader.load(fxmlPath2, SpringConstants.BEAN_CONTROLLER_PRODUCT_TYPE_MANAGEMENT);
+			ptmc = context.getBean(ProductTypeManagementController.class);
 		} catch (IOException e) {
 			LOG.error("Se ha producido una IOException al cargar controlador ProductManagement : {}", e.getMessage());
 		}
@@ -159,8 +168,11 @@ public class ProductController implements Initializable, ApplicationController {
 				loadProductsView(pfc);
 				break;
 
-			case ProductOptions.NONE, ProductOptions.TYPE_MANAGEMENT, ProductOptions.TYPE_STADISTICS,
-					ProductOptions.TYPE_FILES:
+			case ProductOptions.TYPE_MANAGEMENT:
+				loadTypesView(ptmc);
+				break;
+
+			case ProductOptions.NONE, ProductOptions.TYPE_STADISTICS, ProductOptions.TYPE_FILES:
 				// Se indica que no se ha seleccionado ninguna opción
 				noOptionDisplayed();
 				break;
@@ -199,10 +211,17 @@ public class ProductController implements Initializable, ApplicationController {
 	 */
 	private void markLabelAsSelected(Label label, Label oldLabel) {
 
-		if (oldLabel != null) {
-			unmarkLabel(oldLabel);
+		if (label == null) {
+			if (oldLabel != null) {
+				unmarkLabel(oldLabel);
+			}
+		} else {
+			if (oldLabel != null) {
+				unmarkLabel(oldLabel);
+			}
+			markLabel(label);
 		}
-		markSelected(label);
+
 	}
 
 	/**
@@ -232,7 +251,7 @@ public class ProductController implements Initializable, ApplicationController {
 	 * 
 	 * @param label
 	 */
-	private void markSelected(Label label) {
+	private void markLabel(Label label) {
 		label.setTextFill(Constants.OPTION_ACTIVE);
 		if (isProductLabel(label)) {
 			if (label == productsManagementLabel) {
@@ -258,6 +277,10 @@ public class ProductController implements Initializable, ApplicationController {
 		label.setTextFill(Constants.OPTION_DEFAULT);
 	}
 
+	/**
+	 * Método encargado de incrustar un controlador en el cuadro de vista de opciones de producto
+	 * @param controller
+	 */
 	private void loadProductsView(ApplicationController controller) {
 		productsView.getChildren().clear();
 		if (controller == null) {
@@ -268,6 +291,17 @@ public class ProductController implements Initializable, ApplicationController {
 			productsView.getChildren().add(controller.getView());
 		}
 
+	}
+	
+	private void loadTypesView(ApplicationController controller) {
+		typesView.getChildren().clear();
+		if (controller == null) {
+			typesView.setAlignment(Pos.CENTER);
+			typesView.getChildren().add(new Label("No se pudo cargar el controlador"));
+		} else {
+			typesView.setAlignment(Pos.TOP_LEFT);
+			typesView.getChildren().add(controller.getView());
+		}
 	}
 
 	/**
