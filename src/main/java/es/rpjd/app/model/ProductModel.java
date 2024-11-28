@@ -5,7 +5,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Label;
 
-public class ProductModel extends ApplicationModel{
+public class ProductModel extends ApplicationModel {
 
 	public ProductModel() {
 		super();

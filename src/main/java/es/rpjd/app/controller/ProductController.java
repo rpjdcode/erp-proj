@@ -46,7 +46,7 @@ public class ProductController implements Initializable, ApplicationController {
 	private Environment env;
 
 	private ProductTypeService productTypeService;
-	
+
 	private ProductManagementController pmc;
 	private ProductStadisticsController psc;
 	private ProductFilesController pfc;
@@ -65,13 +65,13 @@ public class ProductController implements Initializable, ApplicationController {
 
 	@FXML
 	private BorderPane productsContent;
-	
+
 	@FXML
 	private BorderPane typesContent;
 
 	@FXML
 	private VBox productsOptionsBox;
-	
+
 	@FXML
 	private VBox typesOptionsBox;
 
@@ -83,31 +83,30 @@ public class ProductController implements Initializable, ApplicationController {
 
 	@FXML
 	private Label productsFilesLabel;
-	
+
 	@FXML
 	private Label typesManagementLabel;
-	
+
 	@FXML
 	private Label typesStadisticsLabel;
-	
+
 	@FXML
 	private Label typesFilesLabel;
-	
+
 	@FXML
 	private Label noOptionLabel;
-	
+
 	@FXML
 	private Label noTypeOptionLabel;
-	
+
 	@FXML
 	private VBox productsView;
-	
+
 	@FXML
 	private VBox typesView;
 
 	@FXML
 	private VBox typesBox;
-	
 
 	@FXML
 	private VBox view;
@@ -125,40 +124,44 @@ public class ProductController implements Initializable, ApplicationController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new ProductModel();
-		
-		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> 	updateTexts(nv);
-		
+
+		ChangeListener<? super ResourceBundle> changeListener = (o, ov, nv) -> updateTexts(nv);
+
 		model.setI18nListener(changeListener);
 		I18N.bundleProperty().addListener(changeListener);
-		
+
 		DBResponseModel<List<ProductType>> response = productTypeService.getTypes();
 		LOG.info("Respuesta obtenida: {}", response.getMessage());
-		
+
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
-		
+
 		try {
-			String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/management/productManagement.fxml");
+			String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER,
+					env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/management/productManagement.fxml");
 			loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT);
 			pmc = context.getBean(ProductManagementController.class);
 		} catch (IOException e) {
 			LOG.error("Se ha producido una IOException al cargar controlador ProductManagement : {}", e.getMessage());
 		}
-		
+
 		model.productsOptionProperty().addListener((o, ov, nv) -> {
 			LOG.info("Cambió el valor de la opción seleccionada: {}", nv);
 			switch (nv) {
-			case ProductOptions.MANAGEMENT:
+			case ProductOptions.PROD_MANAGEMENT:
 				loadProductsView(pmc);
 				break;
-			
-			case ProductOptions.STADISTICS:
+
+			case ProductOptions.PROD_STADISTICS:
 				loadProductsView(psc);
 				break;
 
-			case ProductOptions.FILES:
+			case ProductOptions.PROD_FILES:
 				loadProductsView(pfc);
 				break;
-				
+
+			case ProductOptions.TYPE_MANAGEMENT:
+			case ProductOptions.TYPE_STADISTICS:
+			case ProductOptions.TYPE_FILES:
 			case ProductOptions.NONE:
 				noOptionDisplayed();
 				break;
@@ -166,10 +169,10 @@ public class ProductController implements Initializable, ApplicationController {
 				break;
 			}
 		});
-		
+
 		model.selectedLabelProperty().addListener((o, ov, nv) -> {
 			LOG.info("Cambió la label seleccionada");
-			markLabelAsSelected(nv);
+			markLabelAsSelected(nv, ov);
 		});
 
 	}
@@ -177,48 +180,85 @@ public class ProductController implements Initializable, ApplicationController {
 	@FXML
 	void onProductOptionClick(MouseEvent event) {
 		Label src = (Label) event.getSource();
-		
+
 		model.setSelectedLabel(src == model.getSelectedLabel() ? null : src);
 	}
-	
+
+	@FXML
+	void onTypeOptionClick(MouseEvent event) {
+		LOG.info("Click en label de type");
+		Label src = (Label) event.getSource();
+
+		model.setSelectedLabel(src == model.getSelectedLabel() ? null : src);
+	}
+
 	/**
-	 * Método encargado de marcar la label seleccionada con un estilo identificativo de selección de opción
+	 * Método encargado de marcar la label seleccionada con un estilo identificativo
+	 * de selección de opción
+	 * 
 	 * @param label
 	 */
-	private void markLabelAsSelected(Label label) {
-		if (label != null) {
-			
+	private void markLabelAsSelected(Label label, Label oldLabel) {
+
+		if (oldLabel != null) {
+			unmarkLabel(oldLabel);
+		}
+		markSelected(label);
+	}
+
+	/**
+	 * Verifica si la label pertenece a las opciones de tipos de producto
+	 * 
+	 * @param label
+	 * @return
+	 */
+	@SuppressWarnings("unused")
+	private boolean isTypeLabel(Label label) {
+		return label == typesManagementLabel || label == typesStadisticsLabel || label == typesFilesLabel;
+	}
+
+	/**
+	 * Verifica si la label pertenece a las opciones de productos
+	 * 
+	 * @param label
+	 * @return
+	 */
+	private boolean isProductLabel(Label label) {
+		return label == productsManagementLabel || label == productsStadisticsLabel || label == productsFilesLabel;
+	}
+
+	/**
+	 * Marca la label seleccionada como activa y establece el tipo de ProductOption
+	 * para cargar el controlador
+	 * 
+	 * @param label
+	 */
+	private void markSelected(Label label) {
+		label.setTextFill(Constants.OPTION_ACTIVE);
+		if (isProductLabel(label)) {
 			if (label == productsManagementLabel) {
-				model.setProductsOption(ProductOptions.MANAGEMENT);
-				productsManagementLabel.setTextFill(Constants.OPTION_ACTIVE);
-				productsStadisticsLabel.setTextFill(Constants.OPTION_DEFAULT);
-				productsFilesLabel.setTextFill(Constants.OPTION_DEFAULT);
+				model.setProductsOption(ProductOptions.PROD_MANAGEMENT);
 			} else if (label == productsStadisticsLabel) {
-				model.setProductsOption(ProductOptions.STADISTICS);
-				productsManagementLabel.setTextFill(Constants.OPTION_DEFAULT);
-				productsStadisticsLabel.setTextFill(Constants.OPTION_ACTIVE);
-				productsFilesLabel.setTextFill(Constants.OPTION_DEFAULT);
+				model.setProductsOption(ProductOptions.PROD_STADISTICS);
 			} else if (label == productsFilesLabel) {
-				model.setProductsOption(ProductOptions.FILES);
-				productsManagementLabel.setTextFill(Constants.OPTION_DEFAULT);
-				productsStadisticsLabel.setTextFill(Constants.OPTION_DEFAULT);
-				productsFilesLabel.setTextFill(Constants.OPTION_ACTIVE);
+				model.setProductsOption(ProductOptions.PROD_FILES);
 			}
 		} else {
-			unmarkProductLabels();
-			model.setProductsOption(ProductOptions.NONE);
+			if (label == typesManagementLabel) {
+				model.setProductsOption(ProductOptions.TYPE_MANAGEMENT);
+			} else if (label == typesStadisticsLabel) {
+				model.setProductsOption(ProductOptions.TYPE_STADISTICS);
+			} else if (label == typesFilesLabel) {
+				model.setProductsOption(ProductOptions.TYPE_FILES);
+			}
 		}
+
 	}
-	
-	/**
-	 * Método encargado de establecer el estilo de las labels como desmarcado (default)
-	 */
-	private void unmarkProductLabels() {
-		productsManagementLabel.setTextFill(Constants.OPTION_DEFAULT);
-		productsStadisticsLabel.setTextFill(Constants.OPTION_DEFAULT);
-		productsFilesLabel.setTextFill(Constants.OPTION_DEFAULT);
+
+	private void unmarkLabel(Label label) {
+		label.setTextFill(Constants.OPTION_DEFAULT);
 	}
-	
+
 	private void loadProductsView(ApplicationController controller) {
 		productsView.getChildren().clear();
 		if (controller == null) {
@@ -228,11 +268,9 @@ public class ProductController implements Initializable, ApplicationController {
 			productsView.setAlignment(Pos.TOP_LEFT);
 			productsView.getChildren().add(controller.getView());
 		}
-		
-		
-		
+
 	}
-	
+
 	private void noOptionDisplayed() {
 		productsView.getChildren().clear();
 		productsView.setAlignment(Pos.CENTER);
@@ -243,7 +281,7 @@ public class ProductController implements Initializable, ApplicationController {
 	public VBox getView() {
 		return view;
 	}
-	
+
 	@Override
 	public void clearResources() {
 		I18N.bundleProperty().removeListener(model.getI18nListener());

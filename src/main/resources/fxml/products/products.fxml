@@ -21,17 +21,17 @@
                            <left>
                               <VBox fx:id="productsOptionsBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" styleClass="productsLinkBox" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Label fx:id="productsManagementLabel" onMouseClicked="#onProductOptionClick" text="%app.lang.products.label.manage" textFill="#0400e8" underline="true">
+                                    <Label fx:id="productsManagementLabel" onMouseClicked="#onProductOptionClick" styleClass="productLabel" text="%app.lang.products.label.manage" textFill="#0400e8" underline="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="productsStadisticsLabel" onMouseClicked="#onProductOptionClick" text="%app.lang.products.label.stads" textFill="#0400e8" underline="true">
+                                    <Label fx:id="productsStadisticsLabel" onMouseClicked="#onProductOptionClick" styleClass="productLabel" text="%app.lang.products.label.stads" textFill="#0400e8" underline="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="productsFilesLabel" onMouseClicked="#onProductOptionClick" text="%app.lang.products.label.files" textFill="#0400e8" underline="true">
+                                    <Label fx:id="productsFilesLabel" onMouseClicked="#onProductOptionClick" styleClass="productLabel" text="%app.lang.products.label.files" textFill="#0400e8" underline="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -68,17 +68,17 @@
                            <left>
                               <VBox fx:id="typesOptionsBox" spacing="5.0" styleClass="productsLinkBox" BorderPane.alignment="CENTER">
                                  <children>
-                                    <Label fx:id="typesManagementLabel" text="%app.lang.products.types.label.manage" textFill="#0400e8" underline="true">
+                                    <Label fx:id="typesManagementLabel" onMouseClicked="#onTypeOptionClick" styleClass="productLabel" text="%app.lang.products.types.label.manage" textFill="#0400e8" underline="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="typesStadisticsLabel" text="%app.lang.products.types.label.stads" textFill="#0400e8" underline="true">
+                                    <Label fx:id="typesStadisticsLabel" onMouseClicked="#onTypeOptionClick" styleClass="productLabel" text="%app.lang.products.types.label.stads" textFill="#0400e8" underline="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Label>
-                                    <Label fx:id="typesFilesLabel" text="%app.lang.products.types.label.files" textFill="#0400e8" underline="true">
+                                    <Label fx:id="typesFilesLabel" onMouseClicked="#onTypeOptionClick" styleClass="productLabel" text="%app.lang.products.types.label.files" textFill="#0400e8" underline="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
