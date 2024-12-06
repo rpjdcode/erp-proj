@@ -172,13 +172,18 @@ public class ProductController implements Initializable, ApplicationController {
 				loadTypesView(ptmc);
 				break;
 
-			case ProductOptions.NONE, ProductOptions.TYPE_STADISTICS, ProductOptions.TYPE_FILES:
+			case ProductOptions.PROD_NONE:
 				// Se indica que no se ha seleccionado ninguna opción
-				noOptionDisplayed();
+				noProductOptionDisplayed();
+				break;
+
+			case ProductOptions.TYPE_NONE, ProductOptions.TYPE_STADISTICS, ProductOptions.TYPE_FILES:
+				noProductTypeOptionDisplayed();
 				break;
 			default:
 				break;
 			}
+
 		});
 
 		model.selectedLabelProperty().addListener((o, ov, nv) -> {
@@ -212,8 +217,11 @@ public class ProductController implements Initializable, ApplicationController {
 	private void markLabelAsSelected(Label label, Label oldLabel) {
 
 		if (label == null) {
+
 			if (oldLabel != null) {
 				unmarkLabel(oldLabel);
+				model.productsOptionProperty()
+						.set(isProductLabel(oldLabel) ? ProductOptions.PROD_NONE : ProductOptions.TYPE_NONE);
 			}
 		} else {
 			if (oldLabel != null) {
@@ -278,7 +286,9 @@ public class ProductController implements Initializable, ApplicationController {
 	}
 
 	/**
-	 * Método encargado de incrustar un controlador en el cuadro de vista de opciones de producto
+	 * Método encargado de incrustar un controlador en el cuadro de vista de
+	 * opciones de producto
+	 * 
 	 * @param controller
 	 */
 	private void loadProductsView(ApplicationController controller) {
@@ -292,7 +302,7 @@ public class ProductController implements Initializable, ApplicationController {
 		}
 
 	}
-	
+
 	private void loadTypesView(ApplicationController controller) {
 		typesView.getChildren().clear();
 		if (controller == null) {
@@ -307,10 +317,16 @@ public class ProductController implements Initializable, ApplicationController {
 	/**
 	 * Método encargado de mostrar un cartel de opción no seleccionada
 	 */
-	private void noOptionDisplayed() {
+	private void noProductOptionDisplayed() {
 		productsView.getChildren().clear();
 		productsView.setAlignment(Pos.CENTER);
 		productsView.getChildren().add(noOptionLabel);
+	}
+
+	private void noProductTypeOptionDisplayed() {
+		typesView.getChildren().clear();
+		typesView.setAlignment(Pos.CENTER);
+		typesView.getChildren().add(noTypeOptionLabel);
 	}
 
 	@Override

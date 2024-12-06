@@ -10,7 +10,7 @@ public class ProductModel extends ApplicationModel {
 	public ProductModel() {
 		super();
 		selectedLabel = new SimpleObjectProperty<>();
-		productsOption = new SimpleObjectProperty<>(ProductOptions.NONE);
+		productsOption = new SimpleObjectProperty<>(ProductOptions.PROD_NONE);
 	}
 
 	private ObjectProperty<Label> selectedLabel;
