@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import es.rpjd.app.constants.DBResponseStatus;
 import es.rpjd.app.hibernate.entity.Order;
 import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.model.OrderModel;
@@ -18,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
@@ -73,13 +75,23 @@ public class OrderController implements Initializable, ApplicationController {
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new OrderModel();
 		
+        ordersList.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Order item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getOrderCode());
+                }
+            }
+        });
+		
 		model.itemsProperty().addAll(orderService.getOrders().getData());
 		ordersList.itemsProperty().bind(model.itemsProperty());
 		
 		modifyOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
 		deleteOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-		
-		LOG.info("Código de comanda generado: {}", orderService.generateOrderCode());
 		
 	}
 
@@ -108,6 +120,11 @@ public class OrderController implements Initializable, ApplicationController {
 		order.setCreatedAt(LocalDateTime.now());
 		order.setOrderCode(orderCode);
 		DBResponseModel<Order> response = orderService.save(order);
+		
+		if (response.getStatus() == DBResponseStatus.OK) {
+			model.itemsProperty().add(response.getData());
+		}
+		
 	}
 	
 	@FXML
