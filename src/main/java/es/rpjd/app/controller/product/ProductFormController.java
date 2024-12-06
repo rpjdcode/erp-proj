@@ -15,6 +15,7 @@ import es.rpjd.app.constants.Constants;
 import es.rpjd.app.controller.ApplicationController;
 import es.rpjd.app.converter.BigDecimalStringConverter;
 import es.rpjd.app.converter.ProductTypeStringConverter;
+import es.rpjd.app.enums.FormOperationType;
 import es.rpjd.app.hibernate.entity.Product;
 import es.rpjd.app.hibernate.entity.ProductType;
 import es.rpjd.app.model.DBResponseModel;
@@ -84,8 +85,8 @@ public class ProductFormController implements Initializable, ApplicationControll
 	private ProductFormModel model;
 
 	@Autowired
-	public ProductFormController(ProductService productService,
-			ProductTypeService productTypeService, CustomPropertyService customPropertyService) {
+	public ProductFormController(ProductService productService, ProductTypeService productTypeService,
+			CustomPropertyService customPropertyService) {
 		this.productService = productService;
 		this.productTypeService = productTypeService;
 		this.customPropertyService = customPropertyService;
@@ -117,24 +118,19 @@ public class ProductFormController implements Initializable, ApplicationControll
 			}
 		});
 
-
-
 		productNameText.textProperty().bindBidirectional(model.nameProperty());
 		productCodeText.textProperty().bindBidirectional(model.codeProperty());
 		Bindings.bindBidirectional(priceText.textProperty(), model.priceProperty(), new BigDecimalStringConverter());
-		
-		BooleanBinding emptyFieldsBinding = model.codeProperty().isEmpty()
-				.or(model.nameProperty().isEmpty())
-				.or(model.priceProperty().isEqualTo(BigDecimal.valueOf(0)))
-				.or(model.priceProperty().isNull())
+
+		BooleanBinding emptyFieldsBinding = model.codeProperty().isEmpty().or(model.nameProperty().isEmpty())
+				.or(model.priceProperty().isEqualTo(BigDecimal.valueOf(0))).or(model.priceProperty().isNull())
 				.or(model.productTypeProperty().isNull());
-		
+
 		actionButton.disableProperty().bind(emptyFieldsBinding);
 	}
 
 	@Override
 	public void clearResources() {
-		LOG.info("Se llama al clearResources");
 		productNameText.clear();
 		productCodeText.clear();
 		priceText.clear();
@@ -152,24 +148,31 @@ public class ProductFormController implements Initializable, ApplicationControll
 	}
 
 	/**
-	 * Método que es llamado cuando se hace click en aplicar  cambios.
+	 * Método que es llamado cuando se hace click en aplicar cambios.
+	 * 
 	 * @param event
 	 */
 	@FXML
 	void onFormAction(ActionEvent event) {
-
+		boolean isCreate = model.getOperationMode() == FormOperationType.CREATE;
 		Product product = new Product();
+
+		product.setId(isCreate ? null : model.getId());
 		product.setProductCode(model.getCode());
 		product.setProductType(model.getProductType());
 		product.setPrice(model.getPrice());
-		product.setCreatedAt(LocalDateTime.now());
-		
+		product.setCreatedAt(isCreate ? LocalDateTime.now() : null);
+		product.setModifiedAt(isCreate ? null : LocalDateTime.now());
+
 		String propertyName = customPropertyService.generatePropertyName(product);
 		customPropertyService.addProperty(propertyName, model.getName());
 		product.setPropertyName(propertyName);
 		LOG.info("Nombre de propiedad custom: {} - Valor: {}", propertyName, model.getName());
 
-		DBResponseModel<Product> response = productService.save(product);
+		DBResponseModel<Product> response = isCreate
+				? productService.save(product)
+				: productService.modify(product);
+
 		LOG.info("Respuesta: {}", response.getData());
 
 		onCancelAction(null);
@@ -182,18 +185,22 @@ public class ProductFormController implements Initializable, ApplicationControll
 
 		((Stage) view.getScene().getWindow()).close();
 	}
-	
+
 	/**
-	 * Método para cargar datos de un producto en los inputs del formulario para ser modificados
+	 * Método para cargar datos de un producto en los inputs del formulario para ser
+	 * modificados
+	 * 
 	 * @param data
 	 */
 	public void loadModifyForm(Product data) {
+		model.operationModeProperty().set(FormOperationType.UPDATE);
+		model.idProperty().set(data.getId());
 		model.codeProperty().set(data.getProductCode());
 		model.nameProperty().set(customPropertyService.getProperty(data.getPropertyName()));
 		model.priceProperty().set(data.getPrice());
 		productTypeCombo.getSelectionModel().select(data.getProductType());
 		productCodeText.setDisable(true);
-		
+
 	}
 
 	@Override

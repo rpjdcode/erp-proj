@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_PRODUCT_TYPE_FORM)
 public class ProductTypeFormController implements Initializable, ApplicationController {
@@ -58,7 +59,7 @@ public class ProductTypeFormController implements Initializable, ApplicationCont
 
     @FXML
     void onCancelAction(ActionEvent event) {
-
+    	((Stage)view.getScene().getWindow()).close();
     }
 
     @FXML

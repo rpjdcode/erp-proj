@@ -1,5 +1,6 @@
 package es.rpjd.app.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -46,6 +47,32 @@ public class ProductServiceImpl implements ProductService {
 		session.persist(product);
 		return new DBResponseModel<>(DBResponseStatus.OK, "Producto guardado", product);
 	}
+	
+	@Transactional
+	@Override
+	public DBResponseModel<Product> modify(Product product) {
+		DBResponseModel<Product> out = new DBResponseModel<>();
+		Session session = sessionFactory.getCurrentSession();
+		
+		Product stored = session.get(Product.class, product.getId());
+		Product modified = null;
+		
+		if (stored != null) {
+			stored.setModifiedAt(LocalDateTime.now());
+			stored.setProductType(product.getProductType());
+			stored.setPrice(product.getPrice());
+			stored.setPropertyName(product.getPropertyName());
+			modified = session.merge(stored);
+			out.setStatus(DBResponseStatus.OK);
+			out.setMessage("Producto modificado");
+			out.setData(modified);
+		} else {
+			out.setStatus(DBResponseStatus.NO_RESULT);
+			out.setMessage("No se encontró el producto indicado");
+			out.setData(null);
+		}
+		return out;
+	}
 
 	@Transactional
 	@Override
@@ -62,4 +89,6 @@ public class ProductServiceImpl implements ProductService {
 		
 		return ret;
 	}
+
+
 }

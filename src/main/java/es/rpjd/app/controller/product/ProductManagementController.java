@@ -237,7 +237,6 @@ public class ProductManagementController implements Initializable, ApplicationCo
 		} catch (IOException e) {
 			LOG.error("Se ha producido un error inesperado durante la apertura de formulario de producto: {}",
 					e.getLocalizedMessage());
-			LOG.error("asasd", e);
 		}
 	}
 
