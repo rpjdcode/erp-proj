@@ -99,7 +99,6 @@ public class ProductTypeManagementController implements Initializable, Applicati
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new ProductTypeManagementModel();
-//		typesTable.setPlaceholder(new Label("texto internacionalizado"));
 		DBResponseModel<List<ProductType>> response = productTypeService.getTypes();
 
 		typeIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -216,10 +215,12 @@ public class ProductTypeManagementController implements Initializable, Applicati
 			productFormStg.setResizable(false);
 			productFormStg.showAndWait();
 
+			// Después de cierre de formulario de producto
+			model.itemsProperty().clear();
+			model.itemsProperty().addAll(productTypeService.getTypes().getData());
+
 		} catch (IOException e) {
-			LOG.error(
-					"Se ha producido un error inesperado al intnetar abrir el formulario de modificación de tipos de producto",
-					e);
+			LOG.error("Se ha producido un error inesperado al intnetar abrir el formulario de modificación de tipos de producto", e);
 		}
 	}
 
