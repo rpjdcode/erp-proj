@@ -57,4 +57,5 @@ public class SpringConstants {
 	public static final String BEAN_SERVICE_USER = "userService";
 	public static final String BEAN_SERVICE_PRODUCT = "productService";
 	public static final String BEAN_SERVICE_PRODUCT_TYPE = "productTypeService";
+	public static final String BEAN_SERVICE_ORDER = "orderService";
 }
