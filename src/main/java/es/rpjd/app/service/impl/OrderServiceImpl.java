@@ -1,5 +1,6 @@
 package es.rpjd.app.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -8,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.rpjd.app.constants.DBResponseStatus;
 import es.rpjd.app.hibernate.entity.Order;
+import es.rpjd.app.hibernate.sql.SQLQueries;
 import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.service.OrderService;
 import es.rpjd.app.spring.SpringConstants;
@@ -27,6 +30,7 @@ public class OrderServiceImpl implements OrderService {
 		this.sessionFactory = factory;
 	}
 	
+	@Transactional
 	@Override
 	public DBResponseModel<List<Order>> getOrders() {
 		Session session = sessionFactory.getCurrentSession();
@@ -35,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
 		return new DBResponseModel<>(DBResponseStatus.OK, "Comandas obtenidas", orders);
 	}
 
+	@Transactional
 	@Override
 	public DBResponseModel<Order> save(Order order) {
 		Session session = sessionFactory.getCurrentSession();
@@ -42,16 +47,45 @@ public class OrderServiceImpl implements OrderService {
 		return new DBResponseModel<>(DBResponseStatus.OK, "Comanda insertada", order);
 	}
 
+	@Transactional
 	@Override
 	public DBResponseModel<Order> modify(Order order) {
 		Session session = sessionFactory.getCurrentSession();
 		return null;
 	}
 
+	@Transactional
 	@Override
 	public DBResponseModel<Order> delete(Order order) {
 		Session session = sessionFactory.getCurrentSession();
 		return null;
 	}
+
+	@Transactional
+	@Override
+	public String generateOrderCode() {
+		StringBuilder sb = new StringBuilder();
+		Session session = sessionFactory.getCurrentSession();
+		
+		LocalDateTime curDate = LocalDateTime.now();
+		sb.append(curDate.getYear());
+		sb.append(curDate.getMonthValue() < 10 ? "0".concat(""+curDate.getMonthValue()) : curDate.getMonthValue());
+		sb.append(curDate.getDayOfMonth() < 10 ? "0".concat(""+curDate.getDayOfMonth()) : curDate.getDayOfMonth());
+		
+		Integer ordersQuantity = session.createNativeQuery(SQLQueries.SELECT_ORDERS_QUANTITY_TODAY, Integer.class).getSingleResult();
+		ordersQuantity = ordersQuantity+1;
+		// De la cantidad recogida, incrementamos en uno ya que se va a generar un nuevo código identificativo
+		String quantityStr = String.valueOf(ordersQuantity);
+		
+		
+		while (sb.length()+quantityStr.length() < 20) {
+			sb.append(0);
+		}
+		sb.append(ordersQuantity);
+		
+		return sb.toString();
+	}
+	
+	
 
 }

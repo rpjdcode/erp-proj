@@ -11,4 +11,6 @@ public interface OrderService {
 	DBResponseModel<Order> save(Order order);
 	DBResponseModel<Order> modify(Order order);
 	DBResponseModel<Order> delete(Order order);
+	
+	String generateOrderCode();
 }

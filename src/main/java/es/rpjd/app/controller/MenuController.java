@@ -181,7 +181,7 @@ public class MenuController implements Initializable, ApplicationController {
 			}
 
 		} catch (IOException e) {
-			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación: {}", e.getMessage());
+			LOG.error("Se ha producido la siguiente excepción al cargar el contenido de la aplicación", e);
 		}
 	}
 

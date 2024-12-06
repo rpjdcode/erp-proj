@@ -2,7 +2,10 @@ package es.rpjd.app.hibernate.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,37 +13,42 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Table(name = "PRODUCT")
 @Entity
-public class Product implements ApplicationEntity{
+public class Product implements ApplicationEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Long id;
-	
+
 	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
 	private String propertyName;
-	
+
 	@Column(name = "PRODUCT_CODE", columnDefinition = "CHAR(10)", nullable = false, unique = true)
 	private String productCode;
-	
+
 	@Column(name = "PRICE", columnDefinition = "DECIMAL(19,2)", precision = 19, scale = 2)
 	private BigDecimal price;
-	
+
 	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
 	private LocalDateTime createdAt;
-	
+
 	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
 	private LocalDateTime modifiedAt;
-	
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<ProductOrder> comandaProductos = new HashSet<>();
+
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)")
 	private ProductType productType;
-	
-	public Product() { /* Constructor vacío */ }
+
+	public Product() {
+		/* Constructor vacío */ }
 
 	public Long getId() {
 		return id;
@@ -53,7 +61,7 @@ public class Product implements ApplicationEntity{
 	public String getPropertyName() {
 		return propertyName;
 	}
-	
+
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
 	}
@@ -81,21 +89,29 @@ public class Product implements ApplicationEntity{
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
 	}
-	
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-	
+
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	
+
 	public LocalDateTime getModifiedAt() {
 		return modifiedAt;
 	}
-	
+
 	public void setModifiedAt(LocalDateTime modifiedAt) {
 		this.modifiedAt = modifiedAt;
 	}
-	
+
+	public Set<ProductOrder> getComandaProductos() {
+		return comandaProductos;
+	}
+
+	public void setComandaProductos(Set<ProductOrder> comandaProductos) {
+		this.comandaProductos = comandaProductos;
+	}
+
 }

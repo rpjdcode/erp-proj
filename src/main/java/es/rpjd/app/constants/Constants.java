@@ -62,4 +62,10 @@ public class Constants {
 	 * Propiedades de expresiones regulares
 	 */
 	public static final String REGEXP_ONLY_DECIMAL = "\\d*\\.?\\d*";
+	
+	/**
+	 * Representa el prefijo que debe contener un código de comanda
+	 */
+	public static final String ORDER_CODE_PREFIX = "ORD";
+	
 }
