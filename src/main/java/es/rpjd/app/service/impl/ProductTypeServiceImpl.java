@@ -1,5 +1,6 @@
 package es.rpjd.app.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -37,6 +38,45 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		
 		LOG.info("Tipos de producto obtenidos de bbdd: {}", types);
 		return new DBResponseModel<>(DBResponseStatus.OK, "Tipos de producto obtenidos", types);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<ProductType> save(ProductType type) {
+		Session session = sessionFactory.getCurrentSession();
+		session.persist(type);
+		return new DBResponseModel<>(DBResponseStatus.OK, "Tipo de producto guardado", type);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<ProductType> modify(ProductType type) {
+		Session session = sessionFactory.getCurrentSession();
+		DBResponseModel<ProductType> out = new DBResponseModel<>();
+		ProductType stored = session.get(ProductType.class, type.getId());
+		ProductType modified = null;
+		
+		if (stored != null) {
+			stored.setModifiedAt(LocalDateTime.now());
+			stored.setPropertyName(type.getPropertyName());
+			modified = session.merge(stored);
+			out.setStatus(DBResponseStatus.OK);
+			out.setMessage("Producto modificado");
+			out.setData(modified);
+		} else {
+			out.setStatus(DBResponseStatus.NO_RESULT);
+			out.setMessage("No se encontró el producto indicado");
+			out.setData(null);
+		}
+		return out;
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<Boolean> delete(ProductType type) {
+		Session session = sessionFactory.getCurrentSession();
+		session.remove(type);
+		return new DBResponseModel<>(DBResponseStatus.OK, "Tipo de producto eliminado", Boolean.TRUE);
 	}
 
 }
