@@ -26,6 +26,7 @@
 		<mapping class="es.rpjd.app.hibernate.entity.ProductType" />
 		<mapping class="es.rpjd.app.hibernate.entity.Product" />
 		<mapping class="es.rpjd.app.hibernate.entity.User" />
+		<mapping class="es.rpjd.app.hibernate.entity.Order" />
 
 	</session-factory>
 </hibernate-configuration>

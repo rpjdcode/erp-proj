@@ -33,16 +33,14 @@ public class Product implements ApplicationEntity{
 	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
 	private LocalDateTime createdAt;
 	
-	@Column(name = "MODIFIED_AT", columnDefinition = "TIMESTAMP", nullable = true)
+	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
 	private LocalDateTime modifiedAt;
 	
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)")
 	private ProductType productType;
 	
-	public Product() {
-		// Constructor vacío
-	}
+	public Product() { /* Constructor vacío */ }
 
 	public Long getId() {
 		return id;

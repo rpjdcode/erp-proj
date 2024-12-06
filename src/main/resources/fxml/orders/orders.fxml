@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane fx:id="ordersSplitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+         <items>
+            <VBox fx:id="ordersSplitViewUp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                  <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                     <items>
+                        <VBox fx:id="ordersUpLeftColumnBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <children>
+                              <ListView fx:id="ordersList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="ordersUpRightColumnBox" />
+                     </items>
+                  </SplitPane>
+               </children>
+            </VBox>
+            <VBox fx:id="ordersSplitViewDown" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+         </items>
+      </SplitPane>
+   </children>
+</VBox>

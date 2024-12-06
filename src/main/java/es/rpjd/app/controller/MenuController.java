@@ -115,6 +115,7 @@ public class MenuController implements Initializable, ApplicationController {
 	@FXML
 	void onOrdersAction(ActionEvent event) {
 		LOG.info("Click en comandas");
+		loadApplicationContent(SpringConstants.BEAN_CONTROLLER_ORDER);
 	}
 	
 	@FXML
@@ -162,7 +163,12 @@ public class MenuController implements Initializable, ApplicationController {
 				fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/products.fxml");
 				controller = context.getBean(ProductController.class);
 				break;
-
+				
+			case SpringConstants.BEAN_CONTROLLER_ORDER:
+				fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER, env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "orders/orders.fxml");
+				controller = context.getBean(OrderController.class);
+				break;
+				
 			default:
 				fxmlPath = null;
 				controller = null;
