@@ -1,28 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="view" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" vgap="5.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
-    <ColumnConstraints hgrow="ALWAYS" />
-    <ColumnConstraints hgrow="ALWAYS" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="-Infinity" />
-    <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-Infinity" />
-    <RowConstraints maxHeight="-Infinity" />
+    <RowConstraints vgrow="NEVER" />
+      <RowConstraints maxHeight="1.7976931348623157E308" vgrow="NEVER" />
+    <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
+    <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <VBox fx:id="contentBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="80.0" minWidth="60.0" style="-fx-background-color: c6cb94;" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-      <ToolBar fx:id="footToolBar" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-        <items>
-          <Button fx:id="aboutAppButton" mnemonicParsing="false" onAction="#onAboutAppAction" text="%app.tool.button.about" />
-        </items>
-      </ToolBar>
+      <HBox fx:id="menuBarBox" style="-fx-background-color: red;" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS">
+         <children>
+            <MenuBar HBox.hgrow="ALWAYS">
+              <menus>
+                <Menu mnemonicParsing="false" text="%app.bar.menu.file">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="%app.bar.menu.edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="%app.bar.menu.help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+      <HBox fx:id="customMenuBarBox" maxWidth="1.7976931348623157E308" style="-fx-background-color: green;" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+      <HBox fx:id="contentBox" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: yellow;" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+         <children>
+            <ScrollPane fx:id="contentScroll" fitToHeight="true" fitToWidth="true" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+               <content>
+                  <VBox fx:id="scrollContentBox" style="-fx-background-color: pink;" />
+               </content>
+            </ScrollPane>
+         </children>
+      </HBox>
+      <HBox fx:id="toolbarBox" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+         <children>
+            <ToolBar fx:id="footToolBar" HBox.hgrow="ALWAYS">
+              <items>
+                <Button fx:id="aboutAppButton" mnemonicParsing="false" onAction="#onAboutAppAction" text="%app.tool.button.about" />
+              </items>
+            </ToolBar>
+         </children>
+      </HBox>
    </children>
 </GridPane>

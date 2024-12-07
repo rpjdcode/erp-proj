@@ -3,6 +3,7 @@ package es.rpjd.app.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -29,6 +30,9 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		this.sessionFactory = factory;
 	}
 
+	/**
+	 * Devuelve únicamente los tipos de producto, sin información adicional
+	 */
 	@Transactional
 	@Override
 	public DBResponseModel<List<ProductType>> getTypes() {
@@ -77,6 +81,22 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 		Session session = sessionFactory.getCurrentSession();
 		session.remove(type);
 		return new DBResponseModel<>(DBResponseStatus.OK, "Tipo de producto eliminado", Boolean.TRUE);
+	}
+
+	/**
+	 * Método encargado de obtener la información de los tipos de producto
+	 * y sus productos relacionados
+	 */
+	@Transactional
+	@Override
+	public DBResponseModel<List<ProductType>> getTypesAndInformation() {
+		Session session = sessionFactory.getCurrentSession();
+		List<ProductType> types = session.createQuery("FROM ProductType", ProductType.class).list();
+		
+		for (ProductType productType : types) {
+			Hibernate.initialize(productType.getProducts());
+		}
+		return new DBResponseModel<>(DBResponseStatus.OK, "Tipos e información de productos obtenida", types);
 	}
 
 }

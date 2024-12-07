@@ -5,34 +5,34 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="view" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="homeButton" mnemonicParsing="false" onAction="#onHomeAction" style="-fx-font-family: Montserrat;" text="%app.menu.home" HBox.hgrow="ALWAYS">
+      <Button fx:id="homeButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onHomeAction" style="-fx-font-family: Montserrat;" text="%app.menu.home" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="productButton" mnemonicParsing="false" onAction="#onProductsAction" style="-fx-font-family: Montserrat; -fx-font-weight: bold;" text="%app.menu.db.products" HBox.hgrow="ALWAYS">
+      <Button fx:id="productButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onProductsAction" style="-fx-font-family: Montserrat; -fx-font-weight: bold;" text="%app.menu.db.products" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="orderButton" mnemonicParsing="false" onAction="#onOrdersAction" style="-fx-font-family: Montserrat;" text="%app.menu.db.orders" HBox.hgrow="ALWAYS">
+      <Button fx:id="orderButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOrdersAction" style="-fx-font-family: Montserrat;" text="%app.menu.db.orders" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="checkButton" mnemonicParsing="false" onAction="#onCheckAction" text="%app.menu.db.check" HBox.hgrow="ALWAYS">
+      <Button fx:id="checkButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCheckAction" text="%app.menu.db.check" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="configButton" mnemonicParsing="false" onAction="#onConfigAction" text="%app.menu.config" HBox.hgrow="ALWAYS">
+      <Button fx:id="configButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onConfigAction" text="%app.menu.config" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>
       </Button>
-      <Button fx:id="testingButton" mnemonicParsing="false" onAction="#onTestingAction" text="Testing" HBox.hgrow="ALWAYS">
+      <Button fx:id="testingButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTestingAction" text="Testing" HBox.hgrow="ALWAYS">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true" />
          </graphic>

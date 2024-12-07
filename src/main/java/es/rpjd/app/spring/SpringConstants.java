@@ -31,6 +31,8 @@ public class SpringConstants {
 	 * Propiedades incluidas en el application.properties de Spring
 	 */
 	public static final String PROPERTY_FXML_PATH = "path.fxml";
+	
+	public static final String BEAN_COMPONENT_ORDER_SELECTOR = "orderSelectorComponent";
 
 	/*
 	 * Nombres de Beans relacionados a controladores de JavaFX

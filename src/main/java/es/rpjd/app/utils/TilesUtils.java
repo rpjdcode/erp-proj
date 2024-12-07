@@ -33,9 +33,13 @@ public class TilesUtils {
 	 * @return
 	 */
 	public static Tile createImageTile(byte[] imagen, String titulo) {
-		return TileBuilder.create().skinType(SkinType.IMAGE).prefSize(TILE_WIDTH, TILE_HEIGHT).title(titulo)
+		Tile t = TileBuilder.create().skinType(SkinType.IMAGE).prefSize(TILE_WIDTH, TILE_HEIGHT).title(titulo)
 				.titleAlignment(TextAlignment.CENTER).textSize(TextSize.BIGGER)
 				.image((imagen != null) ? new Image(new ByteArrayInputStream(imagen)) : null).imageMask(ImageMask.ROUND)
 				.text("").textAlignment(TextAlignment.CENTER).build();
+		t.setFocusTraversable(false);
+		t.setOnMouseEntered(e -> t.setBackgroundColor(TILE_SELECTED_COLOR));
+		t.setOnMouseExited(e -> t.setBackgroundColor(TILE_DEFAULT_COLOR));
+		return t;
 	}
 }

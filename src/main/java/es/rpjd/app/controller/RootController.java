@@ -19,13 +19,14 @@ import es.rpjd.app.utils.StringFormatUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
@@ -34,17 +35,32 @@ public class RootController implements Initializable, ApplicationController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(RootController.class);
 
-	@FXML
-	private ToolBar footToolBar;
+    @FXML
+    private Button aboutAppButton;
 
-	@FXML
-	private Button aboutAppButton;
+    @FXML
+    private HBox contentBox;
 
-	@FXML
-	private VBox contentBox;
+    @FXML
+    private ScrollPane contentScroll;
 
-	@FXML
-	private GridPane view;
+    @FXML
+    private ToolBar footToolBar;
+
+    @FXML
+    private HBox menuBarBox;
+
+    @FXML
+    private VBox scrollContentBox;
+
+    @FXML
+    private HBox toolbarBox;
+    
+    @FXML
+    private HBox customMenuBarBox;
+
+    @FXML
+    private GridPane view;
 
 	private ApplicationContext context;
 	private Environment env;
@@ -69,13 +85,15 @@ public class RootController implements Initializable, ApplicationController {
 
 			// Se añade en la primera posición fila del gridpane el menu de la aplicación y
 			// se le indica el columnspan y rowspan que abarca
-			this.getView().add(menu.getView(), 0, 0, 2, 1);
-
-			// Centrado
-			GridPane.setHalignment(menu.getView(), HPos.CENTER);
+			customMenuBarBox.getChildren().add(menu.getView());
+			HBox.setHgrow(menu.getView(), Priority.ALWAYS);
+//			this.getView().add(menu.getView(), 0, 0, 2, 1);
+//
+//			// Centrado
+//			GridPane.setHalignment(menu.getView(), HPos.CENTER);
 
 		} catch (IOException e) {
-			LOG.error("Se ha lanzado una IOException al inicializar controlador raíz: {0}", e);
+			LOG.error("Se ha lanzado una IOException al inicializar controlador raíz", e);
 		}
 
 	}
@@ -116,7 +134,9 @@ public class RootController implements Initializable, ApplicationController {
 	private void addRootContent(Node view) {
 		removeRootContent();
 
-		contentBox.getChildren().add(view);
+//		contentBox.setContent(view);
+		scrollContentBox.getChildren().add(view);
+		
 		VBox.setVgrow(view, Priority.ALWAYS);
 
 	}
@@ -143,9 +163,13 @@ public class RootController implements Initializable, ApplicationController {
 	}
 
 	private void removeRootContent() {
-		if (!contentBox.getChildren().isEmpty()) {
+//		if (!contentBox.contentProperty().isNull().get()) {
+//			LOG.info("Eliminando contenido");
+//			contentBox.setContent(null);
+//		}
+		if (!scrollContentBox.getChildrenUnmodifiable().isEmpty()) {
 			LOG.info("Eliminando contenido");
-			contentBox.getChildren().clear();
+			scrollContentBox.getChildren().clear();
 		}
 	}
 

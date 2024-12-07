@@ -16,7 +16,9 @@ import es.rpjd.app.constants.Constants;
 import es.rpjd.app.controller.product.ProductFilesController;
 import es.rpjd.app.controller.product.ProductManagementController;
 import es.rpjd.app.controller.product.ProductStadisticsController;
+import es.rpjd.app.controller.product.type.ProductTypeFilesController;
 import es.rpjd.app.controller.product.type.ProductTypeManagementController;
+import es.rpjd.app.controller.product.type.ProductTypeStadisticsController;
 import es.rpjd.app.enums.ProductOptions;
 import es.rpjd.app.hibernate.entity.ProductType;
 import es.rpjd.app.i18n.I18N;
@@ -53,6 +55,8 @@ public class ProductController implements Initializable, ApplicationController {
 	private ProductFilesController pfc;
 
 	private ProductTypeManagementController ptmc;
+	private ProductTypeStadisticsController ptsc;
+	private ProductTypeFilesController ptfc;
 
 	@FXML
 	private Accordion accordion;
@@ -139,15 +143,15 @@ public class ProductController implements Initializable, ApplicationController {
 		SpringFXMLLoader loader = context.getBean(SpringFXMLLoader.class);
 
 		try {
-			String fxmlPath = String.format(StringFormatUtils.DOUBLE_PARAMETER,
+			String pmcPath = String.format(StringFormatUtils.DOUBLE_PARAMETER,
 					env.getProperty(SpringConstants.PROPERTY_FXML_PATH), "products/management/productManagement.fxml");
-			loader.load(fxmlPath, SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT);
+			loader.load(pmcPath, SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT);
 			pmc = context.getBean(ProductManagementController.class);
 
-			String fxmlPath2 = String.format(StringFormatUtils.DOUBLE_PARAMETER,
+			String ptmcPath = String.format(StringFormatUtils.DOUBLE_PARAMETER,
 					env.getProperty(SpringConstants.PROPERTY_FXML_PATH),
 					"products/type/management/productTypesManagement.fxml");
-			loader.load(fxmlPath2, SpringConstants.BEAN_CONTROLLER_PRODUCT_TYPE_MANAGEMENT);
+			loader.load(ptmcPath, SpringConstants.BEAN_CONTROLLER_PRODUCT_TYPE_MANAGEMENT);
 			ptmc = context.getBean(ProductTypeManagementController.class);
 		} catch (IOException e) {
 			LOG.error("Se ha producido una IOException al cargar controlador ProductManagement : {}", e.getMessage());
@@ -176,8 +180,16 @@ public class ProductController implements Initializable, ApplicationController {
 				// Se indica que no se ha seleccionado ninguna opción
 				noProductOptionDisplayed();
 				break;
+				
+			case ProductOptions.TYPE_STADISTICS:
+				loadTypesView(ptsc);
+				break;
+				
+			case ProductOptions.TYPE_FILES:
+				loadTypesView(ptfc);
+				break;
 
-			case ProductOptions.TYPE_NONE, ProductOptions.TYPE_STADISTICS, ProductOptions.TYPE_FILES:
+			case ProductOptions.TYPE_NONE:
 				noProductTypeOptionDisplayed();
 				break;
 			default:

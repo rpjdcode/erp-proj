@@ -3,22 +3,26 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <SplitPane fx:id="ordersSplitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+      <SplitPane fx:id="ordersSplitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" VBox.vgrow="NEVER">
          <items>
-            <VBox fx:id="ordersSplitViewUp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <VBox style="-fx-background-color: red;" SplitPane.resizableWithParent="false">
                <children>
-                  <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                  <SplitPane dividerPositions="0.5" VBox.vgrow="SOMETIMES">
                      <items>
-                        <VBox fx:id="ordersUpLeftColumnBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <VBox fx:id="ordersUpLeftColumnBox" SplitPane.resizableWithParent="false">
                            <children>
-                              <ListView fx:id="ordersList" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                              <ListView fx:id="ordersList" VBox.vgrow="ALWAYS" />
                               <HBox fx:id="ordersButtonsBox" alignment="CENTER" spacing="5.0">
                                  <children>
                                     <Button fx:id="addOrderButton" mnemonicParsing="false" onAction="#onAddOrderAction" text="%app.lang.orders.list.button.add" />
@@ -31,12 +35,28 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox fx:id="ordersUpRightColumnBox" />
+                        <VBox fx:id="ordersUpRightColumnBox" SplitPane.resizableWithParent="false" />
                      </items>
                   </SplitPane>
                </children>
             </VBox>
-            <VBox fx:id="ordersSplitViewDown" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+            <TabPane fx:id="ordersTabPane" cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" scaleShape="false">
+               <tabs>
+                  <Tab closable="false" text="Testing">
+                     <content>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <content>
+                              <FlowPane fx:id="ordersTilesFlowPane" hgap="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWrapLength="10.0" style="-fx-background-color: #5eeeb1;" vgap="5.0">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </FlowPane>
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
          </items>
       </SplitPane>
    </children>

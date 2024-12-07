@@ -42,7 +42,7 @@
                               </VBox>
                            </left>
                            <center>
-                              <VBox fx:id="productsView" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" styleClass="productsContentView" BorderPane.alignment="CENTER">
+                              <VBox fx:id="productsView" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="productsContentView" BorderPane.alignment="CENTER">
                                  <children>
                                     <Label fx:id="noOptionLabel" alignment="TOP_LEFT" text="%app.lang.products.no.option" />
                                  </children>
@@ -61,7 +61,7 @@
           </TitledPane>
           <TitledPane fx:id="typesPane" animated="false" text="%app.products.pane.prod.type">
                <content>
-                  <VBox fx:id="typesBox" spacing="5.0">
+                  <VBox fx:id="typesBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
                      <children>
                         <BorderPane fx:id="typesContent" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                            <left>
@@ -89,7 +89,7 @@
                               </VBox>
                            </left>
                            <center>
-                              <VBox fx:id="typesView" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="productsContentView" BorderPane.alignment="CENTER">
+                              <VBox fx:id="typesView" alignment="CENTER" styleClass="productsContentView" BorderPane.alignment="CENTER">
                                  <children>
                                     <Label fx:id="noTypeOptionLabel" text="%app.lang.products.no.option" />
                                  </children>

@@ -175,7 +175,7 @@ public class MenuController implements Initializable, ApplicationController {
 				break;
 			}
 
-			if (fxmlPath != null && controller != null) {
+			if (controller != null && fxmlPath != null) {
 				loader.load(fxmlPath, beanController);
 				this.root.loadControllerContent(controller);
 			}

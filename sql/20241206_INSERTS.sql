@@ -1,6 +1,6 @@
 INSERT INTO JAVAFX_APP.PRODUCT_TYPE(TYP_CODE, PROPERTY_NAME, CREATED_AT, MODIFIED_AT) VALUES
 ('VEG', 'app.lang.product.type.veg', '2024-12-06 13:00:00', NULL),
-('CAR', 'app.lang.product.type.car', '2024-12-06 13:03:00', NULL),
+('COM', 'app.lang.product.type.com', '2024-12-06 13:03:00', NULL),
 ('OCE', 'app.lang.product.type.ocean', '2024-12-06 13:04:00', NULL),
 ('DES', 'app.lang.product.type.dessert', '2024-12-06 13:05:00', NULL),
 ('DRI', 'app.lang.product.type.drink', '2024-12-06 13:06:00', NULL);

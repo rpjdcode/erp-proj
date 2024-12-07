@@ -24,9 +24,9 @@
     -fx-font-size: 16;
 }
 
-.tile {
+/*.tile {
 	-fx-font-size: 16;
-}
+} */
 
 .productsLinkBox {
 	-fx-border-color: #3498db;          /* Color del borde */
@@ -47,3 +47,5 @@
     -fx-padding: 15;                    /* Espacio interior */
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 3); /* Sombra */
 }
+
+

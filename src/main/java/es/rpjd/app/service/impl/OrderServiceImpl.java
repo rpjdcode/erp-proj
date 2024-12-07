@@ -58,7 +58,8 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public DBResponseModel<Order> delete(Order order) {
 		Session session = sessionFactory.getCurrentSession();
-		return null;
+		session.remove(order);
+		return new DBResponseModel<>(DBResponseStatus.OK, "Comanda eliminada correctamente", order);
 	}
 
 	@Transactional
@@ -76,7 +77,6 @@ public class OrderServiceImpl implements OrderService {
 		ordersQuantity = ordersQuantity+1;
 		// De la cantidad recogida, incrementamos en uno ya que se va a generar un nuevo código identificativo
 		String quantityStr = String.valueOf(ordersQuantity);
-		
 		
 		while (sb.length()+quantityStr.length() < 20) {
 			sb.append(0);
