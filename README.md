@@ -61,11 +61,11 @@ Debe apuntar a la ruta raíz donde se encuentra el `pom.xml` del proyecto, abrir
 mvn clean install
 ```
 
-![mvn_clean_install](.\wiki\imgs\mvn_clean_install.JPG)
+![mvn_clean_install](/wiki/imgs/mvn_clean_install.JPG)
 
 Una vez ejecutada la compilación correctamente, en el directorio `target/` del proyecto encontrará todo lo necesario para ejecutar la aplicación.
 
-![image-20241207160455468](.\wiki\imgs\target_content_sample.jpg)
+![image-20241207160455468](/wiki/imgs/target_content_sample.jpg)
 
 -------------
 
@@ -80,7 +80,7 @@ Existen diversas formas de ejecutar la aplicación:
     - Archivo de configuración de la aplicación (elección de idioma/tema, ajustes preferidos por el usuario)
     - Archivos de propiedades personalizadas: Archivos empleados por la aplicación para el guardado de propiedades que son utilizadas por el usuario
 
-    ![dev_execution_sample_2](.\wiki\imgs\dev_execution_sample_2.JPG)
+    ![dev_execution_sample_2](/wiki/imgs/dev_execution_sample_2.JPG)
 
 - Ejecutar `HostManager-<version>-shaded.jar` desde cualquier ubicación. Este JAR contiene el empaquetado de clases del proyecto y dependencias en un mismo `.jar`
 - Ejecutar `HostManager-<version>.jar` si se encuentra el directorio `/lib` a su mismo nivel. Podría ejecutarlo desde `target/` sin ningún problema, en caso de querer ejecutarlo en otro directorio debe asegurarse de copiar a su vez el directorio `/lib`
