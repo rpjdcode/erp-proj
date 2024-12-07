@@ -19,6 +19,7 @@ import es.rpjd.app.hibernate.entity.Order;
 import es.rpjd.app.hibernate.entity.Product;
 import es.rpjd.app.hibernate.entity.ProductType;
 import es.rpjd.app.i18n.I18N;
+import es.rpjd.app.listeners.SelectedOrderChangedListener;
 import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.model.OrderModel;
 import es.rpjd.app.service.CustomPropertyService;
@@ -32,7 +33,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
@@ -88,6 +91,9 @@ public class OrderController implements Initializable, ApplicationController {
 	private CustomPropertyService customPropertyService;
 	private ProductTypeService productTypeService;
 	private OrderService orderService;
+	
+	private VBox noOrderSelectedBox;
+	private Label noOrderSelectedLabel;
 
 	@Autowired
 	public OrderController(ApplicationContext context, Environment env, OrderService orderService,
@@ -102,7 +108,18 @@ public class OrderController implements Initializable, ApplicationController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		model = new OrderModel();
-
+		
+		// No se mostrará el TabPane hasta que se seleccione una comanda
+		ordersSplitPane.getItems().remove(ordersTabPane);
+		noOrderSelectedLabel = new Label(I18N.getString("app.lang.orders.no.selection"));
+		noOrderSelectedBox = new VBox(noOrderSelectedLabel);
+		noOrderSelectedBox.setAlignment(Pos.CENTER);
+		ordersSplitPane.getItems().add(noOrderSelectedBox);
+		
+		model.selectedOrderProperty().bind(ordersList.getSelectionModel().selectedItemProperty());
+		model.selectedOrderProperty().addListener(new SelectedOrderChangedListener(ordersSplitPane, noOrderSelectedBox, ordersTabPane));		
+		
+		// CellFactory para personalizar qué se visualizará de cada registro Order en la lista
 		ordersList.setCellFactory(lv -> new ListCell<>() {
 			@Override
 			protected void updateItem(Order item, boolean empty) {
@@ -114,13 +131,14 @@ public class OrderController implements Initializable, ApplicationController {
 				}
 			}
 		});
-
+		
 		model.itemsProperty().addAll(orderService.getOrders().getData());
 		ordersList.itemsProperty().bind(model.itemsProperty());
 
 		modifyOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
 		deleteOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-
+		
+		// Método de prueba para el sistema de selección y adición de productos a una comanda
 		initSelectorComponent();
 	}
 
