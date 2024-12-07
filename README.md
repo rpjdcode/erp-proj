@@ -65,7 +65,7 @@ mvn clean install
 
 Una vez ejecutada la compilación correctamente, en el directorio `target/` del proyecto encontrará todo lo necesario para ejecutar la aplicación.
 
-![image-20241207160455468](/wiki/imgs/target_content_sample.jpg)
+![target_content_sample](/wiki/imgs/target_content_sample.jpg)
 
 -------------
 
