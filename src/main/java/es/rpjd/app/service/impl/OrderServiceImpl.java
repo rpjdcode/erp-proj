@@ -3,8 +3,10 @@ package es.rpjd.app.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +86,63 @@ public class OrderServiceImpl implements OrderService {
 		sb.append(ordersQuantity);
 		
 		return sb.toString();
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<List<Order>> getOrdersAndInformation() {
+		Session session = sessionFactory.getCurrentSession();
+		List<Order> orders = session.createQuery("FROM Order", Order.class).list();
+		
+		for (Order order : orders) {
+			Hibernate.initialize(order.getProductsOrder());
+		}
+		
+		return new DBResponseModel<>(DBResponseStatus.OK, "Comandas y datos de comanda obtenidos", orders);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<Order> getOrder(String orderCode) {
+		Session session = sessionFactory.getCurrentSession();
+		NativeQuery<Order> query = session.createNativeQuery(SQLQueries.SELECT_ORDERS_BY_CODE, Order.class);
+		query.setParameter("code", orderCode);
+		
+		Order order = query.getSingleResultOrNull();
+		
+		return new DBResponseModel<>(DBResponseStatus.OK, "Consulta realizada", order);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<Order> getOrderInformation(String orderCode) {
+		Session session = sessionFactory.getCurrentSession();
+		NativeQuery<Order> query = session.createNativeQuery(SQLQueries.SELECT_ORDERS_BY_CODE, Order.class);
+		query.setParameter("code", orderCode);
+		
+		Order order = query.getSingleResultOrNull();
+		
+		Hibernate.initialize(order.getProductsOrder());
+		
+		return new DBResponseModel<>(DBResponseStatus.OK, "Comanda y datos de comanda obtenidos", order);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<List<Order>> getUnprocessedOrders() {
+		Session session = sessionFactory.getCurrentSession();
+		NativeQuery<Order> query = session.createNativeQuery(SQLQueries.SELECT_UNPROCESSED_ORDERS, Order.class);
+		List<Order> orders = query.getResultList();
+		return new DBResponseModel<>(DBResponseStatus.OK, "Comandas no procesadas obtenidas", orders);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<List<Order>> getProcessedOrders() {
+		Session session = sessionFactory.getCurrentSession();
+		NativeQuery<Order> query = session.createNativeQuery(SQLQueries.SELECT_PROCESSED_ORDERS, Order.class);
+		List<Order> orders = query.getResultList();
+		return new DBResponseModel<>(DBResponseStatus.OK, "Comandas procesadas obtenidas", orders);
 	}
 	
 	

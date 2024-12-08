@@ -30,6 +30,9 @@ public class Order implements ApplicationEntity {
 
 	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
 	private LocalDateTime modifiedAt;
+	
+	@Column(name = "PROCESSED", columnDefinition = "TINYINT(1) DEFAULT 0", nullable = false)
+	private boolean processed;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductOrder> productsOrder = new HashSet<>();
@@ -76,5 +79,14 @@ public class Order implements ApplicationEntity {
 	public void setProductsOrder(Set<ProductOrder> productsOrder) {
 		this.productsOrder = productsOrder;
 	}
-
+	
+	public boolean isProcessed() {
+		return processed;
+	}
+	
+	public void setProcessed(boolean processed) {
+		this.processed = processed;
+	}
+	
+	
 }
