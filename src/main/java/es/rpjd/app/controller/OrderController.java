@@ -116,6 +116,12 @@ public class OrderController implements Initializable, ApplicationController {
 	
 	@FXML
 	private TableColumn<ProductOrder, Void> operationsColumn;
+	
+	@FXML
+	private Button applyChangesButton;
+	
+	@FXML
+	private Button cancelChangesButton;
 
 	@FXML
 	private VBox view;
@@ -329,5 +335,11 @@ public class OrderController implements Initializable, ApplicationController {
 			ordersTilesFlowPane.getChildren().add(ti);
 		}
 	}
+	
+	@FXML
+	void onApplyChangesAction(ActionEvent event) {}
+	
+	@FXML
+	void onCancelChangesAction(ActionEvent event) {}
 
 }
