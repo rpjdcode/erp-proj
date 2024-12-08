@@ -14,10 +14,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
+import es.rpjd.app.components.OperationsTableCell;
 import es.rpjd.app.constants.Constants;
 import es.rpjd.app.constants.DBResponseStatus;
 import es.rpjd.app.hibernate.entity.Order;
 import es.rpjd.app.hibernate.entity.Product;
+import es.rpjd.app.hibernate.entity.ProductOrder;
 import es.rpjd.app.hibernate.entity.ProductType;
 import es.rpjd.app.i18n.I18N;
 import es.rpjd.app.listeners.SelectedOrderChangedListener;
@@ -28,15 +30,18 @@ import es.rpjd.app.service.OrderService;
 import es.rpjd.app.service.ProductTypeService;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.utils.AlertUtils;
-import es.rpjd.app.utils.ModalUtils;
 import es.rpjd.app.utils.TilesUtils;
 import eu.hansolo.tilesfx.Tile;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -46,12 +51,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_ORDER)
@@ -69,7 +73,7 @@ public class OrderController implements Initializable, ApplicationController {
 	private VBox ordersUpLeftColumnBox;
 
 	@FXML
-	private VBox ordersUpRightColumnBox;
+	private VBox detailsBox;
 
 	@FXML
 	private HBox ordersButtonsBox;
@@ -88,6 +92,30 @@ public class OrderController implements Initializable, ApplicationController {
 
 	@FXML
 	private TabPane ordersTabPane;
+	
+	@FXML
+	private VBox topBox;
+	
+	@FXML
+	private VBox bottomBox;
+	
+	@FXML
+	private HBox ordersBox;
+	
+	@FXML
+	private TableView<ProductOrder> orderProductsTable;
+	
+	@FXML
+	private TableColumn<ProductOrder, String> productCodeColumn;
+	
+	@FXML
+	private TableColumn<ProductOrder, String> productNameColumn;
+	
+	@FXML
+	private TableColumn<ProductOrder, Integer> quantityColumn;
+	
+	@FXML
+	private TableColumn<ProductOrder, Void> operationsColumn;
 
 	@FXML
 	private VBox view;
@@ -100,6 +128,8 @@ public class OrderController implements Initializable, ApplicationController {
 	private ProductTypeService productTypeService;
 	private OrderService orderService;
 
+	private VBox noOrderSelectedBoxTop;
+	private Label noOrderSelectedLabelTop;
 	private VBox noOrderSelectedBox;
 	private Label noOrderSelectedLabel;
 
@@ -122,16 +152,30 @@ public class OrderController implements Initializable, ApplicationController {
 		model = new OrderModel();
 
 		// No se mostrará el TabPane hasta que se seleccione una comanda
-		ordersSplitPane.getItems().remove(ordersTabPane);
+		bottomBox.getChildren().remove(ordersBox);
+		noOrderSelectedLabelTop = new Label(I18N.getString("app.lang.orders.no.selection"));
+		noOrderSelectedBoxTop = new VBox(noOrderSelectedLabelTop);
+		noOrderSelectedBoxTop.setAlignment(Pos.CENTER);
 		noOrderSelectedLabel = new Label(I18N.getString("app.lang.orders.no.selection"));
 		noOrderSelectedBox = new VBox(noOrderSelectedLabel);
 		noOrderSelectedBox.setAlignment(Pos.CENTER);
-		ordersSplitPane.getItems().add(noOrderSelectedBox);
+		
+		detailsBox.getChildren().add(noOrderSelectedBoxTop);
+		bottomBox.getChildren().add(noOrderSelectedBox);
+		
+		VBox.setVgrow(noOrderSelectedBoxTop, Priority.ALWAYS);
 		VBox.setVgrow(noOrderSelectedBox, Priority.ALWAYS);
 
 		model.selectedOrderProperty().bind(ordersList.getSelectionModel().selectedItemProperty());
 		model.selectedOrderProperty()
-				.addListener(new SelectedOrderChangedListener(ordersSplitPane, noOrderSelectedBox, ordersTabPane));
+				.addListener(new SelectedOrderChangedListener(detailsBox, bottomBox, noOrderSelectedBoxTop , noOrderSelectedBox, ordersBox));
+		
+		model.selectedOrderProperty().addListener((o, ov, nv) -> {
+			model.selectedOrderRequestsProperty().clear();
+			if (nv != null) {
+				model.selectedOrderRequestsProperty().addAll(nv.getProductsOrder());
+			}
+		});
 
 		// CellFactory para personalizar qué se visualizará de cada registro Order en la
 		// lista
@@ -146,9 +190,12 @@ public class OrderController implements Initializable, ApplicationController {
 				}
 			}
 		});
+		
+		initializeTableColumns();
 
 		model.itemsProperty().addAll(orderService.getUnprocessedOrders().getData());
 		ordersList.itemsProperty().bind(model.itemsProperty());
+		orderProductsTable.itemsProperty().bind(model.selectedOrderRequestsProperty());
 
 		modifyOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
 		deleteOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
@@ -210,12 +257,18 @@ public class OrderController implements Initializable, ApplicationController {
 
 		if (!data.getProductsOrder().isEmpty()) {
 			// Mostrar alerta de confirmación
-			Alert alert = AlertUtils.generateAppModalAlert(AlertType.CONFIRMATION, "Titulo", "Header", "Content",
-					root.getView().getScene().getWindow());
+			Alert alert = AlertUtils
+					.generateAppModalAlert(AlertType.CONFIRMATION, I18N.getString("app.stg.form.order.del.title"),
+							String.format(I18N.getString("app.stg.form.order.del.head"),
+									model.getSelectedOrder().getOrderCode()),
+							I18N.getString("app.stg.form.order.del.body"), root.getView().getScene().getWindow());
 			Optional<ButtonType> result = alert.showAndWait();
-			
+
 			if (result.isPresent() && result.get() == ButtonType.OK) {
 				LOG.info("Se pulsó en OK");
+				/* TODO: Valorar si se debería permitir eliminar comandas con productos,
+				 * o si por el contrario se debe informar al usuario de que debe eliminar los productos existentes de la comanda
+				*/
 				ordersList.getItems().remove(model.getSelectedOrder());
 				orderService.delete(response.getData());
 			}
@@ -225,6 +278,13 @@ public class OrderController implements Initializable, ApplicationController {
 		}
 
 		LOG.info("Respuesta obtenida");
+	}
+	
+	private void initializeTableColumns() {
+		operationsColumn.setCellFactory(col -> new OperationsTableCell<>());
+		productCodeColumn.setCellValueFactory(v -> new SimpleStringProperty(v.getValue().getProduct().getProductCode()));
+		productNameColumn.setCellValueFactory(v -> new SimpleStringProperty(v.getValue().getProduct().getPropertyName()));
+		quantityColumn.setCellValueFactory(v -> new SimpleIntegerProperty(v.getValue().getQuantity()).asObject());
 	}
 
 	private void initSelectorComponent() {

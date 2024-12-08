@@ -133,6 +133,10 @@ public class OrderServiceImpl implements OrderService {
 		Session session = sessionFactory.getCurrentSession();
 		NativeQuery<Order> query = session.createNativeQuery(SQLQueries.SELECT_UNPROCESSED_ORDERS, Order.class);
 		List<Order> orders = query.getResultList();
+		
+		for (Order order : orders) {
+			Hibernate.initialize(order.getProductsOrder());
+		}
 		return new DBResponseModel<>(DBResponseStatus.OK, "Comandas no procesadas obtenidas", orders);
 	}
 

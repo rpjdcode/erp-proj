@@ -4,51 +4,62 @@ import es.rpjd.app.controller.OrderController;
 import es.rpjd.app.hibernate.entity.Order;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Listener utilizado para detectar cambios en la propiedad de comanda seleccionada, se encarga
- * de ocultar/mostrar el panel de pestañas y la caja con el mensaje de que no ha seleccionado nada aún.
+ * Listener utilizado para detectar cambios en la propiedad de comanda
+ * seleccionada, se encarga de ocultar/mostrar el panel de pestañas y el
+ * contenedor con el mensaje de que no ha seleccionado nada aún.
  * 
- * Implementación exclusiva para el controlador de comandas 
+ * Implementación exclusiva para el controlador de comandas
+ * 
  * @see OrderController
  */
 public class SelectedOrderChangedListener implements ChangeListener<Order> {
+
 	
-	private TabPane ordersTabPane;
-	private SplitPane ordersSplitPane;
+	private VBox detailsBox;
+	private VBox bottomBox;
+	private HBox ordersBox;
+	private VBox noOrderSelectedBoxTop;
 	private VBox noOrderSelectedBox;
-	
-	public SelectedOrderChangedListener(SplitPane ordersSplitPane, VBox noOrderSelectedBox, TabPane ordersTabPane) {
+
+	public SelectedOrderChangedListener(VBox detailsBox, VBox bottomBox, VBox noOrderSelectedBoxTop,
+			VBox noOrderSelectedBox, HBox ordersBox) {
 		super();
-		this.ordersSplitPane = ordersSplitPane;
+		this.detailsBox = detailsBox;
+		this.bottomBox = bottomBox;
 		this.noOrderSelectedBox = noOrderSelectedBox;
-		this.ordersTabPane = ordersTabPane;
+		this.ordersBox = ordersBox;
+		this.noOrderSelectedBoxTop = noOrderSelectedBoxTop;
 	}
 
 	@Override
 	public void changed(ObservableValue<? extends Order> observable, Order oldValue, Order newValue) {
 		if (newValue != null) {
-			if (ordersSplitPane.getItems().contains(noOrderSelectedBox)) {
-				ordersSplitPane.getItems().remove(noOrderSelectedBox);
+			if (bottomBox.getChildren().contains(noOrderSelectedBox)) {
+				detailsBox.getChildren().remove(noOrderSelectedBoxTop);
+				bottomBox.getChildren().remove(noOrderSelectedBox);
 			}
-			if (!ordersSplitPane.getItems().contains(ordersTabPane)) {
-				ordersSplitPane.getItems().add(ordersTabPane);
-				ordersTabPane.requestFocus();
+			if (!bottomBox.getChildren().contains(ordersBox)) {
+				// TODO: Añadir en el contenedor de detalles el nodo correspondiente
+				bottomBox.getChildren().add(ordersBox);
+				bottomBox.requestFocus();
 			}
-			
+
 		} else {
-			if (ordersSplitPane.getItems().contains(ordersTabPane)) {
-				ordersSplitPane.getItems().remove(ordersTabPane);
+			if (bottomBox.getChildren().contains(ordersBox)) {
+				// TODO: Eliminar del contenedor de detalles el nodo correspondiente
+				bottomBox.getChildren().remove(ordersBox);
 			}
-			if (!ordersSplitPane.getItems().contains(noOrderSelectedBox)) {
-				ordersSplitPane.getItems().add(noOrderSelectedBox);
+			if (!bottomBox.getChildren().contains(noOrderSelectedBox)) {
+				detailsBox.getChildren().add(noOrderSelectedBoxTop);
+				bottomBox.getChildren().add(noOrderSelectedBox);
 			}
-			
+
 		}
-		
+
 	}
 
 }
