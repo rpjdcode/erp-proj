@@ -2,8 +2,10 @@ package es.rpjd.app.model;
 
 import es.rpjd.app.hibernate.entity.Order;
 import es.rpjd.app.hibernate.entity.ProductOrder;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

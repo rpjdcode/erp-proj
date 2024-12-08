@@ -2,6 +2,7 @@ package es.rpjd.app.listeners;
 
 import es.rpjd.app.controller.OrderController;
 import es.rpjd.app.hibernate.entity.Order;
+import es.rpjd.app.model.OrderModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.layout.HBox;
@@ -18,7 +19,6 @@ import javafx.scene.layout.VBox;
  */
 public class SelectedOrderChangedListener implements ChangeListener<Order> {
 
-	
 	private VBox detailsBox;
 	private VBox bottomBox;
 	private HBox ordersBox;

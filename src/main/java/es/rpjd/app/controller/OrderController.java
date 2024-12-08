@@ -202,6 +202,8 @@ public class OrderController implements Initializable, ApplicationController {
 		model.itemsProperty().addAll(orderService.getUnprocessedOrders().getData());
 		ordersList.itemsProperty().bind(model.itemsProperty());
 		orderProductsTable.itemsProperty().bind(model.selectedOrderRequestsProperty());
+		
+		applyChangesButton.disableProperty().bind(model.editionModeProperty().not());
 
 		modifyOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
 		deleteOrderButton.disableProperty().bind(ordersList.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
@@ -287,7 +289,7 @@ public class OrderController implements Initializable, ApplicationController {
 	}
 	
 	private void initializeTableColumns() {
-		operationsColumn.setCellFactory(col -> new OperationsTableCell<>());
+		operationsColumn.setCellFactory(col -> new OperationsTableCell<>(model));
 		productCodeColumn.setCellValueFactory(v -> new SimpleStringProperty(v.getValue().getProduct().getProductCode()));
 		productNameColumn.setCellValueFactory(v -> new SimpleStringProperty(v.getValue().getProduct().getPropertyName()));
 		quantityColumn.setCellValueFactory(v -> new SimpleIntegerProperty(v.getValue().getQuantity()).asObject());
