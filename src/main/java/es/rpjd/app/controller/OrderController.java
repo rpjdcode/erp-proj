@@ -44,6 +44,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 @Controller(value = SpringConstants.BEAN_CONTROLLER_ORDER)
@@ -115,6 +117,7 @@ public class OrderController implements Initializable, ApplicationController {
 		noOrderSelectedBox = new VBox(noOrderSelectedLabel);
 		noOrderSelectedBox.setAlignment(Pos.CENTER);
 		ordersSplitPane.getItems().add(noOrderSelectedBox);
+		VBox.setVgrow(noOrderSelectedBox, Priority.ALWAYS);
 		
 		model.selectedOrderProperty().bind(ordersList.getSelectionModel().selectedItemProperty());
 		model.selectedOrderProperty().addListener(new SelectedOrderChangedListener(ordersSplitPane, noOrderSelectedBox, ordersTabPane));		

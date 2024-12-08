@@ -56,7 +56,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
                <content>
-                  <VBox fx:id="scrollContentBox" style="-fx-background-color: pink;" />
+                  <VBox fx:id="scrollContentBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: pink;" />
                </content>
             </ScrollPane>
          </children>
