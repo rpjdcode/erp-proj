@@ -2,9 +2,14 @@ package es.rpjd.app.listeners;
 
 import es.rpjd.app.controller.OrderController;
 import es.rpjd.app.hibernate.entity.Order;
-import es.rpjd.app.model.OrderModel;
+import es.rpjd.app.i18n.I18N;
+import es.rpjd.app.utils.StringFormatUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -37,7 +42,26 @@ public class SelectedOrderChangedListener implements ChangeListener<Order> {
 
 	@Override
 	public void changed(ObservableValue<? extends Order> observable, Order oldValue, Order newValue) {
+		detailsBox.getChildren().clear();
 		if (newValue != null) {
+			if (newValue.getProductsOrder().isEmpty()) {
+				detailsBox.getChildren().add(new Label("No hay detalles de comanda"));
+				detailsBox.setAlignment(Pos.CENTER);
+			} else {
+				detailsBox.setAlignment(Pos.TOP_LEFT);
+				Label detailsLabel = new Label(I18N.getString("app.lang.orders.details.summary"));
+				detailsLabel.setStyle("-fx-font-weight: bold;");
+				detailsBox.getChildren().add(detailsLabel);
+				detailsBox.setSpacing(5);
+				detailsBox.setPadding(new Insets(5, 5, 5, 5));
+				GridPane detailsPane = new GridPane(5, 5);
+				detailsPane.addRow(0, new Label(String.format(I18N.getString("app.lang.orders.details.quantity"),
+						newValue.getProductsOrder().size())));
+				detailsPane.addRow(1, new Label(
+						String.format(I18N.getString("app.lang.orders.details.amount"), newValue.calculateAmount())));
+				detailsBox.getChildren().add(detailsPane);
+			}
+
 			if (bottomBox.getChildren().contains(noOrderSelectedBox)) {
 				detailsBox.getChildren().remove(noOrderSelectedBoxTop);
 				bottomBox.getChildren().remove(noOrderSelectedBox);

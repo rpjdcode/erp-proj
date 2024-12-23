@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.Environment;
 
+import es.rpjd.app.controller.RootController;
 import es.rpjd.app.spring.SpringConfig;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.spring.SpringFXMLLoader;
@@ -67,7 +68,8 @@ public class JavaFXApp extends Application {
 
 	@Override
 	public void stop() throws Exception {
-		LOG.info("MÉTODO STOP()");
+		LOG.info("Deteniendo aplicación");
+		context.getBean(RootController.class).clearResources();
 		context.close();
 	}
 

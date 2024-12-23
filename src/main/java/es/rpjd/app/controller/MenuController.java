@@ -154,9 +154,6 @@ public class MenuController implements Initializable, ApplicationController {
 				break;
 
 			case SpringConstants.BEAN_CONTROLLER_HOME:
-				fxmlPath = null;
-				this.root.unloadControllerContent();
-				controller = null;
 				break;
 				
 			case SpringConstants.BEAN_CONTROLLER_PRODUCT:
@@ -170,14 +167,14 @@ public class MenuController implements Initializable, ApplicationController {
 				break;
 				
 			default:
-				fxmlPath = null;
-				controller = null;
 				break;
 			}
 
 			if (controller != null && fxmlPath != null) {
 				loader.load(fxmlPath, beanController);
 				this.root.loadControllerContent(controller);
+			} else {
+				this.root.unloadControllerContent();
 			}
 
 		} catch (IOException e) {

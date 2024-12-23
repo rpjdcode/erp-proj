@@ -87,10 +87,7 @@ public class RootController implements Initializable, ApplicationController {
 			// se le indica el columnspan y rowspan que abarca
 			customMenuBarBox.getChildren().add(menu.getView());
 			HBox.setHgrow(menu.getView(), Priority.ALWAYS);
-//			this.getView().add(menu.getView(), 0, 0, 2, 1);
-//
 //			// Centrado
-//			GridPane.setHalignment(menu.getView(), HPos.CENTER);
 
 		} catch (IOException e) {
 			LOG.error("Se ha lanzado una IOException al inicializar controlador raíz", e);
@@ -134,7 +131,6 @@ public class RootController implements Initializable, ApplicationController {
 	private void addRootContent(Node view) {
 		removeRootContent();
 
-//		contentBox.setContent(view);
 		scrollContentBox.getChildren().add(view);
 		
 		VBox.setVgrow(view, Priority.ALWAYS);
@@ -158,17 +154,14 @@ public class RootController implements Initializable, ApplicationController {
 	}
 	
 	public void unloadControllerContent() {
+		LOG.info("Método unloadControllerContent");
 		removeRootContent();
 		
 	}
 
 	private void removeRootContent() {
-//		if (!contentBox.contentProperty().isNull().get()) {
-//			LOG.info("Eliminando contenido");
-//			contentBox.setContent(null);
-//		}
 		if (!scrollContentBox.getChildrenUnmodifiable().isEmpty()) {
-			LOG.info("Eliminando contenido");
+			LOG.info("Eliminando contenido de controlador raíz");
 			scrollContentBox.getChildren().clear();
 		}
 	}
@@ -176,6 +169,7 @@ public class RootController implements Initializable, ApplicationController {
 	@Override
 	public void clearResources() {
 		// TODO Pendiente de actualizar los textos durante cambio de idioma en vivo
+		LOG.info("Limpiando recursos de controlador raíz");
 		
 	}
 

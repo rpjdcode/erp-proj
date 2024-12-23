@@ -2,9 +2,14 @@ package es.rpjd.app.model;
 
 import java.util.ResourceBundle;
 
+import es.rpjd.app.model.observables.ProductOrderObservable;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clase que representa un modelo FX genérico de la aplicación
@@ -12,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 public class ApplicationModel {
 
 	private BooleanProperty editionMode;
+	private ListProperty<ProductOrderObservable> unmodifiedData;
 
 	/**
 	 * Listener que permanece a la escucha de cambios de internacionalización
@@ -20,6 +26,7 @@ public class ApplicationModel {
 
 	public ApplicationModel() {
 		editionMode = new SimpleBooleanProperty(false);
+		unmodifiedData = new SimpleListProperty<>(FXCollections.observableArrayList());
 	}
 
 	public ChangeListener<ResourceBundle> getI18nListener() {
@@ -40,6 +47,18 @@ public class ApplicationModel {
 
 	public final void setEditionMode(final boolean editionMode) {
 		this.editionModeProperty().set(editionMode);
+	}
+
+	public final ListProperty<ProductOrderObservable> unmodifiedDataProperty() {
+		return this.unmodifiedData;
+	}
+
+	public final ObservableList<ProductOrderObservable> getUnmodifiedData() {
+		return this.unmodifiedDataProperty().get();
+	}
+
+	public final void setUnmodifiedData(final ObservableList<ProductOrderObservable> unmodifiedData) {
+		this.unmodifiedDataProperty().set(unmodifiedData);
 	}
 
 }

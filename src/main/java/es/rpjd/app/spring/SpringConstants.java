@@ -5,6 +5,7 @@ import java.util.Map;
 import es.rpjd.app.controller.ApplicationController;
 import es.rpjd.app.controller.ConfigController;
 import es.rpjd.app.controller.MenuController;
+import es.rpjd.app.controller.OrderController;
 import es.rpjd.app.controller.ProductController;
 import es.rpjd.app.controller.product.ProductManagementController;
 
@@ -24,7 +25,8 @@ public class SpringConstants {
 			MenuController.class, "menu/menu.fxml",
 			ConfigController.class, "config/config.fxml",
 			ProductController.class, "products/products.fxml",
-			ProductManagementController.class, "products/management/productManagement.fxml"
+			ProductManagementController.class, "products/management/productManagement.fxml",
+			OrderController.class, "orders/orders.fxml"
 			);
 
 	/*

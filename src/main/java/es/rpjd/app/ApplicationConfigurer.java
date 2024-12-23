@@ -32,6 +32,7 @@ import es.rpjd.app.constants.Constants;
 import es.rpjd.app.controller.ApplicationController;
 import es.rpjd.app.controller.ConfigController;
 import es.rpjd.app.controller.MenuController;
+import es.rpjd.app.controller.OrderController;
 import es.rpjd.app.controller.ProductController;
 import es.rpjd.app.controller.product.ProductManagementController;
 import es.rpjd.app.i18n.I18N;
@@ -352,6 +353,8 @@ public final class ApplicationConfigurer {
 					controllerName = SpringConstants.BEAN_CONTROLLER_PRODUCT;
 				} else if (controllerClass.equals(ProductManagementController.class)) {
 					controllerName = SpringConstants.BEAN_CONTROLLER_PRODUCT_MANAGEMENT;
+				} else if (controllerClass.equals(OrderController.class)) {
+					controllerName = SpringConstants.BEAN_CONTROLLER_ORDER;
 				}
 				LOG.info("Precargando controlador {} ", controllerName);
 				loader.load(String.format(StringFormatUtils.DOUBLE_PARAMETER, fxmlRootPath, map.get(controllerClass)),

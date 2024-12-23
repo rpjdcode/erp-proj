@@ -1,8 +1,10 @@
 package es.rpjd.app.hibernate.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,12 +32,12 @@ public class Order implements ApplicationEntity {
 
 	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
 	private LocalDateTime modifiedAt;
-	
+
 	@Column(name = "PROCESSED", columnDefinition = "TINYINT(1) DEFAULT 0", nullable = false)
 	private boolean processed;
 
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<ProductOrder> productsOrder = new HashSet<>();
+	private List<ProductOrder> productsOrder = new ArrayList<>();
 
 	public Order() {
 		/* Constructor vacío */}
@@ -72,21 +74,53 @@ public class Order implements ApplicationEntity {
 		this.modifiedAt = modifiedAt;
 	}
 
-	public Set<ProductOrder> getProductsOrder() {
+	public List<ProductOrder> getProductsOrder() {
 		return productsOrder;
 	}
 
-	public void setProductsOrder(Set<ProductOrder> productsOrder) {
+	public void setProductsOrder(List<ProductOrder> productsOrder) {
 		this.productsOrder = productsOrder;
 	}
-	
+
 	public boolean isProcessed() {
 		return processed;
 	}
-	
+
 	public void setProcessed(boolean processed) {
 		this.processed = processed;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Order order = (Order) o;
+
+		return id != null && id.equals(order.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	/**
+	 * Devuelve el importe actual de la comanda
+	 * 
+	 * @return
+	 */
+	public BigDecimal calculateAmount() {
+		BigDecimal ret = new BigDecimal(0);
+		if (productsOrder.isEmpty()) {
+			return ret;
+		}
+
+		return productsOrder.stream()
+				.map(po -> po.getProduct().getPrice().multiply(BigDecimal.valueOf(po.getQuantity())))
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+	}
+
 }

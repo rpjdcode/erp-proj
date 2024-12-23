@@ -1,11 +1,11 @@
 package es.rpjd.app.model;
 
+import java.util.Optional;
+
 import es.rpjd.app.hibernate.entity.Order;
-import es.rpjd.app.hibernate.entity.ProductOrder;
-import javafx.beans.property.BooleanProperty;
+import es.rpjd.app.model.observables.ProductOrderObservable;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -15,7 +15,7 @@ public class OrderModel extends ApplicationModel {
 
 	private ListProperty<Order> items;
 	private ObjectProperty<Order> selectedOrder;
-	private ListProperty<ProductOrder> selectedOrderRequests;
+	private ListProperty<ProductOrderObservable> selectedOrderRequests;
 
 	public OrderModel() {
 		super();
@@ -48,16 +48,24 @@ public class OrderModel extends ApplicationModel {
 		this.selectedOrderProperty().set(selectedOrder);
 	}
 
-	public final ListProperty<ProductOrder> selectedOrderRequestsProperty() {
+	public final ListProperty<ProductOrderObservable> selectedOrderRequestsProperty() {
 		return this.selectedOrderRequests;
 	}
 
-	public final ObservableList<ProductOrder> getSelectedOrderRequests() {
+	public final ObservableList<ProductOrderObservable> getSelectedOrderRequests() {
 		return this.selectedOrderRequestsProperty().get();
 	}
 
-	public final void setSelectedOrderRequests(final ObservableList<ProductOrder> selectedOrderRequests) {
+	public final void setSelectedOrderRequests(final ObservableList<ProductOrderObservable> selectedOrderRequests) {
 		this.selectedOrderRequestsProperty().set(selectedOrderRequests);
+	}
+	
+	public final boolean requestsContainsProduct(String productCode) {
+		return selectedOrderRequests.stream().anyMatch(po -> productCode.equals(po.getProduct().getProductCode()));
+	}
+	
+	public final Optional<ProductOrderObservable> findProductInRequests(String productCode) {
+		return selectedOrderRequests.stream().filter(po -> productCode.equals(po.getProduct().getProductCode())).findFirst();
 	}
 
 }

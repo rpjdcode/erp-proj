@@ -3,6 +3,7 @@ package es.rpjd.app.hibernate.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
@@ -112,6 +113,23 @@ public class Product implements ApplicationEntity {
 
 	public void setComandaProductos(Set<ProductOrder> comandaProductos) {
 		this.comandaProductos = comandaProductos;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Product product = (Product) o;
+
+		return id != null && id.equals(product.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 }

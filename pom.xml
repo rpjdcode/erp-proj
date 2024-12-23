@@ -111,6 +111,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.hibernate.orm</groupId>
+			<artifactId>hibernate-hikaricp</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
 			<version>3.2.0</version>
@@ -130,6 +136,7 @@
 			<artifactId>HikariCP</artifactId>
 			<version>5.0.1</version>
 		</dependency>
+
 
 		<!-- SLF4J API (Logging) -->
 		<dependency>

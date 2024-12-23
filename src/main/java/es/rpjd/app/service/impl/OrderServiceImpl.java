@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.rpjd.app.constants.DBResponseStatus;
 import es.rpjd.app.hibernate.entity.Order;
+import es.rpjd.app.hibernate.entity.ProductOrder;
 import es.rpjd.app.hibernate.sql.SQLQueries;
 import es.rpjd.app.model.DBResponseModel;
 import es.rpjd.app.service.OrderService;
@@ -53,7 +54,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public DBResponseModel<Order> modify(Order order) {
 		Session session = sessionFactory.getCurrentSession();
-		return null;
+		order.setModifiedAt(LocalDateTime.now());
+		Order updated = session.merge(order);
+		
+		return new DBResponseModel<>(DBResponseStatus.OK, "Comanda modificada", updated);
 	}
 
 	@Transactional
@@ -147,6 +151,15 @@ public class OrderServiceImpl implements OrderService {
 		NativeQuery<Order> query = session.createNativeQuery(SQLQueries.SELECT_PROCESSED_ORDERS, Order.class);
 		List<Order> orders = query.getResultList();
 		return new DBResponseModel<>(DBResponseStatus.OK, "Comandas procesadas obtenidas", orders);
+	}
+
+	@Transactional
+	@Override
+	public DBResponseModel<ProductOrder> addProductToOrder(ProductOrder productOrder) {
+		Session session = sessionFactory.getCurrentSession();
+		session.persist(productOrder);
+		
+		return new DBResponseModel<>(DBResponseStatus.OK, "Producto añadido a comanda", productOrder);
 	}
 	
 	

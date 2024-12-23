@@ -1,5 +1,7 @@
 package es.rpjd.app.hibernate.entity;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,9 +29,16 @@ public class ProductOrder implements ApplicationEntity {
 	private Product product;
 
 	@Column(name = "QUANTITY", columnDefinition = "INT(11)", length = 11 , nullable = false)
-	private int quantity;
+	private Integer quantity;
 
 	public ProductOrder() { /* Constructor vacío */ }
+	
+	public ProductOrder(ProductOrder data) {
+		id = data.getId();
+		order = data.getOrder();
+		product = data.getProduct();
+		quantity = data.getQuantity();
+	}
 
 	public Long getId() {
 		return id;
@@ -55,12 +64,32 @@ public class ProductOrder implements ApplicationEntity {
 		this.product = product;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, product, quantity);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof ProductOrder)) {
+			return false;
+		}
+		ProductOrder other = (ProductOrder) obj;
+		return Objects.equals(id, other.id) && Objects.equals(product, other.product) && Objects.equals(quantity, other.quantity);
+	}
+	
+	
+	
+	
 }
