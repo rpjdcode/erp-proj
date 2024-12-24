@@ -68,7 +68,7 @@ public class MenuController implements Initializable, ApplicationController {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.model = new MenuModel();
-		LOG.info("Inicializando MenuController");
+		LOG.info("Inicializando controlador de menú de aplicación");
 		
 		ChangeListener<ResourceBundle> changeListener = (o, ov, nv) -> {
 			updateTexts(nv);

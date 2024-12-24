@@ -3,7 +3,6 @@ package es.rpjd.app.listeners;
 import es.rpjd.app.controller.OrderController;
 import es.rpjd.app.hibernate.entity.Order;
 import es.rpjd.app.i18n.I18N;
-import es.rpjd.app.utils.StringFormatUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;

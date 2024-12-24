@@ -294,6 +294,8 @@ public class OrderController implements Initializable, ApplicationController {
 							ProductOrderObservable.productOrdersToObservableList(nv.getProductsOrder()));
 					initializeProductOrdersListeners();
 				}
+				// Aseguramos que se refresca correctamente la tabla
+				orderProductsTable.refresh();
 			}
 		};
 	}

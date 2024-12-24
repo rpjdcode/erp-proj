@@ -8,6 +8,8 @@ import es.rpjd.app.model.observables.ProductOrderObservable;
 import javafx.collections.ObservableList;
 
 public class HibernateAdapter {
+	
+	private HibernateAdapter() {}
 
 	public static List<ProductOrder> observableListToProductOrder(ObservableList<ProductOrderObservable> list) {
 		List<ProductOrder> ret = new ArrayList<>();
