@@ -21,8 +21,41 @@
     -fx-font-family: 'Montserrat';
     -fx-snap-to-pixel: true;
     /*-fx-font-smoothing-type: lcd; /* O prueba lcd si está disponible en tu configuración */ 
-    -fx-font-size: 16;
+    -fx-font-size: 16px;
 }
+
+.custom-tile-order {
+	-fx-font-family: 'Montserrat';
+	-fx-font-size: 10px;
+}
+
+.custom-tile-order .title-text {
+	-fx-font-size: 20px;
+}
+
+/*
+.root .tile:focused .title-text {
+    -fx-font-family: "Montserrat" !important;
+    -fx-font-size: 6px !important;
+}
+
+.tile:focused .title-text,
+.tile:focused .text {
+    -fx-font-family: "Montserrat" !important;
+    -fx-font-size: 6px !important;
+}
+
+.tile {
+	-fx-font-family: "Montserrat" !important;
+	-fx-font-size: 12px !important;
+}
+
+.tile .title-text,
+.tile .text {
+    -fx-font-family: "Montserrat" !important;
+}
+*/
+
 
 /*.tile {
 	-fx-font-size: 16;
@@ -47,5 +80,3 @@
     -fx-padding: 15;                    /* Espacio interior */
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 3); /* Sombra */
 }
-
-

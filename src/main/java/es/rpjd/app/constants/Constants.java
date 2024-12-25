@@ -16,6 +16,8 @@ public class Constants {
 		
 		public static final String CSS_THEME_NAME_DARK = "Dark";
 		public static final String CSS_THEME_DARK = "/css/dark.css";
+		
+		public static final String CSS_STYLE_CLASS_TILE_ORDER = "custom-tile-order";
 	}
 	
 	public enum Environment {

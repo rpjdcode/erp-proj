@@ -16,6 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import es.rpjd.app.components.OperationsTableCell;
+import es.rpjd.app.components.TilesComponent;
 import es.rpjd.app.constants.Constants;
 import es.rpjd.app.constants.DBResponseStatus;
 import es.rpjd.app.hibernate.HibernateAdapter;
@@ -33,7 +34,6 @@ import es.rpjd.app.service.OrderService;
 import es.rpjd.app.service.ProductTypeService;
 import es.rpjd.app.spring.SpringConstants;
 import es.rpjd.app.utils.AlertUtils;
-import es.rpjd.app.utils.TilesUtils;
 import eu.hansolo.tilesfx.Tile;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -417,6 +417,7 @@ public class OrderController implements Initializable, ApplicationController {
 	 * Método que inicializa el componente de selección de productos para la comanda
 	 */
 	private void initSelectorComponent() {
+		TilesComponent utils = context.getBean(TilesComponent.class);
 
 		DBResponseModel<List<ProductType>> response = productTypeService.getTypesAndInformation();
 		List<ProductType> types = response.getData();
@@ -436,12 +437,9 @@ public class OrderController implements Initializable, ApplicationController {
 			ScrollPane tabScrollPane = new ScrollPane();
 			
 			products.forEach(product -> {
-				String productPropertyName = product.getPropertyName();
-				String productName = (productPropertyName.contains(Constants.APP_I18N_DEFAULT_PREFIX))
-						? I18N.getString(productPropertyName)
-						: customPropertyService.getProperty(productPropertyName);
-				Tile ti = TilesUtils.createImageTile(null, productName);
-
+				
+				Tile ti = utils.createProductImageTile(null, product);
+				LOG.error("CLASE DEL TILE: {}", ti.getStyleClass());
 				ti.setOnMouseClicked(e -> {
 					model.setEditionMode(true);
 					Optional<ProductOrderObservable> res = model.findProductInRequests(product.getProductCode());

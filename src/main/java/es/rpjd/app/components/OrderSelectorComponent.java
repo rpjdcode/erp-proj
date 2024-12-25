@@ -10,7 +10,6 @@ import es.rpjd.app.hibernate.entity.Order;
 import es.rpjd.app.hibernate.entity.Product;
 import es.rpjd.app.hibernate.entity.ProductOrder;
 import es.rpjd.app.spring.SpringConstants;
-import es.rpjd.app.utils.TilesUtils;
 import eu.hansolo.tilesfx.Tile;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -42,10 +41,10 @@ public class OrderSelectorComponent implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		for (int x = 0; x < 100; x++) {
-			Tile ti = TilesUtils.createImageTile(null, String.format("Ejemplo de tile %d", x));
-			view.getChildren().add(ti);
-		}
+//		for (int x = 0; x < 100; x++) {
+//			Tile ti = TilesUtils.createImageTile(null, String.format("Ejemplo de tile %d", x));
+//			view.getChildren().add(ti);
+//		}
 
 	}
 
