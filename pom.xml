@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.rpjdcode</groupId>
 	<artifactId>HostManager</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<organization>
 		<name>RPJD</name>
 	</organization>
@@ -134,7 +134,7 @@
 			<artifactId>jakarta.annotation-api</artifactId>
 			<version>${jakarta.annotations.version}</version>
 		</dependency>
-		
+
 		<!-- Conector MySQL Java -->
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -191,6 +191,7 @@
 				<configuration>
 					<source>21</source>
 					<target>21</target>
+					<release>21</release>
 				</configuration>
 			</plugin>
 
@@ -309,14 +310,39 @@
 				</executions>
 			</plugin>
 
-			<!-- Automatización de creación del instalador, compilará el script
-			.nsi (NSIS)-->
+			<!-- Automatización de firma de ejecutable y de creación de instalador -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>3.0.0</version>
-
 				<executions>
+					<execution>
+						<id>sign-exe</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>signtool.exe</executable>
+							<arguments>
+								<argument>sign</argument>
+								<argument>/tr</argument>
+								<argument>http://timestamp.digicert.com</argument>
+								<argument>/td</argument>
+								<argument>SHA256</argument>
+								<argument>/v</argument>
+								<argument>/f</argument>
+								<argument>hostmanager_keystore.jks</argument>
+								<argument>/p</argument>
+								<argument>keystore123</argument>
+								<argument>/fd</argument>
+								<argument>SHA256</argument>
+								<argument>/a</argument>
+								<argument>
+									${project.build.directory}/${project.artifactId}.exe</argument>
+							</arguments>
+						</configuration>
+					</execution>
 					<execution>
 						<id>build-installer</id>
 						<phase>install</phase>
