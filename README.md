@@ -23,7 +23,7 @@ Aplicación de escritorio JavaFX 21, desarrollada principalmente para ser usada 
 | JavaFX           | 21          | Framework de desarrollo de aplicaciones de escritorio |
 | Spring Framework | 6.1.14      | Inyección de dependencias                             |
 | Hibernate        | 6.5.3.Final | Mapeo de objetos a modelo relacional para Java        |
-| MySQL            | 8.0.26      | Base de datos relacional                              |
+| MySQL            | 8.0.40      | Base de datos relacional                              |
 | SceneBuilder     | 21.0.0      | Desarrollo de interfaces gráficas en FXML             |
 | NSIS             | 3.09        | Generación de instalador universal para Windows       |
 
