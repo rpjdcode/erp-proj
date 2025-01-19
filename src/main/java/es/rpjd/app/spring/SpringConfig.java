@@ -8,13 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariDataSource;
 
-import es.rpjd.app.hibernate.entity.Product;
+import es.rpjd.app.constants.Constants;
+import jakarta.annotation.PostConstruct;
 
 @Configuration
 @ComponentScan(basePackages = "es.rpjd.app")
@@ -47,7 +49,7 @@ public class SpringConfig {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setAnnotatedClasses(Product.class);
+		//sessionFactory.setAnnotatedClasses(Product.class);
 		sessionFactory.setPackagesToScan("es.rpjd.app.hibernate.entity");
 		sessionFactory.setConfigLocation(new ClassPathResource("/hibernate/hibernate.cfg.xml"));
 		return sessionFactory;
@@ -59,5 +61,22 @@ public class SpringConfig {
 		transactionManager.setSessionFactory(sessionFactory().getObject());
 		return transactionManager;
 	}
+	
+	/**
+	 * Este método ejecuta el script de schema.sql, que creará las tablas en la BBDD
+	 * en caso de no existir. La ejecución de este método se realiza después de que Spring
+	 * haya terminado de configurar los Beans
+	 */
+    @PostConstruct
+    public void initializeDatabase() {
+    	String prop = env.getProperty("bbdd.schema.import");
+    	// Se verifica si se debe realizar la importación del script schema.sql
+    	if (prop != null && (!prop.isEmpty() && !prop.isBlank()) && Boolean.TRUE.equals(Boolean.valueOf(prop))) {
+            ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+            populator.addScript(new ClassPathResource(Constants.SQL.SCHEMA_FILE));
+            populator.execute(dataSource());
+    	}
+
+    }
 
 }

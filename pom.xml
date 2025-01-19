@@ -15,9 +15,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
+		<!-- Propiedades de versiones -->
 		<javafx.version>21</javafx.version>
 		<spring.version>6.1.14</spring.version>
 		<hibernate.version>6.5.3.Final</hibernate.version>
+		<jasper.version>7.0.1</jasper.version>
+		<mysql.version>8.0.26</mysql.version>
+		<jakarta.version>3.2.0</jakarta.version>
+		<jakarta.annotations.version>3.0.0</jakarta.annotations.version>
+		<hikaricp.version>5.0.1</hikaricp.version>
 
 	</properties>
 
@@ -119,14 +125,21 @@
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
-			<version>3.2.0</version>
+			<version>${jakarta.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>${jakarta.annotations.version}</version>
+		</dependency>
+
 
 		<!-- Database Driver (e.g., MySQL) -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.26</version>
+			<version>${mysql.version}</version>
 		</dependency>
 
 
@@ -134,7 +147,7 @@
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-			<version>5.0.1</version>
+			<version>${hikaricp.version}</version>
 		</dependency>
 
 
@@ -149,6 +162,20 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>1.2.3</version>
+		</dependency>
+
+		<!-- JasperReports para generación de informes/facturas -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>${jasper.version}</version>
+		</dependency>
+
+		<!-- Generación de PDFs basados en JasperReport -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-pdf</artifactId>
+			<version>${jasper.version}</version>
 		</dependency>
 
 

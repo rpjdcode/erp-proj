@@ -22,6 +22,11 @@ public class Main {
 	 */
 	private static final void initDevelopmentEnvironment() {
 		String currentDirectory = System.getProperty("user.dir");
+		
+		if (!AppUtils.isAppUserHomeDirectoryCreated()) {
+			AppUtils.createAppUserHomeDirectory();
+			AppUtils.createPDFDirectory();
+		}
 		System.setProperty(Constants.LOG_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, currentDirectory, File.separator, "log"));
 		System.setProperty(Constants.CONFIG_PROPERTY, String.format(StringFormatUtils.PENTA_PARAMETER, currentDirectory, File.separator, "dev", File.separator, "application.conf"));
 		System.setProperty(Constants.CUSTOM_PROPS_PROPERTY, String.format(StringFormatUtils.PENTA_PARAMETER, currentDirectory, File.separator, "dev", File.separator, "custom.properties"));
@@ -34,6 +39,10 @@ public class Main {
 	private static final void initProductionEnvironment() {
 		if (!AppUtils.isAppDataDirectoryCreated()) {
 			AppUtils.createAppDataDirectory();
+		}
+		if (!AppUtils.isAppUserHomeDirectoryCreated()) {
+			AppUtils.createAppUserHomeDirectory();
+			AppUtils.createPDFDirectory();
 		}
 		System.setProperty(Constants.LOG_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, AppUtils.APP_DATA_DIRECTORY, File.separator, "log"));
 		System.setProperty(Constants.CONFIG_PROPERTY, String.format(StringFormatUtils.TRIPLE_PARAMETER, AppUtils.APP_DATA_DIRECTORY, File.separator, "application.conf"));

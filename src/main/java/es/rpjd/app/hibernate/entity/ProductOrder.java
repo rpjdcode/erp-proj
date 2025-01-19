@@ -4,14 +4,16 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
-@Table(name = "PRODUCT_ORDER")
+@Table(name = "PRODUCT_ORDER", uniqueConstraints = { @UniqueConstraint(name = "PK_PRODUCT_ORDER", columnNames = "ID") })
 @Entity
 public class ProductOrder implements ApplicationEntity {
 
@@ -21,18 +23,19 @@ public class ProductOrder implements ApplicationEntity {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "ORDER_ID", nullable = false)
+	@JoinColumn(name = "ORDER_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_PO_ORDER"))
 	private Order order;
 
 	@ManyToOne
-	@JoinColumn(name = "PRODUCT_ID", nullable = false)
+	@JoinColumn(name = "PRODUCT_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_PO_PRODUCT"))
 	private Product product;
 
-	@Column(name = "QUANTITY", columnDefinition = "INT(11)", length = 11 , nullable = false)
+	@Column(name = "QUANTITY", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Integer quantity;
 
-	public ProductOrder() { /* Constructor vacío */ }
-	
+	public ProductOrder() {
+		/* Constructor vacío */ }
+
 	public ProductOrder(ProductOrder data) {
 		id = data.getId();
 		order = data.getOrder();
@@ -86,10 +89,8 @@ public class ProductOrder implements ApplicationEntity {
 			return false;
 		}
 		ProductOrder other = (ProductOrder) obj;
-		return Objects.equals(id, other.id) && Objects.equals(product, other.product) && Objects.equals(quantity, other.quantity);
+		return Objects.equals(id, other.id) && Objects.equals(product, other.product)
+				&& Objects.equals(quantity, other.quantity);
 	}
-	
-	
-	
-	
+
 }

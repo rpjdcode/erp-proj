@@ -126,7 +126,9 @@ public class OrderServiceImpl implements OrderService {
 		
 		Order order = query.getSingleResultOrNull();
 		
-		Hibernate.initialize(order.getProductsOrder());
+		if (order != null) {
+			Hibernate.initialize(order.getProductsOrder());
+		}
 		
 		return new DBResponseModel<>(DBResponseStatus.OK, "Comanda y datos de comanda obtenidos", order);
 	}

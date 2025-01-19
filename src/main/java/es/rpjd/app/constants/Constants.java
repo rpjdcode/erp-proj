@@ -20,6 +20,29 @@ public class Constants {
 		public static final String CSS_STYLE_CLASS_TILE_ORDER = "custom-tile-order";
 	}
 	
+	public class PDF {
+		
+		private PDF() {}
+		
+		public static final String PDF_FOLDER_NAME = "PDF";
+		public static final String PDF_ORDER_FOLDER = "orders";
+	}
+	
+	public class FileExtensions {
+		
+		private FileExtensions() {}
+		
+		public static final String FILE_EXTENSION_CSS = ".css";
+		public static final String FILE_EXTENSION_PDF = ".pdf";
+	}
+	
+	public class SQL {
+		
+		private SQL() {}
+		
+		public static final String SCHEMA_FILE = "schema.sql";
+	}
+	
 	public enum Environment {
 		DEVELOPMENT("DEV"),
 		PRODUCTION("PRO");
@@ -44,7 +67,7 @@ public class Constants {
 	public static final String FONT_MONTSERRAT_TTF = "/fonts/montserrat/Montserrat-Regular.ttf";
 	public static final String FONT_MONTSERRAT_BOLD_TTF = "/fonts/montserrat/Montserrat-Bold.ttf";
 	
-	public static final String FILE_EXTENSION_CSS = ".css";
+	
 	
 	/*
 	 * Propiedades de JVM

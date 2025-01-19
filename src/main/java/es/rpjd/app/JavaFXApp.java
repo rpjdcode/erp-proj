@@ -36,13 +36,12 @@ public class JavaFXApp extends Application {
 		LOG.info("Inicializando contexto de aplicación");
 		context = new AnnotationConfigApplicationContext(SpringConfig.class);
 		env = context.getEnvironment();
-		
 		ApplicationConfigurer.initialize();
-		
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+//		Font.getFontNames().forEach(System.out::println);
 		
 		LOG.info("Comenzando con ejecución de aplicación");
 		

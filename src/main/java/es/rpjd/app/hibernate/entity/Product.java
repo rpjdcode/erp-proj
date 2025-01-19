@@ -9,6 +9,7 @@ import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,8 +17,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
-@Table(name = "PRODUCT")
+@Table(name = "PRODUCT", uniqueConstraints = { @UniqueConstraint(name = "PK_PRODUCT", columnNames = "ID"),
+		@UniqueConstraint(name = "UQ_PRODUCT_PROPERTY", columnNames = "PROPERTY_NAME"),
+		@UniqueConstraint(name = "UQ_PRODUCT_CODE", columnNames = "PRODUCT_CODE") })
 @Entity
 public class Product implements ApplicationEntity {
 
@@ -26,26 +30,26 @@ public class Product implements ApplicationEntity {
 	@Column(name = "ID", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Long id;
 
-	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
+	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", length = 100, nullable = false, unique = true)
 	private String propertyName;
 
 	@Column(name = "PRODUCT_CODE", columnDefinition = "CHAR(10)", nullable = false, unique = true)
 	private String productCode;
 
-	@Column(name = "PRICE", columnDefinition = "DECIMAL(19,2)", precision = 19, scale = 2)
+	@Column(name = "PRICE", columnDefinition = "DECIMAL(19,2)", precision = 19, scale = 2, nullable = false)
 	private BigDecimal price;
 
 	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
 	private LocalDateTime createdAt;
 
-	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
+	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME DEFAULT NULL", nullable = true)
 	private LocalDateTime modifiedAt;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ProductOrder> comandaProductos = new HashSet<>();
 
 	@ManyToOne
-	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)")
+	@JoinColumn(name = "PRODUCT_TYPE", columnDefinition = "INT(11)", nullable = false, foreignKey = @ForeignKey(name = "FK_PRODUCT_TYPE"))
 	private ProductType productType;
 
 	public Product() {

@@ -10,8 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
-@Table(name = "PRODUCT_TYPE")
+@Table(name = "PRODUCT_TYPE", uniqueConstraints = { @UniqueConstraint(name = "PK_PRODUCT_TYPE", columnNames = "ID"),
+		@UniqueConstraint(name = "UQ_PRODUCT_TYPE_CODE", columnNames = "TYP_CODE") })
 @Entity
 public class ProductType implements ApplicationEntity {
 
@@ -23,13 +25,13 @@ public class ProductType implements ApplicationEntity {
 	@Column(name = "TYP_CODE", columnDefinition = "VARCHAR(30)", length = 30, nullable = false, unique = true)
 	private String code;
 
-	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", length = 50, nullable = false)
+	@Column(name = "PROPERTY_NAME", columnDefinition = "VARCHAR(100)", length = 100, nullable = false)
 	private String propertyName;
 
 	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
 	private LocalDateTime createdAt;
 
-	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
+	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME DEFAULT NULL", nullable = true)
 	private LocalDateTime modifiedAt;
 
 	@OneToMany(mappedBy = "productType")

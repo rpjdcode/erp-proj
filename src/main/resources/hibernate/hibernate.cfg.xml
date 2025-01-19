@@ -3,8 +3,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.show_sql">false</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">validate</property>
 		<!-- Propiedades de configuración de la base de datos -->
 		<property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
 		<property name="hibernate.hikari.connectionTimeout">20000</property>
@@ -25,10 +25,8 @@
 			name="hibernate.hikari.dataSource.useServerPrepStmts">true</property>
 		<mapping class="es.rpjd.app.hibernate.entity.ProductType" />
 		<mapping class="es.rpjd.app.hibernate.entity.Product" />
-		<mapping class="es.rpjd.app.hibernate.entity.ProductOrder" />
-		<mapping class="es.rpjd.app.hibernate.entity.User" />
 		<mapping class="es.rpjd.app.hibernate.entity.Order" />
-		
+		<mapping class="es.rpjd.app.hibernate.entity.ProductOrder" />
 
 	</session-factory>
 </hibernate-configuration>

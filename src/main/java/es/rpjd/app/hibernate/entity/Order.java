@@ -14,8 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
-@Table(name = "CUSTOMER_ORDER")
+@Table(name = "CUSTOMER_ORDER", uniqueConstraints = { @UniqueConstraint(name = "PK_CUSTOMER_ORDER", columnNames = "ID"),
+		@UniqueConstraint(name = "UQ_CUSTOMER_ORDER", columnNames = "ORDER_CODE") })
 @Entity
 public class Order implements ApplicationEntity {
 
@@ -24,13 +26,13 @@ public class Order implements ApplicationEntity {
 	@Column(name = "ID", columnDefinition = "INT(11)", length = 11, nullable = false)
 	private Long id;
 
-	@Column(name = "ORDER_CODE", columnDefinition = "CHAR(20)", length = 20, nullable = false)
+	@Column(name = "ORDER_CODE", columnDefinition = "CHAR(20)", length = 20, nullable = false, unique = true)
 	private String orderCode;
 
 	@Column(name = "CREATED_AT", columnDefinition = "DATETIME", nullable = false)
 	private LocalDateTime createdAt;
 
-	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME", nullable = true)
+	@Column(name = "MODIFIED_AT", columnDefinition = "DATETIME DEFAULT NULL", nullable = true)
 	private LocalDateTime modifiedAt;
 
 	@Column(name = "PROCESSED", columnDefinition = "TINYINT(1) DEFAULT 0", nullable = false)

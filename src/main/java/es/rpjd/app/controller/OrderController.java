@@ -134,7 +134,6 @@ public class OrderController implements Initializable, ApplicationController {
 	@FXML
 	private VBox view;
 
-	@SuppressWarnings("unused")
 	private ApplicationContext context;
 	@SuppressWarnings("unused")
 	private Environment env;
@@ -344,6 +343,14 @@ public class OrderController implements Initializable, ApplicationController {
 	@FXML
 	void onProcessOrderAction(ActionEvent event) {
 		LOG.info("Procesar comanda");
+		
+		Alert alert = AlertUtils.generateAppModalAlert(AlertType.CONFIRMATION, "Titulo", "Header", "Contenido", view.getScene().getWindow());
+		
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if (result.isPresent()) {
+			LOG.info("Resultado");
+		}
 
 	}
 
