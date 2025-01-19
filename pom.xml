@@ -20,7 +20,8 @@
 		<spring.version>6.1.14</spring.version>
 		<hibernate.version>6.5.3.Final</hibernate.version>
 		<jasper.version>7.0.1</jasper.version>
-		<mysql.version>8.0.26</mysql.version>
+		<mysqlconnector.version>9.1.0</mysqlconnector.version>
+		<mysql.version>8.0.40</mysql.version> <!-- Informativo -->
 		<jakarta.version>3.2.0</jakarta.version>
 		<jakarta.annotations.version>3.0.0</jakarta.annotations.version>
 		<hikaricp.version>5.0.1</hikaricp.version>
@@ -133,13 +134,12 @@
 			<artifactId>jakarta.annotation-api</artifactId>
 			<version>${jakarta.annotations.version}</version>
 		</dependency>
-
-
-		<!-- Database Driver (e.g., MySQL) -->
+		
+		<!-- Conector MySQL Java -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>${mysqlconnector.version}</version>
 		</dependency>
 
 
